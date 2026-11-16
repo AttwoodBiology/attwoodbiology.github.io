@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AttwoodBiology C1.1 Enzymes and Metabolism</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-strand="C">
+<header class="hero">
+  <canvas class="helix" aria-hidden="true"></canvas>
+  <div class="wrap hero-inner">
+    <a class="brand" href="./"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M9 3c0 7 14 9 14 13S9 22 9 29M23 3c0 7-14 9-14 13s14 6 14 13" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M11 8h10M11 24h10M13 12h6M13 20h6" stroke="var(--glow)" stroke-width="2" stroke-linecap="round"/></svg>Attwood<span>Biology</span></a>
+    <div class="crumb"><a href="./">IB Biology</a><span>›</span><span id="theme-name"></span><span>›</span><b id="topic-code"></b></div>
+    <div class="hero-row">
+      <div class="hero-copy">
+        <h1 id="topic-title"></h1>
+        <p class="lede" id="topic-guiding"></p>
+      </div>
+      <div class="level-switch" role="group" aria-label="Choose your level">
+        <button type="button" id="btn-sl" aria-pressed="false">SL</button>
+        <button type="button" id="btn-hl" aria-pressed="true">HL (SL + AHL)</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="sections" aria-label="Page sections">
+  <div class="wrap">
+    <a href="#videos">Videos</a>
+    <a href="#ideas">Key ideas</a>
+    <a href="#quick-check">Quick check</a>
+    <a href="#exam">Exam questions</a>
+    <a href="#sheets">Revision sheets</a>
+    <span class="score-chip" id="score-chip">Quick check: 0 answered</span>
+  </div>
+</nav>
+
+<main class="wrap">
+  <section id="videos">
+    <div class="sec-head"><h2><span class="num">01</span>Watch</h2><p>Start here, then test yourself below.</p></div>
+    <div class="videos" id="video-list"></div>
+  </section>
+  <section id="ideas">
+    <div class="sec-head"><h2><span class="num">02</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
+    <div class="ideas" id="idea-list"></div>
+  </section>
+  <section id="quick-check">
+    <div class="sec-head">
+      <h2><span class="num">03</span>Quick check</h2>
+      <div class="toolbar"><span class="note" id="mcq-score"></span><button type="button" class="btn ghost" id="mcq-reset">Start again</button></div>
+    </div>
+    <div class="mcq-list" id="mcq-list"></div>
+  </section>
+  <section id="exam">
+    <div class="sec-head"><h2><span class="num">04</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
+    <div class="exam-list" id="exam-list"></div>
+  </section>
+  <section id="sheets">
+    <div class="sec-head"><h2><span class="num">05</span>Revision sheets</h2><p>Printable PDFs to go with the videos.</p></div>
+    <div class="sheets" id="sheet-list"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><b>AttwoodBiology</b> · IB Biology revision. All questions are original exam-style questions written for this page. They are not taken from IB past papers.</div>
+</footer>
+
+<script>
+/* ============================================================
+   TOPIC DATA: the only part that changes per topic.
+   Videos: paste the YouTube video ID (the part after v= in the URL).
+   Sheets: put the PDF in the revision-sheets folder and give its path.
+   ============================================================ */
+const TOPIC = {
+  code: "C1.1",
+  title: "Enzymes and metabolism",
+  theme: "Theme C: Interaction and interdependence",
+  guiding: "How do enzymes catalyse reactions, and how is metabolism controlled?",
+
+  videos: [
+    { level:"SL",  title:"Enzymes and metabolism", youtubeId:"plf8PGzQqbU", desc:"Watch this first, then try the quick check below." },
+    { level:"AHL", title:"Pathways and enzyme inhibition", youtubeId:"", desc:"Competitive, non-competitive, feedback and mechanism-based inhibition." }
+  ],
+
+  ideas: [
+    { level:"SL", h:"Enzymes are catalysts", p:"Enzymes speed up reactions without being used up, so they can be used again and again." },
+    { level:"SL", h:"Metabolism", p:"The complex web of interdependent, enzyme-catalysed reactions in a cell. Anabolic reactions build larger molecules; catabolic reactions break them down." },
+    { level:"SL", h:"Globular proteins", p:"Enzymes are globular proteins. The active site is formed by a few amino acids, but its shape depends on the whole 3D structure." },
+    { level:"SL", h:"Induced fit", p:"When the substrate binds, both the substrate and the active site change shape slightly. This stresses bonds in the substrate and makes the reaction easier." },
+    { level:"SL", h:"Collisions", p:"Substrate and enzyme molecules must move and collide with the right orientation for the substrate to bind to the active site." },
+    { level:"SL", h:"Specificity and denaturation", p:"Only substrates with a complementary shape fit the active site. High temperature or extreme pH breaks bonds, so the active site changes shape (denaturation)." },
+    { level:"SL", h:"Temperature", p:"Rate rises with temperature (more collisions) up to an optimum, then falls rapidly as the enzyme denatures." },
+    { level:"SL", h:"pH", p:"Each enzyme has an optimum pH. Either side of it, changes to charges in the active site reduce binding, and extreme pH denatures the enzyme." },
+    { level:"SL", h:"Substrate concentration", p:"Rate rises as more collisions happen, then levels off when all active sites are occupied (saturation)." },
+    { level:"SL", h:"Measuring rate", p:"Rate = amount of product formed, or substrate used, per unit time. Use the initial rate, before substrate runs low." },
+    { level:"SL", h:"Activation energy", p:"Enzymes lower the activation energy of a reaction, so it happens faster at body temperature." },
+    { level:"AHL", h:"Intracellular and extracellular", p:"Glycolysis and the Krebs cycle happen inside cells. Digestive enzymes work outside cells, in the gut." },
+    { level:"AHL", h:"Metabolic heat", p:"Metabolic reactions are not 100% efficient, so some energy is released as heat. Endotherms use this heat to keep their body temperature constant." },
+    { level:"AHL", h:"Linear and cyclical pathways", p:"Glycolysis is a linear pathway. The Krebs cycle and the Calvin cycle are cyclical: the starting compound is regenerated." },
+    { level:"AHL", h:"Competitive inhibition", p:"An inhibitor similar in shape to the substrate binds to the active site. Raising the substrate concentration overcomes it. Statins are an example." },
+    { level:"AHL", h:"Non-competitive inhibition", p:"The inhibitor binds to an allosteric site, changing the shape of the active site. Raising the substrate concentration does not overcome it." },
+    { level:"AHL", h:"End-product inhibition", p:"The end product inhibits an enzyme early in the pathway, as when isoleucine inhibits threonine deaminase. This is negative feedback." },
+    { level:"AHL", h:"Mechanism-based inhibition", p:"Penicillin binds irreversibly to transpeptidase, the enzyme that builds bacterial cell walls. Resistant bacteria have an altered transpeptidase." }
+  ],
+
+  mcq: [
+    { level:"SL", stem:"How do enzymes increase the rate of a reaction?",
+      opts:[["They lower the activation energy.", ""],["They increase the temperature of the reaction.", "Enzymes allow reactions to happen quickly without raising the temperature."],["They supply energy to the substrate.", "Enzymes do not supply energy."],["They increase the activation energy.", "A higher activation energy would slow the reaction."]],
+      answer:0, why:"With a lower energy barrier, more substrate molecules have enough energy to react." },
+
+    { level:"SL", stem:"Which is an example of an anabolic reaction?",
+      opts:[["Joining amino acids to form a polypeptide", ""],["Hydrolysis of starch to maltose", "This is catabolic: a larger molecule is broken down."],["Glycolysis", "Glycolysis breaks glucose down, so it is catabolic."],["Digestion of lipids", "Digestion is catabolic."]],
+      answer:0, why:"Anabolic reactions build larger molecules from smaller ones, usually by condensation." },
+
+    { level:"SL", stem:"Which statement best describes the induced fit model?",
+      opts:[["The active site changes shape slightly as the substrate binds.", ""],["The active site is rigid and fits the substrate exactly.", "That is the older lock-and-key model."],["The substrate changes the enzyme's primary structure.", "Binding does not change the amino acid sequence."],["Any substrate can fit the active site.", "Enzymes are specific."]],
+      answer:0, why:"Both the substrate and the active site change shape as they bind, which strains bonds in the substrate." },
+
+    { level:"SL", stem:"Why does the rate of an enzyme-catalysed reaction fall above the optimum temperature?",
+      opts:[["The enzyme denatures, so the active site changes shape.", ""],["Molecules move more slowly.", "Molecules move faster at higher temperatures."],["The substrate is used up.", "Temperature does not use up substrate."],["The enzyme is killed.", "Enzymes are not living, so they cannot be killed. They are denatured."]],
+      answer:0, why:"Heat breaks the bonds that hold the 3D structure, so the substrate no longer fits the active site." },
+
+    { level:"SL", stem:"Why does the rate stop increasing at high substrate concentrations?",
+      opts:[["All the active sites are occupied.", ""],["The enzyme has denatured.", "Substrate concentration does not cause denaturation."],["The substrate inhibits the enzyme.", "This is not the general explanation."],["The temperature has fallen.", "Temperature is a separate variable."]],
+      answer:0, why:"Once every active site is in use, extra substrate cannot bind, so enzyme concentration becomes the limiting factor." },
+
+    { level:"SL", stem:"Why is an enzyme specific to its substrate?",
+      opts:[["The active site has a shape and chemistry complementary to one substrate.", ""],["Enzymes are made of DNA.", "Enzymes are proteins."],["Each enzyme is made of one amino acid.", "Enzymes are made of many amino acids."],["The substrate makes the enzyme.", "Enzymes are made by ribosomes, not by the substrate."]],
+      answer:0, why:"The R groups lining the active site give it a particular shape and charge pattern that only matches the right substrate." },
+
+    { level:"SL", stem:"In an experiment, 24 cm³ of oxygen is produced in the first 2 minutes. What is the initial rate of reaction?",
+      opts:[["12 cm³ min⁻¹", ""],["48 cm³ min⁻¹", "Rate = volume ÷ time, not volume × time."],["0.083 cm³ min⁻¹", "This is time ÷ volume."],["24 cm³ min⁻¹", "Divide by the time taken."]],
+      answer:0, why:"Rate = 24 cm³ ÷ 2 min = 12 cm³ min⁻¹." },
+
+    { level:"SL", stem:"Why does increasing temperature below the optimum increase the rate of reaction?",
+      opts:[["Molecules have more kinetic energy, so there are more collisions between enzyme and substrate.", ""],["The active site becomes larger.", "The active site does not get larger."],["More enzyme is made.", "Temperature does not increase the amount of enzyme in a test tube."],["Activation energy increases.", "Activation energy does not change with temperature."]],
+      answer:0, why:"Faster movement means more frequent successful collisions, so more enzyme–substrate complexes form." },
+
+    { level:"AHL", stem:"How does a competitive inhibitor reduce the rate of reaction?",
+      opts:[["It binds to the active site and blocks the substrate.", ""],["It binds to an allosteric site.", "That describes non-competitive inhibition."],["It denatures the enzyme.", "Inhibitors do not denature enzymes."],["It destroys the substrate.", "The substrate is not affected."]],
+      answer:0, why:"The inhibitor has a similar shape to the substrate and competes for the active site. More substrate can outcompete it." },
+
+    { level:"AHL", stem:"Which feature identifies non-competitive inhibition?",
+      opts:[["The maximum rate is reduced, even at high substrate concentrations.", ""],["Adding more substrate restores the maximum rate.", "That is a feature of competitive inhibition."],["The inhibitor has the same shape as the substrate.", "Non-competitive inhibitors bind elsewhere."],["The inhibitor binds permanently to the substrate.", "Inhibitors bind to the enzyme, not the substrate."]],
+      answer:0, why:"The inhibitor changes the shape of the active site via an allosteric site, so some enzymes stop working whatever the substrate concentration." },
+
+    { level:"AHL", stem:"In the pathway from threonine to isoleucine, isoleucine inhibits threonine deaminase. What type of control is this?",
+      opts:[["End-product (feedback) inhibition", ""],["Competitive inhibition by the substrate", "Isoleucine is the end product, not the substrate."],["Mechanism-based inhibition", "That involves irreversible binding, as with penicillin."],["Denaturation", "The enzyme is not denatured."]],
+      answer:0, why:"When isoleucine builds up, it switches off the first enzyme in the pathway. This is negative feedback, which prevents overproduction." },
+
+    { level:"AHL", stem:"How does penicillin kill bacteria?",
+      opts:[["It binds irreversibly to transpeptidase, so cell walls cannot be cross-linked.", ""],["It digests bacterial DNA.", "Penicillin targets cell wall synthesis."],["It is a competitive inhibitor that can be outcompeted by substrate.", "Penicillin binds permanently, so it cannot be outcompeted."],["It denatures all bacterial proteins.", "It targets one enzyme."]],
+      answer:0, why:"Without cross-links the cell wall is weak, so bacteria burst. This is mechanism-based inhibition." },
+
+    { level:"AHL", stem:"Which is a cyclical metabolic pathway?",
+      opts:[["The Krebs cycle", ""],["Glycolysis", "Glycolysis is linear: glucose to pyruvate."],["Protein synthesis", "This is not a metabolic cycle."],["Digestion of starch", "Digestion is a linear series of hydrolysis reactions."]],
+      answer:0, why:"In the Krebs cycle, the 4C compound that accepts the acetyl group is regenerated at the end of each turn." }
+  ],
+
+  exam: [
+    { level:"SL", title:"Active site and specificity", parts:[
+      { prompt:"Explain how the structure of an enzyme's active site leads to enzyme specificity.", marks:3,
+        points:[
+          "The active site is a region of the enzyme where the substrate binds",
+          "Its shape and chemical properties depend on the R groups of a few amino acids",
+          "The 3D structure of the whole protein holds the active site in shape",
+          "Only a substrate with a complementary shape and chemistry can bind",
+          "Induced fit: the active site changes shape slightly as the substrate binds"],
+        examiner:"Use “complementary”, not “the same shape”.",
+        mistakes:["Saying the substrate and active site are “the same shape”"] }
+    ]},
+
+    { level:"SL", title:"Effect of temperature", intro:"The table shows the rate of an enzyme-catalysed reaction at different temperatures.",
+      table:{ head:["Temperature / °C","10","20","30","40","50","60"], rows:[["Rate / µmol min⁻¹","4.1","8.0","14.6","21.3","9.2","1.0"]] },
+      parts:[
+      { prompt:"(a) Identify the optimum temperature from these data.", marks:1,
+        points:["40 °C (accept between 35 °C and 45 °C)"],
+        examiner:"", mistakes:[] },
+      { prompt:"(b) Explain the change in rate between 10 °C and 40 °C.", marks:2,
+        points:["Rate increases (from 4.1 to 21.3 µmol min⁻¹)","More kinetic energy, so molecules move faster","More frequent collisions between substrate and active site, so more enzyme–substrate complexes form"],
+        examiner:"Quote the data, then explain.", mistakes:["Saying the enzyme “works harder”"] },
+      { prompt:"(c) Explain the change in rate between 40 °C and 60 °C.", marks:2,
+        points:["Rate decreases sharply (from 21.3 to 1.0 µmol min⁻¹)","Bonds holding the 3D structure break, so the enzyme denatures","The active site changes shape, so the substrate can no longer bind"],
+        examiner:"", mistakes:["Saying the enzyme is “killed”"] }
+    ]},
+
+    { level:"SL", title:"Measuring enzyme activity", parts:[
+      { prompt:"Outline how the rate of an enzyme-catalysed reaction can be measured.", marks:3,
+        points:[
+          "Measure the amount of product formed, or substrate used, over time",
+          "For example, the volume of O₂ from catalase collected in a gas syringe",
+          "Calculate rate = amount ÷ time",
+          "Use the initial rate, from the gradient at the start of the curve",
+          "Keep other variables constant, such as temperature, pH and enzyme concentration"],
+        examiner:"A named example makes the answer stronger.",
+        mistakes:["Measuring only the final amount without timing it"] }
+    ]},
+
+    { level:"AHL", title:"Competitive and non-competitive inhibition", parts:[
+      { prompt:"Distinguish between competitive and non-competitive inhibition.", marks:4,
+        points:[
+          "Competitive inhibitors are similar in shape to the substrate; non-competitive inhibitors are not",
+          "Competitive inhibitors bind to the active site; non-competitive inhibitors bind to an allosteric site",
+          "Non-competitive inhibitors change the shape of the active site",
+          "Competitive inhibition is overcome by increasing substrate concentration; non-competitive is not",
+          "With a competitive inhibitor, the maximum rate can still be reached; with a non-competitive inhibitor it is lowered",
+          "Examples: statins (competitive) and a named allosteric inhibitor (non-competitive)"],
+        examiner:"A sketch graph of rate against substrate concentration for both types can earn marks.",
+        mistakes:["Saying non-competitive inhibitors “compete for” another site"] }
+    ]},
+
+    { level:"AHL", title:"Control of metabolic pathways", parts:[
+      { prompt:"Explain how end-product inhibition controls a metabolic pathway, using a named example.", marks:3,
+        points:[
+          "The end product of a pathway inhibits an enzyme early in the pathway",
+          "Example: isoleucine inhibits threonine deaminase in the pathway from threonine",
+          "It binds to an allosteric site (non-competitive inhibition)",
+          "When the end product builds up, the pathway slows down; when it is used up, the pathway restarts",
+          "This is negative feedback, which prevents overproduction and wasted resources"],
+        examiner:"Name the enzyme and the end product.",
+        mistakes:["Saying the end product inhibits the last enzyme in the pathway"] }
+    ]},
+
+    { level:"AHL", title:"Penicillin", parts:[
+      { prompt:"Explain how penicillin acts as a mechanism-based inhibitor, and why some bacteria are resistant.", marks:3,
+        points:[
+          "Penicillin binds irreversibly/covalently to the active site of transpeptidase",
+          "Transpeptidase cross-links peptidoglycan in bacterial cell walls",
+          "Without cross-links the wall is weak and bacteria burst",
+          "Resistant bacteria have a mutated transpeptidase with a changed active site that penicillin cannot bind to"],
+        examiner:"",
+        mistakes:["Saying bacteria become “immune” to penicillin"] }
+    ]}
+  ],
+
+  sheets: [
+    { level:"SL",  title:"C1.1 Summary sheet", desc:"Enzyme structure, induced fit, factors affecting rate and activation energy.", file:"" },
+    { level:"SL",  title:"Enzyme graphs to sketch", desc:"Temperature, pH and substrate concentration curves.", file:"" },
+    { level:"AHL", title:"Inhibition and pathways", desc:"Competitive, non-competitive, end-product and mechanism-based inhibition.", file:"" }
+  ]
+};
+</script>
+<script src="topic.js"></script>
+<script src="helix.js"></script>
+</body>
+</html>
