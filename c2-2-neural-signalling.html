@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AttwoodBiology C2.2 Neural Signalling</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-strand="C">
+<header class="hero">
+  <canvas class="helix" aria-hidden="true"></canvas>
+  <div class="wrap hero-inner">
+    <a class="brand" href="./"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M9 3c0 7 14 9 14 13S9 22 9 29M23 3c0 7-14 9-14 13s14 6 14 13" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M11 8h10M11 24h10M13 12h6M13 20h6" stroke="var(--glow)" stroke-width="2" stroke-linecap="round"/></svg>Attwood<span>Biology</span></a>
+    <div class="crumb"><a href="./">IB Biology</a><span>›</span><span id="theme-name"></span><span>›</span><b id="topic-code"></b></div>
+    <div class="hero-row">
+      <div class="hero-copy">
+        <h1 id="topic-title"></h1>
+        <p class="lede" id="topic-guiding"></p>
+      </div>
+      <div class="level-switch" role="group" aria-label="Choose your level">
+        <button type="button" id="btn-sl" aria-pressed="false">SL</button>
+        <button type="button" id="btn-hl" aria-pressed="true">HL (SL + AHL)</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="sections" aria-label="Page sections">
+  <div class="wrap">
+    <a href="#videos">Videos</a>
+    <a href="#ideas">Key ideas</a>
+    <a href="#quick-check">Quick check</a>
+    <a href="#exam">Exam questions</a>
+    <a href="#sheets">Revision sheets</a>
+    <span class="score-chip" id="score-chip">Quick check: 0 answered</span>
+  </div>
+</nav>
+
+<main class="wrap">
+  <section id="videos">
+    <div class="sec-head"><h2><span class="num">01</span>Watch</h2><p>Start here, then test yourself below.</p></div>
+    <div class="videos" id="video-list"></div>
+  </section>
+  <section id="ideas">
+    <div class="sec-head"><h2><span class="num">02</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
+    <div class="ideas" id="idea-list"></div>
+  </section>
+  <section id="quick-check">
+    <div class="sec-head">
+      <h2><span class="num">03</span>Quick check</h2>
+      <div class="toolbar"><span class="note" id="mcq-score"></span><button type="button" class="btn ghost" id="mcq-reset">Start again</button></div>
+    </div>
+    <div class="mcq-list" id="mcq-list"></div>
+  </section>
+  <section id="exam">
+    <div class="sec-head"><h2><span class="num">04</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
+    <div class="exam-list" id="exam-list"></div>
+  </section>
+  <section id="sheets">
+    <div class="sec-head"><h2><span class="num">05</span>Revision sheets</h2><p>Printable PDFs to go with the videos.</p></div>
+    <div class="sheets" id="sheet-list"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><b>AttwoodBiology</b> · IB Biology revision. All questions are original exam-style questions written for this page. They are not taken from IB past papers.</div>
+</footer>
+
+<script>
+/* ============================================================
+   TOPIC DATA: the only part that changes per topic.
+   Videos: paste the YouTube video ID (the part after v= in the URL).
+   Sheets: put the PDF in the revision-sheets folder and give its path.
+   ============================================================ */
+const TOPIC = {
+  code: "C2.2",
+  title: "Neural signalling",
+  theme: "Theme C: Interaction and interdependence",
+  guiding: "How are electrical signals generated and passed between neurons?",
+
+  videos: [
+    { level:"SL",  title:"Neural signalling", youtubeId:"jxrdBZ17kM4", desc:"Watch this first, then try the quick check below." },
+    { level:"AHL", title:"Action potentials and synapses in detail", youtubeId:"", desc:"Oscilloscope traces, inhibitory synapses, summation and exogenous chemicals." }
+  ],
+
+  ideas: [
+    { level:"SL", h:"Neurons", p:"Cells of the nervous system that carry electrical impulses. Dendrites receive signals, and the axon carries the impulse away from the cell body." },
+    { level:"SL", h:"Resting potential", p:"About −70 mV. The Na⁺/K⁺ pump uses ATP to move 3 Na⁺ out and 2 K⁺ in. K⁺ leaks out faster than Na⁺ leaks in, so the inside is negative." },
+    { level:"SL", h:"Action potentials", p:"A nerve impulse is an action potential that travels along the axon: rapid depolarisation followed by repolarisation." },
+    { level:"SL", h:"Speed of impulses", p:"Impulses are faster in wider axons, and much faster in myelinated axons, where they jump between nodes of Ranvier (saltatory conduction)." },
+    { level:"SL", h:"Synapses", p:"Junctions between neurons, or between a neuron and an effector. Signals cross the synaptic cleft chemically, using neurotransmitters." },
+    { level:"SL", h:"Neurotransmitter release", p:"Depolarisation opens Ca²⁺ channels. Ca²⁺ enters and causes vesicles to fuse with the presynaptic membrane, releasing neurotransmitter by exocytosis." },
+    { level:"SL", h:"Excitatory postsynaptic potential", p:"Acetylcholine binds to receptors on the postsynaptic membrane, opening Na⁺ channels. Na⁺ enters, depolarising the membrane." },
+    { level:"AHL", h:"Depolarisation and repolarisation", p:"Voltage-gated Na⁺ channels open and Na⁺ rushes in (+30 mV). Then they close, voltage-gated K⁺ channels open and K⁺ flows out, restoring a negative potential." },
+    { level:"AHL", h:"Propagation", p:"Local currents of Na⁺ diffuse along the axon and depolarise the next section to threshold, so the action potential moves along." },
+    { level:"AHL", h:"Oscilloscope traces", p:"Show resting potential, threshold (about −50 mV), depolarisation, repolarisation, a brief hyperpolarisation, then return to rest." },
+    { level:"AHL", h:"Exogenous chemicals", p:"Neonicotinoids bind irreversibly to acetylcholine receptors in insects. Cocaine blocks dopamine reuptake, so dopamine stays in the synapse." },
+    { level:"AHL", h:"Inhibitory synapses", p:"Inhibitory neurotransmitters open Cl⁻ or K⁺ channels, which hyperpolarises the postsynaptic membrane (an IPSP)." },
+    { level:"AHL", h:"Summation", p:"The postsynaptic neuron adds up all excitatory and inhibitory inputs. An action potential only fires if threshold is reached." },
+    { level:"AHL", h:"Pain and consciousness", p:"Free nerve endings in the skin detect pain stimuli. Consciousness emerges from interactions between huge numbers of neurons." }
+  ],
+
+  mcq: [
+    { level:"SL", stem:"What maintains the resting potential of a neuron?",
+      opts:[["The Na⁺/K⁺ pump moving 3 Na⁺ out and 2 K⁺ in, plus K⁺ leaking out", ""],["Voltage-gated Na⁺ channels being open", "These channels open during an action potential, not at rest."],["Diffusion of Cl⁻ out of the cell", "Chloride is not the main ion here."],["Release of neurotransmitter", "Neurotransmitters act at synapses."]],
+      answer:0, why:"Active pumping plus greater membrane permeability to K⁺ leaves the inside about 70 mV more negative than the outside." },
+
+    { level:"SL", stem:"What happens during depolarisation?",
+      opts:[["Na⁺ ions diffuse into the axon, making the inside positive.", ""],["K⁺ ions diffuse out of the axon.", "This is repolarisation."],["The Na⁺/K⁺ pump stops working.", "The pump keeps working throughout."],["The inside becomes more negative.", "That would be hyperpolarisation."]],
+      answer:0, why:"Voltage-gated Na⁺ channels open and Na⁺ rushes in down its concentration gradient." },
+
+    { level:"SL", stem:"Why do impulses travel faster along myelinated axons?",
+      opts:[["The impulse jumps between nodes of Ranvier (saltatory conduction).", ""],["Myelin conducts electricity.", "Myelin is an insulator."],["Myelinated axons have more Na⁺ channels along their whole length.", "Channels are concentrated at the nodes."],["Myelin speeds up neurotransmitter release.", "Myelin acts along the axon, not at synapses."]],
+      answer:0, why:"Depolarisation can only happen at the gaps in the myelin sheath, so the action potential leaps from node to node." },
+
+    { level:"SL", stem:"What triggers the release of neurotransmitter from the presynaptic neuron?",
+      opts:[["Entry of Ca²⁺ ions", ""],["Entry of K⁺ ions", "K⁺ leaves the neuron during repolarisation."],["Binding of neurotransmitter to receptors", "This happens on the postsynaptic side."],["Exit of Na⁺ ions", "Na⁺ enters during depolarisation."]],
+      answer:0, why:"Ca²⁺ causes vesicles to move to and fuse with the presynaptic membrane, releasing neurotransmitter by exocytosis." },
+
+    { level:"SL", stem:"How does acetylcholine cause an excitatory postsynaptic potential?",
+      opts:[["It binds to receptors that open Na⁺ channels, so Na⁺ enters.", ""],["It enters the postsynaptic neuron.", "It binds to receptors on the membrane and does not enter."],["It opens Cl⁻ channels.", "This would be inhibitory."],["It activates the Na⁺/K⁺ pump.", "This does not depolarise the membrane."]],
+      answer:0, why:"Na⁺ entering depolarises the postsynaptic membrane. If threshold is reached, an action potential starts." },
+
+    { level:"SL", stem:"What is the approximate resting potential of a neuron?",
+      opts:[["−70 mV", ""],["+30 mV", "This is the peak of an action potential."],["0 mV", "At rest the inside is negative."],["−50 mV", "This is approximately the threshold potential."]],
+      answer:0, why:"The inside of the axon is about 70 mV more negative than the outside at rest." },
+
+    { level:"AHL", stem:"On an oscilloscope trace, what causes the membrane potential to fall back after the peak?",
+      opts:[["Voltage-gated K⁺ channels open and K⁺ diffuses out.", ""],["Na⁺ channels open further.", "Na⁺ channels close at the peak."],["Ca²⁺ ions enter.", "Calcium acts at the synapse."],["The Na⁺/K⁺ pump stops.", "The pump does not cause repolarisation."]],
+      answer:0, why:"Loss of positive K⁺ ions makes the inside negative again. This is repolarisation." },
+
+    { level:"AHL", stem:"What causes the brief hyperpolarisation after an action potential?",
+      opts:[["K⁺ channels are slow to close, so too much K⁺ leaves.", ""],["Too much Na⁺ enters.", "That would make the inside more positive."],["Cl⁻ is pumped out.", "This is not the cause."],["Neurotransmitter is released.", "This happens at synapses."]],
+      answer:0, why:"The membrane briefly overshoots past −70 mV before the pump and leak channels restore the resting potential." },
+
+    { level:"AHL", stem:"How does an inhibitory neurotransmitter reduce the chance of an action potential?",
+      opts:[["It opens Cl⁻ or K⁺ channels, which hyperpolarises the postsynaptic membrane.", ""],["It opens Na⁺ channels.", "Opening Na⁺ channels is excitatory."],["It blocks Ca²⁺ entry into the presynaptic neuron.", "This is not how inhibitory neurotransmitters work."],["It destroys acetylcholine.", "Acetylcholine is broken down by an enzyme, acetylcholinesterase."]],
+      answer:0, why:"A more negative membrane is further from threshold, so more excitatory input is needed. This is an IPSP." },
+
+    { level:"AHL", stem:"How do neonicotinoid pesticides kill insects?",
+      opts:[["They bind irreversibly to acetylcholine receptors, blocking synaptic transmission.", ""],["They break down acetylcholine.", "They block the receptors."],["They act as an inhibitory neurotransmitter.", "Their effect comes from binding permanently to the receptors."],["They destroy myelin.", "They act at synapses."]],
+      answer:0, why:"Acetylcholine can no longer bind, so transmission at cholinergic synapses fails, leading to paralysis and death." },
+
+    { level:"AHL", stem:"How does cocaine affect dopamine synapses?",
+      opts:[["It blocks reuptake, so dopamine stays in the synaptic cleft.", ""],["It blocks dopamine receptors.", "Cocaine acts on reuptake transporters."],["It stops dopamine being made.", "Cocaine does not affect synthesis."],["It breaks down dopamine.", "It prolongs dopamine's effect."]],
+      answer:0, why:"With reuptake blocked, dopamine keeps stimulating the postsynaptic neuron, which produces the drug's effects." },
+
+    { level:"AHL", stem:"What is summation at a synapse?",
+      opts:[["The combined effect of all excitatory and inhibitory inputs decides whether threshold is reached.", ""],["Releasing every neurotransmitter at once", "Summation is about the effects on the postsynaptic neuron."],["Adding myelin to an axon", "This is unrelated."],["A single input always triggering an action potential", "Usually many inputs are needed."]],
+      answer:0, why:"The postsynaptic neuron integrates EPSPs and IPSPs. If the net depolarisation reaches threshold, it fires." }
+  ],
+
+  exam: [
+    { level:"SL", title:"Resting potential", parts:[
+      { prompt:"Explain how the resting potential of a neuron is maintained.", marks:3,
+        points:[
+          "The Na⁺/K⁺ pump uses ATP (active transport)",
+          "3 Na⁺ pumped out for every 2 K⁺ pumped in",
+          "The membrane is more permeable to K⁺, so K⁺ leaks out faster than Na⁺ leaks in",
+          "There are also negative proteins inside the cell",
+          "The inside is negative relative to the outside, about −70 mV"],
+        examiner:"Include both the pump and the leak.",
+        mistakes:["Saying the pump moves equal numbers of ions"] }
+    ]},
+
+    { level:"SL", title:"Synaptic transmission", parts:[
+      { prompt:"Describe how a nerve impulse is transmitted across a synapse.", marks:4,
+        points:[
+          "The action potential arrives at the presynaptic terminal",
+          "Voltage-gated Ca²⁺ channels open and Ca²⁺ enters",
+          "Vesicles fuse with the presynaptic membrane and release neurotransmitter by exocytosis",
+          "The neurotransmitter diffuses across the synaptic cleft",
+          "It binds to receptors on the postsynaptic membrane",
+          "Na⁺ channels open, Na⁺ enters and the postsynaptic membrane depolarises",
+          "The neurotransmitter is broken down (e.g. by acetylcholinesterase) or reabsorbed"],
+        examiner:"Keep the sequence in order and use precise terms: “exocytosis”, “diffuses”, “receptors”.",
+        mistakes:["Saying the impulse “jumps” across the synapse"] }
+    ]},
+
+    { level:"AHL", title:"Action potential trace", intro:"An oscilloscope recorded the membrane potential of an axon over 4 ms.",
+      table:{ head:["Time / ms","0.0","0.5","1.0","1.5","2.0","2.5","3.0","4.0"], rows:[["Membrane potential / mV","−70","−55","+30","−10","−75","−80","−72","−70"]] },
+      parts:[
+      { prompt:"(a) State the peak membrane potential.", marks:1,
+        points:["+30 mV"],
+        examiner:"Include the sign and the units.", mistakes:[] },
+      { prompt:"(b) Explain the changes in membrane potential between 0.5 ms and 2.5 ms.", marks:4,
+        points:["Threshold is reached, so voltage-gated Na⁺ channels open","Na⁺ rushes in, depolarising the membrane to +30 mV","At the peak, Na⁺ channels close and voltage-gated K⁺ channels open","K⁺ diffuses out, repolarising the membrane","K⁺ channels close slowly, causing hyperpolarisation (−80 mV)"],
+        examiner:"Link each change to the specific ion channels involved.", mistakes:["Saying the Na⁺/K⁺ pump causes repolarisation"] }
+    ]},
+
+    { level:"AHL", title:"Summation", parts:[
+      { prompt:"Explain how excitatory and inhibitory neurotransmitters together determine whether a postsynaptic neuron fires.", marks:3,
+        points:[
+          "Excitatory neurotransmitters open Na⁺ channels, causing depolarisation (EPSP)",
+          "Inhibitory neurotransmitters open Cl⁻/K⁺ channels, causing hyperpolarisation (IPSP)",
+          "The postsynaptic neuron sums all the EPSPs and IPSPs",
+          "An action potential fires only if the net effect reaches threshold"],
+        examiner:"",
+        mistakes:["Saying inhibitory synapses stop neurotransmitter release"] }
+    ]},
+
+    { level:"AHL", title:"Exogenous chemicals", parts:[
+      { prompt:"Explain how neonicotinoid pesticides affect synaptic transmission in insects.", marks:2,
+        points:["They bind to acetylcholine receptors on the postsynaptic membrane","Binding is irreversible, and they are not broken down by acetylcholinesterase","Acetylcholine cannot bind, so synaptic transmission is blocked, causing paralysis and death"],
+        examiner:"",
+        mistakes:["Saying neonicotinoids are a type of neurotransmitter"] }
+    ]}
+  ],
+
+  sheets: [
+    { level:"SL",  title:"C2.2 Summary sheet", desc:"Neurons, resting and action potentials, myelination and synapses.", file:"" },
+    { level:"SL",  title:"Synapse diagram to label", desc:"Presynaptic terminal, cleft and postsynaptic membrane.", file:"" },
+    { level:"AHL", title:"Oscilloscope traces", desc:"Annotate each phase of an action potential.", file:"" }
+  ]
+};
+</script>
+<script src="topic.js"></script>
+<script src="helix.js"></script>
+</body>
+</html>

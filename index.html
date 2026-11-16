@@ -21,6 +21,11 @@
     </div>
   </div>
 </header>
+<div class="wrap"><a class="feature" href="ia.html">
+  <span class="feature-icon" aria-hidden="true">IA</span>
+  <span class="feature-text"><b>Internal Assessment</b><span>Videos and step-by-step guidance for your scientific investigation</span></span>
+  <span class="feature-arrow" aria-hidden="true">→</span>
+</a></div>
 <main class="wrap" id="themes"></main>
 <footer><div class="wrap"><b>AttwoodBiology</b> · Follows the IB Biology guide (first assessment 2025).</div></footer>
 
@@ -37,13 +42,13 @@ const THEMES = [
     ["B3.2","Transport"],["B3.3","Muscle and motility","",true],["B4.1","Adaptation to environment"],["B4.2","Ecological niches"]]},
   { letter:"C", name:"Interaction and interdependence", topics:[
     ["C1.1","Enzymes and metabolism","c1-1-enzymes-and-metabolism.html"],["C1.2","Cell respiration","c1-2-cell-respiration.html"],["C1.3","Photosynthesis"],
-    ["C2.1","Chemical signalling","",true],["C2.2","Neural signalling"],["C3.1","Integration of body systems"],
+    ["C2.1","Chemical signalling","",true],["C2.2","Neural signalling","c2-2-neural-signalling.html"],["C3.1","Integration of body systems"],
     ["C3.2","Defence against disease"],["C4.1","Populations and communities","c4-1-populations-and-communities.html"],["C4.2","Transfers of energy and matter"]]},
   { letter:"D", name:"Continuity and change", topics:[
     ["D1.1","DNA replication"],["D1.2","Protein synthesis"],["D1.3","Mutations and gene editing"],
     ["D2.1","Cell and nuclear division"],["D2.2","Gene expression","",true],["D2.3","Water potential"],
     ["D3.1","Reproduction"],["D3.2","Inheritance","d3-2-inheritance.html"],["D3.3","Homeostasis"],
-    ["D4.1","Natural selection"],["D4.2","Stability and change"],["D4.3","Climate change"]]}
+    ["D4.1","Natural selection"],["D4.2","Stability and change"],["D4.3","Climate change","d4-3-climate-change.html"]]}
 ];
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 document.getElementById("themes").innerHTML = THEMES.map(t => {

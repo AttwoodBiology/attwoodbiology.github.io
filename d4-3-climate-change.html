@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AttwoodBiology D4.3 Climate Change</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-strand="D">
+<header class="hero">
+  <canvas class="helix" aria-hidden="true"></canvas>
+  <div class="wrap hero-inner">
+    <a class="brand" href="./"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M9 3c0 7 14 9 14 13S9 22 9 29M23 3c0 7-14 9-14 13s14 6 14 13" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M11 8h10M11 24h10M13 12h6M13 20h6" stroke="var(--glow)" stroke-width="2" stroke-linecap="round"/></svg>Attwood<span>Biology</span></a>
+    <div class="crumb"><a href="./">IB Biology</a><span>›</span><span id="theme-name"></span><span>›</span><b id="topic-code"></b></div>
+    <div class="hero-row">
+      <div class="hero-copy">
+        <h1 id="topic-title"></h1>
+        <p class="lede" id="topic-guiding"></p>
+      </div>
+      <div class="level-switch" role="group" aria-label="Choose your level">
+        <button type="button" id="btn-sl" aria-pressed="false">SL</button>
+        <button type="button" id="btn-hl" aria-pressed="true">HL (SL + AHL)</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="sections" aria-label="Page sections">
+  <div class="wrap">
+    <a href="#videos">Videos</a>
+    <a href="#ideas">Key ideas</a>
+    <a href="#quick-check">Quick check</a>
+    <a href="#exam">Exam questions</a>
+    <a href="#sheets">Revision sheets</a>
+    <span class="score-chip" id="score-chip">Quick check: 0 answered</span>
+  </div>
+</nav>
+
+<main class="wrap">
+  <section id="videos">
+    <div class="sec-head"><h2><span class="num">01</span>Watch</h2><p>Start here, then test yourself below.</p></div>
+    <div class="videos" id="video-list"></div>
+  </section>
+  <section id="ideas">
+    <div class="sec-head"><h2><span class="num">02</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
+    <div class="ideas" id="idea-list"></div>
+  </section>
+  <section id="quick-check">
+    <div class="sec-head">
+      <h2><span class="num">03</span>Quick check</h2>
+      <div class="toolbar"><span class="note" id="mcq-score"></span><button type="button" class="btn ghost" id="mcq-reset">Start again</button></div>
+    </div>
+    <div class="mcq-list" id="mcq-list"></div>
+  </section>
+  <section id="exam">
+    <div class="sec-head"><h2><span class="num">04</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
+    <div class="exam-list" id="exam-list"></div>
+  </section>
+  <section id="sheets">
+    <div class="sec-head"><h2><span class="num">05</span>Revision sheets</h2><p>Printable PDFs to go with the videos.</p></div>
+    <div class="sheets" id="sheet-list"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><b>AttwoodBiology</b> · IB Biology revision. All questions are original exam-style questions written for this page. They are not taken from IB past papers.</div>
+</footer>
+
+<script>
+/* ============================================================
+   TOPIC DATA: the only part that changes per topic.
+   Videos: paste the YouTube video ID (the part after v= in the URL).
+   Sheets: put the PDF in the revision-sheets folder and give its path.
+   ============================================================ */
+const TOPIC = {
+  code: "D4.3",
+  title: "Climate change",
+  theme: "Theme D: Continuity and change",
+  guiding: "What are the drivers of climate change, how does it affect ecosystems, and how can its effects be reduced?",
+
+  videos: [
+    { level:"SL",  title:"Climate change", youtubeId:"QCCiy4GDzpM", desc:"Watch this first, then try the quick check below." },
+    { level:"AHL", title:"Phenology and evolution", youtubeId:"", desc:"Phenological mismatch, extra insect life cycles, and evolution in response to climate change." }
+  ],
+
+  ideas: [
+    { level:"SL", h:"Anthropogenic causes", p:"Burning fossil fuels, deforestation and farming release CO₂ and methane. These enhance the greenhouse effect and cause global warming." },
+    { level:"SL", h:"Positive feedback", p:"Warming triggers changes that cause more warming: CO₂ released from oceans, loss of reflective ice, permafrost and peat decomposing, and more droughts and forest fires." },
+    { level:"SL", h:"Albedo", p:"Snow and ice reflect sunlight. As they melt, darker land and sea absorb more solar radiation, causing further warming." },
+    { level:"SL", h:"Tipping points", p:"Boreal forests can switch from net carbon accumulation to net carbon loss as warming increases drought, fires and pest damage." },
+    { level:"SL", h:"Polar habitats", p:"Melting landfast ice and sea ice removes habitat used for breeding and resting, for example by emperor penguins and walruses." },
+    { level:"SL", h:"Ocean currents and upwelling", p:"Changes to ocean currents alter the timing and extent of nutrient upwelling, which affects productivity of marine food chains." },
+    { level:"SL", h:"Range shifts", p:"Temperate species move towards the poles or further upslope as temperatures rise. Species already at the top of mountains have nowhere left to go." },
+    { level:"SL", h:"Coral reefs", p:"Higher temperatures cause coral bleaching, and ocean acidification weakens skeletons. Reefs may collapse as ecosystems." },
+    { level:"SL", h:"Carbon sequestration", p:"Afforestation, forest regeneration and restoring peat-forming wetlands remove CO₂ from the atmosphere and store it." },
+    { level:"AHL", h:"Phenology", p:"The timing of biological events, such as flowering, egg-laying and migration, often triggered by temperature or day length." },
+    { level:"AHL", h:"Phenological mismatch", p:"If species respond to different cues, warming can break their synchrony. For example, great tit chicks may hatch after the peak in caterpillars." },
+    { level:"AHL", h:"More insect life cycles", p:"Warmer temperatures let some insects, such as spruce bark beetles, complete more generations per year, increasing damage to forests." },
+    { level:"AHL", h:"Evolution", p:"Climate change acts as a selection pressure. In tawny owls in Finland, the brown morph has become more common as snow cover has declined." }
+  ],
+
+  mcq: [
+    { level:"SL", stem:"Which pair of gases are the main anthropogenic contributors to the enhanced greenhouse effect?",
+      opts:[["Carbon dioxide and methane", ""],["Oxygen and nitrogen", "These make up most of the atmosphere but are not greenhouse gases."],["Ozone and oxygen", "Oxygen is not a greenhouse gas."],["Nitrogen and water vapour", "Nitrogen is not a greenhouse gas, and water vapour is not mainly anthropogenic."]],
+      answer:0, why:"Human activities such as burning fossil fuels and livestock farming release large amounts of CO₂ and CH₄." },
+
+    { level:"SL", stem:"Melting Arctic sea ice leads to further warming. Why?",
+      opts:[["Darker ocean water absorbs more solar radiation than reflective ice.", ""],["Melting ice releases carbon dioxide.", "Sea ice is frozen water and stores little carbon."],["Melting ice increases the ozone layer.", "Ozone is not affected in this way."],["Ice absorbs more heat than water.", "Ice reflects more sunlight than water."]],
+      answer:0, why:"Lower albedo means more energy is absorbed, causing more warming and more melting. This is positive feedback." },
+
+    { level:"SL", stem:"Why is thawing permafrost an example of positive feedback?",
+      opts:[["Organic matter decomposes and releases CO₂ and methane, which cause more warming.", ""],["It absorbs carbon dioxide from the air.", "Thawing permafrost releases carbon."],["It cools the surrounding land.", "It does not have a cooling effect."],["It increases the albedo of the Arctic.", "Thawed ground is darker, so albedo falls."]],
+      answer:0, why:"Warming causes the release of greenhouse gases, which causes further warming." },
+
+    { level:"SL", stem:"What is meant by a tipping point in boreal forests?",
+      opts:[["A switch from net carbon accumulation to net carbon loss", ""],["The point at which trees reach maximum height", "This is not a climate tipping point."],["The temperature at which all trees die", "A tipping point is about the forest's carbon balance."],["The time of year when leaves fall", "That is phenology, not a tipping point."]],
+      answer:0, why:"Beyond a threshold, droughts, fires and pests mean the forest releases more carbon than it absorbs, which is hard to reverse." },
+
+    { level:"SL", stem:"How are emperor penguins threatened by climate change?",
+      opts:[["Loss of landfast ice that they need for breeding", ""],["Increased snowfall on their feeding grounds", "Their main threat is loss of ice."],["Competition with polar bears", "Polar bears live in the Arctic and penguins in the Antarctic."],["Ocean cooling", "Oceans are warming."]],
+      answer:0, why:"Emperor penguins breed on stable sea ice attached to the land. Early break-up can kill chicks before they can swim." },
+
+    { level:"SL", stem:"Many temperate species are moving to higher latitudes and altitudes. What is this called?",
+      opts:[["Range shift", ""],["Phenological mismatch", "That refers to changes in timing, not location."],["Upwelling", "Upwelling is the movement of nutrient-rich ocean water."],["Afforestation", "Afforestation is planting trees."]],
+      answer:0, why:"Species track the temperatures they are adapted to by moving towards the poles or upslope." },
+
+    { level:"SL", stem:"Which two effects of rising CO₂ threaten coral reefs?",
+      opts:[["Warming causes bleaching, and ocean acidification weakens skeletons.", ""],["Cooling and increased salinity", "Oceans are warming."],["More nutrients and higher oxygen levels", "These are not the main threats."],["More upwelling and lower sea levels", "Sea levels are rising."]],
+      answer:0, why:"Heat stress makes corals expel their zooxanthellae (bleaching). Dissolved CO₂ lowers pH, making calcium carbonate harder to build." },
+
+    { level:"SL", stem:"Which approach increases carbon sequestration?",
+      opts:[["Restoring peat-forming wetlands", ""],["Draining peat bogs for farming", "Draining peat lets it decompose and release CO₂."],["Burning biomass", "Burning releases carbon."],["Clearing forests", "Deforestation releases carbon and removes a carbon sink."]],
+      answer:0, why:"Waterlogged peat stops decomposition, so organic carbon builds up and is stored long-term." },
+
+    { level:"AHL", stem:"What is phenology?",
+      opts:[["The study of the timing of biological events in relation to climate", ""],["The study of plant hormones", "This is not phenology."],["The classification of organisms", "That is taxonomy."],["Changes in allele frequency", "That is evolution."]],
+      answer:0, why:"Phenology covers events such as budburst, flowering, breeding and migration, which are often cued by temperature or day length." },
+
+    { level:"AHL", stem:"Caterpillars now peak earlier in spring, but great tits still lay eggs at a similar time. What is the consequence?",
+      opts:[["Chicks hatch after the food peak, so fewer survive.", ""],["Chicks have more food than before.", "The mismatch means less food at the critical time."],["Great tits switch to eating seeds.", "The question is about the effect of the mismatch, not a change of diet."],["Caterpillar populations decline.", "With less predation, caterpillars may actually increase."]],
+      answer:0, why:"This is a phenological mismatch. The two species respond to different cues, so their timing no longer lines up." },
+
+    { level:"AHL", stem:"Why have spruce bark beetle outbreaks increased?",
+      opts:[["Warmer temperatures allow more generations per year.", ""],["Colder winters kill their predators.", "Winters are getting milder."],["Trees produce more resin.", "Drought-stressed trees produce less defensive resin."],["Beetles have stopped migrating.", "This does not explain the increase."]],
+      answer:0, why:"Faster development in warmer conditions lets beetles complete extra life cycles, so populations grow more quickly." },
+
+    { level:"AHL", stem:"In Finland, the proportion of brown tawny owls has increased as snow cover has declined. What does this show?",
+      opts:[["Natural selection in response to climate change", ""],["Phenotypic plasticity in individual owls", "Owl colour is inherited and does not change within an individual."],["A phenological mismatch", "This is about colour, not timing."],["Owls choosing their colour", "Colour is genetically determined."]],
+      answer:0, why:"Brown owls are better camouflaged and survive better when there is less snow, so the brown allele has become more frequent." }
+  ],
+
+  exam: [
+    { level:"SL", title:"Positive feedback", parts:[
+      { prompt:"Outline two positive feedback mechanisms that could accelerate global warming.", marks:4,
+        points:[
+          "Melting snow and ice reduces albedo",
+          "So more solar radiation is absorbed, causing further warming",
+          "Thawing permafrost/peat allows decomposition of organic matter",
+          "This releases CO₂ and methane, enhancing the greenhouse effect",
+          "Warmer oceans hold less CO₂, so CO₂ is released",
+          "More droughts and forest fires release CO₂ and reduce carbon sinks"],
+        examiner:"For each mechanism, say what warming causes and how that leads to more warming.",
+        mistakes:["Describing a consequence of warming without completing the loop back to more warming"] }
+    ]},
+
+    { level:"SL", title:"Polar habitats", parts:[
+      { prompt:"Explain how the loss of sea ice affects polar species, using a named example.", marks:3,
+        points:[
+          "Sea ice and landfast ice are melting earlier and forming later",
+          "Emperor penguins need stable landfast ice for breeding",
+          "Early break-up of ice kills chicks before they can swim",
+          "Walruses use sea ice to rest between feeding dives; they are forced onto crowded land haul-outs",
+          "Loss of ice algae affects the base of polar food chains"],
+        examiner:"Link the habitat change to a specific effect on survival or reproduction.",
+        mistakes:["Using polar bears and penguins in the same habitat"] }
+    ]},
+
+    { level:"SL", title:"Carbon sequestration", intro:"The table shows estimated carbon stored in different ecosystems.",
+      table:{ head:["Ecosystem","Carbon stored / tonnes per hectare"], rows:[["Grassland","70"],["Temperate forest","280"],["Peatland","1300"]] },
+      parts:[
+      { prompt:"(a) Calculate how many times more carbon is stored per hectare in peatland than in temperate forest.", marks:1,
+        points:["1300 ÷ 280 = 4.6 times"],
+        examiner:"", mistakes:[] },
+      { prompt:"(b) Explain why restoring peat-forming wetlands is an effective way to sequester carbon.", marks:2,
+        points:["Waterlogged, anaerobic and acidic conditions slow or stop decomposition","Dead organic matter builds up as peat, locking carbon away for a long time","Peatland stores far more carbon per hectare than forest (data)"],
+        examiner:"Use the data and explain why decomposition is slow.", mistakes:["Saying peat absorbs CO₂ directly"] }
+    ]},
+
+    { level:"AHL", title:"Phenology", parts:[
+      { prompt:"Explain how climate change can disrupt the synchrony of phenological events, using a named example.", marks:4,
+        points:[
+          "Phenology is the timing of biological events",
+          "Different species use different cues, e.g. temperature or day length",
+          "Warming changes temperature-cued events, but day-length-cued events stay the same",
+          "Example: oak caterpillars peak earlier in warmer springs",
+          "Great tits lay eggs at a similar time, so chicks hatch after the caterpillar peak",
+          "Less food for chicks reduces their survival and breeding success"],
+        examiner:"State both cues and both species clearly.",
+        mistakes:["Saying the birds “choose” to breed late"] }
+    ]},
+
+    { level:"AHL", title:"Evolution and climate change", parts:[
+      { prompt:"Explain how climate change can act as a selection pressure, using the tawny owl as an example.", marks:3,
+        points:[
+          "Tawny owls have grey and brown colour morphs, controlled genetically",
+          "Grey owls are better camouflaged in snow; brown in snow-free woodland",
+          "With less snow cover, brown owls survive better, so there is less predation of brown owls and better hunting success",
+          "Brown owls reproduce more and pass on the brown allele",
+          "The frequency of the brown morph increases in the population"],
+        examiner:"Follow the natural selection sequence: variation, selection pressure, survival, reproduction, change in allele frequency.",
+        mistakes:["Saying individual owls change colour"] }
+    ]}
+  ],
+
+  sheets: [
+    { level:"SL",  title:"D4.3 Summary sheet", desc:"Causes, positive feedbacks, ecosystem impacts and carbon sequestration.", file:"" },
+    { level:"SL",  title:"Feedback loops diagram", desc:"Flow diagrams to complete for each feedback mechanism.", file:"" },
+    { level:"AHL", title:"Phenology and evolution", desc:"Great tits, bark beetles and tawny owls.", file:"" }
+  ]
+};
+</script>
+<script src="topic.js"></script>
+<script src="helix.js"></script>
+</body>
+</html>
