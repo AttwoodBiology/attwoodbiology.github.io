@@ -111,7 +111,7 @@ main section{padding:44px 0;border-bottom:1px solid var(--line)}
 .sec-head p{color:var(--muted);font-size:.95rem}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
 
-.videos{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.videos{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;max-width:760px}
 .video .frame{aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:linear-gradient(145deg,var(--accent-soft),var(--card));display:grid;place-items:center;margin-bottom:12px}
 .video iframe{width:100%;height:100%;border:0;display:block}
 .video .placeholder{text-align:center;color:var(--accent);padding:16px}
