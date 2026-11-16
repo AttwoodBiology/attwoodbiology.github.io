@@ -221,6 +221,61 @@ const TOPIC = {
     { level:"AHL", title:"Phenology and evolution", desc:"Great tits, bark beetles and tawny owls.", file:"" }
   ]
 };
+
+/* ============================================================
+   EXTRA QUESTIONS
+   ============================================================ */
+TOPIC.mcq.push(
+  { level:"SL", stem:"How does deforestation contribute to climate change?",
+    opts:[["Less CO₂ is absorbed by photosynthesis, and burning or decay releases CO₂.", ""],["Trees release methane.", "Deforestation's main effect is on CO₂."],["It increases the ozone layer.", "Ozone is not the issue here."],["It cools the land surface.", "This is not the main effect."]],
+    answer:0, why:"Forests are carbon sinks. Removing them reduces CO₂ uptake and releases stored carbon." },
+  { level:"SL", stem:"Which is a major human source of methane?",
+    opts:[["Livestock such as cattle", ""],["Photosynthesis", "Photosynthesis does not produce methane."],["Wind turbines", "These do not release methane."],["Nuclear power", "This does not release methane."]],
+    answer:0, why:"Bacteria in the guts of ruminants produce methane. Rice paddies and landfill are other major sources." },
+  { level:"SL", stem:"Why is nutrient upwelling important for marine ecosystems?",
+    opts:[["It brings nutrients from deep water to the surface, supporting phytoplankton growth.", ""],["It warms surface waters.", "Upwelled water is usually cold."],["It removes CO₂ from the atmosphere.", "This is not its main importance."],["It increases salinity.", "This is not the main effect."]],
+    answer:0, why:"Phytoplankton form the base of marine food chains, so changes in upwelling affect whole ecosystems." },
+  { level:"SL", stem:"What is afforestation?",
+    opts:[["Planting trees in an area that was not forest", ""],["Cutting down forests", "That is deforestation."],["Allowing a cleared forest to regrow naturally", "That is forest regeneration."],["Restoring wetlands", "That is a different approach."]],
+    answer:0, why:"New forests remove CO₂ from the atmosphere as the trees grow, which sequesters carbon." },
+  { level:"SL", stem:"Why are species living near mountain tops especially threatened by warming?",
+    opts:[["They cannot shift further upslope as their habitat warms.", ""],["They are always larger.", "Size is not the reason."],["Mountains cool as the climate warms.", "Mountains are warming too."],["They migrate towards the equator.", "Species shift away from the equator."]],
+    answer:0, why:"As suitable conditions move upslope, the area available shrinks and may disappear completely." },
+  { level:"SL", stem:"How has sea ice loss affected walruses?",
+    opts:[["They haul out on land in large crowds, increasing the risk of trampling.", ""],["They have stopped feeding.", "They still feed, but further from resting sites."],["Their populations have grown rapidly.", "Ice loss is a threat to walruses."],["They have moved to the Antarctic.", "Walruses live only in the Arctic."]],
+    answer:0, why:"Without sea ice to rest on near feeding areas, walruses crowd onto beaches, where stampedes can kill young." },
+  { level:"AHL", stem:"Why are events triggered by day length not shifted by warming?",
+    opts:[["Day length depends on the time of year, not temperature.", ""],["Day length is getting longer.", "Day length follows the same annual pattern."],["Plants cannot detect light.", "Plants detect day length."],["Warming only affects animals.", "Warming affects plants too."]],
+    answer:0, why:"So species using day length keep the same timing, while temperature-cued species shift. This causes mismatches." },
+  { level:"AHL", stem:"Which is evidence of evolution, rather than plasticity, in response to climate change?",
+    opts:[["A change in allele frequency in a population over generations", ""],["A single tree flowering earlier in a warm year", "This is a plastic response."],["An animal moving to a cooler area", "This is a behavioural or range change."],["A plant growing taller in a warm summer", "This is phenotypic plasticity."]],
+    answer:0, why:"Evolution is a heritable change in a population, such as the rise in the brown morph of tawny owls." }
+);
+TOPIC.exam.push(
+  { level:"SL", title:"Deforestation", parts:[
+    { prompt:"Explain how deforestation contributes to climate change.", marks:3,
+      points:["Fewer trees means less CO₂ is removed by photosynthesis","Burning cleared trees releases CO₂","Decomposing plant material and exposed soil release CO₂","More CO₂ enhances the greenhouse effect","Loss of a carbon sink"],
+      examiner:"", mistakes:["Saying trees produce the ozone layer"] }
+  ]},
+  { level:"SL", title:"Coral reefs", parts:[
+    { prompt:"Explain why coral reefs are vulnerable to ecosystem collapse as a result of rising atmospheric CO₂.", marks:4,
+      points:["Higher sea temperatures stress corals","Corals expel their zooxanthellae (bleaching)","Without zooxanthellae, corals lose their main supply of sugars and may die","More dissolved CO₂ lowers ocean pH (acidification)","Lower pH reduces the carbonate available, making it harder to build calcium carbonate skeletons","Reefs support many species, so their loss affects the whole ecosystem"],
+      examiner:"Cover both warming and acidification.", mistakes:["Saying corals are plants"] }
+  ]},
+  { level:"AHL", title:"Insect life cycles", parts:[
+    { prompt:"Outline how climate change has increased the impact of spruce bark beetles on forests.", marks:3,
+      points:["Warmer temperatures speed up beetle development","Beetles complete more generations per year","Populations grow faster and outbreaks are larger","Drought-stressed trees produce less resin, so they are less able to resist attack","Large areas of forest die, releasing CO₂ (positive feedback)"],
+      examiner:"", mistakes:[] }
+  ]},
+  { level:"SL", title:"Extended response: climate change and ecosystems", parts:[
+    { prompt:"Describe the causes of climate change and its effects on ecosystems.", marks:7,
+      points:["Burning fossil fuels releases CO₂","Deforestation reduces carbon sinks and releases CO₂","Livestock and rice paddies release methane","These gases enhance the greenhouse effect","Positive feedbacks such as reduced albedo and thawing permafrost accelerate warming","Polar ice loss threatens species such as emperor penguins and walruses","Species shift their ranges towards the poles and upslope","Changes to ocean currents alter nutrient upwelling","Coral reefs suffer bleaching and acidification","Boreal forests may reach a tipping point and become carbon sources","Approaches such as afforestation and peatland restoration can sequester carbon"],
+      examiner:"Cover both the causes and a range of ecosystem effects, with examples.", mistakes:["Confusing climate change with ozone depletion"] }
+  ]}
+);
+/* Keep SL questions first, then AHL */
+TOPIC.mcq.sort((a, b) => (a.level === "AHL") - (b.level === "AHL"));
+TOPIC.exam.sort((a, b) => (a.level === "AHL") - (b.level === "AHL"));
 </script>
 <script src="topic.js"></script>
 <script src="helix.js"></script>

@@ -239,6 +239,61 @@ const TOPIC = {
     { level:"SL", title:"Sampling and statistics practice", desc:"Lincoln index and chi-squared association practice questions.", file:"" }
   ]
 };
+
+/* ============================================================
+   EXTRA QUESTIONS
+   ============================================================ */
+TOPIC.mcq.push(
+  { level:"SL", stem:"Why should quadrats be placed using random coordinates?",
+    opts:[["To avoid bias in where samples are taken", ""],["To make sure every quadrat contains the organism", "This would bias the results."],["To reduce the number of quadrats needed", "Randomness does not reduce sample size."],["To measure abiotic factors", "That is a separate measurement."]],
+    answer:0, why:"Random placement means every part of the area has an equal chance of being sampled, so the estimate is representative." },
+  { level:"SL", stem:"What do mycorrhizal fungi provide to orchids?",
+    opts:[["Minerals and, for seedlings, sugars", ""],["Oxygen", "Plants get oxygen from the air."],["Protection from herbivores", "This is not the main benefit."],["Nitrogen fixed from the air", "This is the role of Rhizobium in legumes."]],
+    answer:0, why:"Orchid seeds have very little stored food, so seedlings depend on the fungus for sugars and minerals." },
+  { level:"SL", stem:"Which is an example of intraspecific competition?",
+    opts:[["Two oak trees competing for light", ""],["A fox eating a rabbit", "This is predation."],["Barnacles of two species competing for space", "This is interspecific competition."],["Bees pollinating flowers", "This is mutualism."]],
+    answer:0, why:"Intraspecific competition is between members of the same species." },
+  { level:"SL", stem:"Which is an example of pathogenicity?",
+    opts:[["A virus causing disease in a plant", ""],["A tapeworm in an intestine", "This is parasitism."],["A deer eating grass", "This is herbivory."],["A lichen growing on a tree", "This is not disease-causing."]],
+    answer:0, why:"A pathogen is a microorganism or virus that causes disease in its host." },
+  { level:"SL", stem:"When does exponential population growth occur?",
+    opts:[["When resources are plentiful and there are few limiting factors", ""],["When the population is at carrying capacity", "Growth stops at carrying capacity."],["When predators are abundant", "Predation slows growth."],["When death rate is greater than birth rate", "This would cause a decline."]],
+    answer:0, why:"With no limits, each generation can reproduce fully, so numbers multiply rapidly." },
+  { level:"SL", stem:"Phytoplankton populations are limited by the availability of nitrates. What type of control is this?",
+    opts:[["Bottom-up control", ""],["Top-down control", "Top-down control comes from predators."],["Allelopathy", "Allelopathy involves chemicals from other plants."],["Density-independent control", "Resource limitation becomes stronger as density increases."]],
+    answer:0, why:"Resource availability at the base of the food chain limits the population." },
+  { level:"SL", stem:"Penicillium fungi secrete penicillin. How does this benefit the fungus?",
+    opts:[["It kills competing bacteria.", ""],["It digests food for the fungus.", "Penicillin is not a digestive enzyme."],["It helps the fungus photosynthesise.", "Fungi do not photosynthesise."],["It attracts pollinators.", "Fungi do not need pollinators."]],
+    answer:0, why:"Secreting antibiotics reduces competition from bacteria for nutrients." },
+  { level:"SL", stem:"Two species compete for the same limited resource. What is a likely outcome?",
+    opts:[["One species may decline or be excluded from the area.", ""],["Both species increase.", "Competition reduces access to resources for both."],["They become one species.", "Competition does not merge species."],["Neither is affected.", "Competition for limited resources affects at least one species."]],
+    answer:0, why:"The better competitor gains more of the resource, so the other species declines or is pushed into a different niche." }
+);
+TOPIC.exam.push(
+  { level:"SL", title:"Sampling with quadrats", parts:[
+    { prompt:"Outline how quadrats can be used to estimate the population size of a plant species in a field.", marks:4,
+      points:["Measure the total area of the field","Use random number tables or a generator to choose coordinates for quadrats","Count the number of plants in each quadrat","Use a large number of quadrats","Calculate the mean number per quadrat","Population = mean per quadrat × (total area ÷ quadrat area)"],
+      examiner:"", mistakes:["Placing quadrats where the plants are"] }
+  ]},
+  { level:"SL", title:"Predator–prey cycles", parts:[
+    { prompt:"Explain how predator–prey relationships act as density-dependent control of population size.", marks:4,
+      points:["As prey numbers increase, predators have more food","So more predators survive and reproduce, and predator numbers rise","More predation reduces prey numbers","With less food, predator numbers fall","Prey numbers then recover, so the cycle repeats","Predator peaks lag behind prey peaks","The effect of predation increases as prey density increases"],
+      examiner:"A labelled sketch of the two cycles is useful.", mistakes:["Drawing predator peaks before prey peaks"] }
+  ]},
+  { level:"SL", title:"Testing for competition", parts:[
+    { prompt:"Outline one method that could test whether two species are competing.", marks:3,
+      points:["Removal experiment: remove one species from some plots, leaving others as controls","Measure the population, growth or distribution of the other species","If it increases where the first species was removed, competition is likely","Or: grow both species alone and together in the lab and compare growth"],
+      examiner:"Include a control and a measurable outcome.", mistakes:[] }
+  ]},
+  { level:"SL", title:"Extended response: interspecific relationships", parts:[
+    { prompt:"Describe the different types of interspecific relationship, with an example of each.", marks:7,
+      points:["Herbivory: an animal feeds on plants, e.g. deer eating grass","Predation: a predator kills and eats prey, e.g. lynx and snowshoe hare","Interspecific competition: different species compete for the same limited resource","Mutualism: both species benefit, e.g. Rhizobium in root nodules of Fabaceae","Mycorrhizae in orchids","Zooxanthellae in hard corals","Parasitism: the parasite benefits and the host is harmed, e.g. tapeworm","Pathogenicity: a pathogen causes disease, e.g. a virus","Allelopathy: a plant releases chemicals that inhibit competitors","Antibiotic secretion by microorganisms such as Penicillium"],
+      examiner:"Give a clear definition and a named example for each relationship.", mistakes:["Confusing parasitism and pathogenicity"] }
+  ]}
+);
+/* Keep SL questions first, then AHL */
+TOPIC.mcq.sort((a, b) => (a.level === "AHL") - (b.level === "AHL"));
+TOPIC.exam.sort((a, b) => (a.level === "AHL") - (b.level === "AHL"));
 </script>
 <script src="topic.js"></script>
 <script src="helix.js"></script>

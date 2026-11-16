@@ -243,6 +243,66 @@ const TOPIC = {
     { level:"AHL", title:"Inhibition and pathways", desc:"Competitive, non-competitive, end-product and mechanism-based inhibition.", file:"" }
   ]
 };
+
+/* ============================================================
+   EXTRA QUESTIONS
+   ============================================================ */
+TOPIC.mcq.push(
+  { level:"SL", stem:"How does a change in pH away from the optimum reduce enzyme activity?",
+    opts:[["It changes the charges on R groups in the active site, so the substrate binds less well.", ""],["It increases the activation energy of the substrate.", "pH acts on the enzyme's active site, not on activation energy directly."],["It makes the substrate move more slowly.", "This describes temperature, not pH."],["It adds more active sites.", "pH does not create active sites."]],
+    answer:0, why:"H⁺ and OH⁻ ions affect charged R groups and the bonds holding the structure. Extreme pH denatures the enzyme." },
+  { level:"SL", stem:"Substrate is in excess. What happens to the rate if enzyme concentration is doubled?",
+    opts:[["The rate roughly doubles.", ""],["The rate stays the same.", "With excess substrate, enzyme concentration is the limiting factor."],["The rate halves.", "More enzyme means more active sites."],["The enzyme denatures.", "Concentration does not cause denaturation."]],
+    answer:0, why:"Twice as many active sites are available, so about twice as many enzyme–substrate complexes form per second." },
+  { level:"SL", stem:"What is activation energy?",
+    opts:[["The energy needed to start a reaction", ""],["The energy released by a reaction", "That is the overall energy change."],["The energy stored in ATP", "This is a different idea."],["The energy needed to denature an enzyme", "This is not activation energy."]],
+    answer:0, why:"Reactants must reach a transition state before they can react. Enzymes lower the energy needed to get there." },
+  { level:"SL", stem:"Why is the initial rate used when comparing enzyme reactions?",
+    opts:[["Substrate concentration has not yet fallen, so conditions are known.", ""],["The enzyme is denatured later.", "Not necessarily: substrate running out is the main issue."],["Product is only made at the start.", "Product is made throughout."],["The temperature is highest at the start.", "Temperature is controlled."]],
+    answer:0, why:"As the reaction continues, substrate is used up and the rate falls, so only the initial rate gives a fair comparison." },
+  { level:"SL", stem:"Which is a catabolic reaction?",
+    opts:[["Hydrolysis of proteins to amino acids", ""],["Synthesis of glycogen from glucose", "This builds a polymer, so it is anabolic."],["Photosynthesis", "Photosynthesis builds glucose, so it is anabolic."],["DNA replication", "This builds new strands, so it is anabolic."]],
+    answer:0, why:"Catabolic reactions break larger molecules into smaller ones and often release energy." },
+  { level:"AHL", stem:"How do statins lower blood cholesterol?",
+    opts:[["They competitively inhibit an enzyme in the pathway that makes cholesterol.", ""],["They break down cholesterol in the blood.", "They act on synthesis, not breakdown."],["They block cholesterol absorption by denaturing enzymes.", "Statins do not denature enzymes."],["They bind to an allosteric site irreversibly.", "Statins are competitive inhibitors."]],
+    answer:0, why:"Statins resemble the substrate of a key liver enzyme (HMG-CoA reductase) and compete for its active site." },
+  { level:"AHL", stem:"How does a competitive inhibitor change a graph of rate against substrate concentration?",
+    opts:[["The same maximum rate is reached, but at a higher substrate concentration.", ""],["The maximum rate is permanently lowered.", "That is the effect of a non-competitive inhibitor."],["The rate becomes zero.", "Some active sites are still free."],["There is no change.", "The inhibitor slows the reaction at low substrate concentrations."]],
+    answer:0, why:"At high substrate concentrations, substrate outcompetes the inhibitor for active sites." },
+  { level:"AHL", stem:"Why does metabolism generate heat?",
+    opts:[["Energy transfers in metabolic reactions are not 100% efficient.", ""],["Enzymes release heat when they denature.", "Denaturation is not the source of metabolic heat."],["ATP is made of heat.", "ATP stores chemical energy."],["Heat is needed to activate enzymes.", "Enzymes lower activation energy."]],
+    answer:0, why:"Some energy is always lost as heat. Endotherms such as mammals and birds use it to keep their body temperature constant." }
+);
+TOPIC.exam.push(
+  { level:"SL", title:"Effect of pH", parts:[
+    { prompt:"Explain the effect of pH on the activity of an enzyme.", marks:3,
+      points:["Each enzyme has an optimum pH, where activity is greatest","Away from the optimum, H⁺/OH⁻ ions change the charges on R groups in the active site","So the substrate binds less well and fewer enzyme–substrate complexes form","At extreme pH, ionic and hydrogen bonds break and the enzyme denatures","Different enzymes have different optima, e.g. pepsin about pH 2, amylase about pH 7"],
+      examiner:"A sketch graph with the optimum labelled can help.", mistakes:["Saying low pH makes the enzyme “die”"] }
+  ]},
+  { level:"SL", title:"Substrate concentration", intro:"The table shows the initial rate of an enzyme-catalysed reaction at different substrate concentrations.",
+    table:{ head:["Substrate / mmol dm⁻³","0","1","2","4","8","16"], rows:[["Rate / µmol min⁻¹","0","10","18","28","34","35"]] },
+    parts:[
+    { prompt:"(a) Explain why the rate levels off at high substrate concentrations.", marks:2,
+      points:["All the active sites are occupied / the enzyme is saturated","Enzyme concentration becomes the limiting factor, so adding more substrate has little effect"],
+      examiner:"", mistakes:["Saying the enzyme is denatured"] },
+    { prompt:"(b) Predict the effect on the maximum rate if the enzyme concentration were doubled. Give a reason.", marks:2,
+      points:["The maximum rate would roughly double (to about 70 µmol min⁻¹)","Twice as many active sites are available"],
+      examiner:"", mistakes:[] }
+  ]},
+  { level:"AHL", title:"Metabolic pathways", parts:[
+    { prompt:"Distinguish between linear and cyclical metabolic pathways, using named examples.", marks:3,
+      points:["Linear pathways have a start substrate and a different end product, e.g. glycolysis","Cyclical pathways regenerate the starting compound, e.g. the Krebs cycle or Calvin cycle","In the Krebs cycle, the 4C compound that accepts the acetyl group is regenerated","Each step in both types is catalysed by a specific enzyme"],
+      examiner:"", mistakes:[] }
+  ]},
+  { level:"SL", title:"Extended response: enzymes", parts:[
+    { prompt:"Describe the induced-fit model of enzyme action and explain how temperature affects the rate of enzyme-catalysed reactions.", marks:7,
+      points:["Enzymes are globular proteins with an active site","The substrate has a shape and chemistry complementary to the active site","Substrate and enzyme collide, and the substrate binds to the active site","Both the substrate and the active site change shape slightly (induced fit)","This stresses bonds in the substrate and lowers the activation energy","Products are released and the enzyme is unchanged","As temperature rises, molecules have more kinetic energy","So there are more frequent collisions and more enzyme–substrate complexes","The rate is highest at the optimum temperature","Above the optimum, bonds holding the tertiary structure break","The active site changes shape (denaturation) and the substrate no longer fits","So the rate falls rapidly"],
+      examiner:"Use “complementary”, “collisions” and “denatured” accurately.", mistakes:["Saying enzymes are killed"] }
+  ]}
+);
+/* Keep SL questions first, then AHL */
+TOPIC.mcq.sort((a, b) => (a.level === "AHL") - (b.level === "AHL"));
+TOPIC.exam.sort((a, b) => (a.level === "AHL") - (b.level === "AHL"));
 </script>
 <script src="topic.js"></script>
 <script src="helix.js"></script>

@@ -249,6 +249,61 @@ const TOPIC = {
     { level:"AHL", title:"Dihybrids, linkage and chi-squared", desc:"Worked example and practice questions.", file:"" }
   ]
 };
+
+/* ============================================================
+   EXTRA QUESTIONS
+   ============================================================ */
+TOPIC.mcq.push(
+  { level:"SL", stem:"What is the purpose of a test cross?",
+    opts:[["To find the genotype of an organism showing the dominant phenotype", ""],["To produce homozygous offspring", "The aim is to identify an unknown genotype."],["To test for sex linkage only", "A test cross works for any gene."],["To produce new alleles", "Crosses do not create alleles."]],
+    answer:0, why:"Crossing with a homozygous recessive reveals whether the unknown is homozygous (all dominant offspring) or heterozygous (1:1)." },
+  { level:"SL", stem:"Red four o'clock flowers are crossed with white ones. All the F1 are pink. What ratio is expected in the F2?",
+    opts:[["1 red : 2 pink : 1 white", ""],["3 red : 1 white", "There is no dominant allele here."],["All pink", "Pink × pink gives all three colours."],["1 red : 1 white", "Pink plants appear in the F2."]],
+    answer:0, why:"With incomplete dominance, each genotype has its own phenotype, so the genotype ratio (1:2:1) is seen directly." },
+  { level:"SL", stem:"A man with haemophilia and a woman who is not a carrier have children. What can you predict?",
+    opts:[["All daughters are carriers and all sons are unaffected.", ""],["All sons have haemophilia.", "Sons get their X from their mother."],["Half the daughters have haemophilia.", "Daughters get one normal X from their mother."],["All children are unaffected and none are carriers.", "Daughters inherit their father's X."]],
+    answer:0, why:"Every daughter inherits Xʰ from her father and Xᴴ from her mother. Sons inherit Y from their father." },
+  { level:"SL", stem:"What is an allele?",
+    opts:[["One of the different forms of a gene", ""],["A section of DNA that codes for a polypeptide", "That is a gene."],["The position of a gene on a chromosome", "That is a locus."],["A pair of homologous chromosomes", "That is a bivalent."]],
+    answer:0, why:"Alleles of the same gene differ slightly in base sequence and occupy the same locus." },
+  { level:"SL", stem:"What does a box-and-whisker plot show about a set of height data?",
+    opts:[["The median, interquartile range and overall range", ""],["The mean and standard deviation", "Box plots show the median and quartiles."],["Only the maximum value", "They summarise the whole spread."],["The number of genes involved", "They show the data, not the genetics."]],
+    answer:0, why:"The box spans the middle 50% of the data, and the whiskers show the range." },
+  { level:"SL", stem:"What does homozygous mean?",
+    opts:[["Having two identical alleles of a gene", ""],["Having two different alleles of a gene", "That is heterozygous."],["Having only one allele, as males do for X-linked genes", "That is hemizygous."],["Having a dominant allele", "Homozygous can be dominant or recessive."]],
+    answer:0, why:"For example, AA and aa are both homozygous." },
+  { level:"AHL", stem:"Which gametes can an AaBb individual produce if the genes are unlinked?",
+    opts:[["AB, Ab, aB and ab in equal proportions", ""],["AB and ab only", "This would be the case for complete linkage."],["Aa and Bb", "Gametes carry one allele of each gene."],["A, a, B and b", "Each gamete has one allele of each gene."]],
+    answer:0, why:"Independent assortment means each allele of gene A can combine with either allele of gene B." },
+  { level:"AHL", stem:"A χ² value is larger than the critical value at p = 0.05. What do you conclude?",
+    opts:[["Reject the null hypothesis: the difference is significant.", ""],["Accept the null hypothesis.", "A large χ² shows a big difference from expected."],["The results are due to chance.", "This means it is unlikely the difference is due to chance."],["The experiment must be repeated.", "This is not the statistical conclusion."]],
+    answer:0, why:"There is less than a 5% probability that the difference is due to chance alone." }
+);
+TOPIC.exam.push(
+  { level:"SL", title:"Sex determination", parts:[
+    { prompt:"Explain how sex is determined in humans.", marks:3,
+      points:["Females have two X chromosomes (XX) and males have XY","All eggs carry an X chromosome","Sperm carry either X or Y, in roughly equal numbers","The sperm that fertilises the egg determines the sex","The SRY gene on the Y chromosome triggers male development"],
+      examiner:"A Punnett grid showing XX × XY is a quick way to show the 1:1 ratio.", mistakes:["Saying the mother determines the sex"] }
+  ]},
+  { level:"SL", title:"Pedigree analysis", parts:[
+    { prompt:"In a family, an affected man and an unaffected woman have an unaffected son and an affected daughter. Explain whether the condition could be X-linked recessive.", marks:3,
+      points:["For X-linked recessive, the affected daughter (XʰXʰ) must get Xʰ from both parents","The father is affected (XʰY), so he passes Xʰ","The mother would need to be a carrier (XᴴXʰ)","So yes, it could be X-linked recessive if the mother is a carrier","More family data would be needed to confirm"],
+      examiner:"Work through genotypes systematically.", mistakes:[] }
+  ]},
+  { level:"AHL", title:"Independent assortment", parts:[
+    { prompt:"Explain how independent assortment in meiosis produces genetic variation.", marks:4,
+      points:["Homologous chromosomes pair up as bivalents in prophase I","In metaphase I, bivalents line up randomly at the equator","The orientation of each bivalent is independent of the others","So maternal and paternal chromosomes are mixed randomly in the gametes","Alleles of unlinked genes are inherited independently","The number of combinations is 2ⁿ, where n is the haploid number (2²³ in humans)"],
+      examiner:"", mistakes:["Saying independent assortment happens in metaphase II"] }
+  ]},
+  { level:"SL", title:"Extended response: ABO blood groups", parts:[
+    { prompt:"Describe the inheritance of ABO blood groups, including codominance and multiple alleles.", marks:7,
+      points:["The ABO gene has three alleles (multiple alleles): Iᴬ, Iᴮ and i","Iᴬ and Iᴮ are codominant","i is recessive to both Iᴬ and Iᴮ","Group A: IᴬIᴬ or Iᴬi","Group B: IᴮIᴮ or Iᴮi","Group AB: IᴬIᴮ, both antigens made","Group O: ii, neither antigen made","The alleles code for enzymes that add carbohydrates to glycoproteins on red blood cells","Example cross: Iᴬi × Iᴮi can give all four groups","Each in a 1:1:1:1 ratio"],
+      examiner:"Use correct notation and include a worked cross.", mistakes:["Writing genotypes as AO or AB without the I notation"] }
+  ]}
+);
+/* Keep SL questions first, then AHL */
+TOPIC.mcq.sort((a, b) => (a.level === "AHL") - (b.level === "AHL"));
+TOPIC.exam.sort((a, b) => (a.level === "AHL") - (b.level === "AHL"));
 </script>
 <script src="topic.js"></script>
 <script src="helix.js"></script>

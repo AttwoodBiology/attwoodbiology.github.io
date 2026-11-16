@@ -216,6 +216,61 @@ const TOPIC = {
     { level:"AHL", title:"Evidence for DNA", desc:"Hershey–Chase, Chargaff and nucleosomes.", file:"" }
   ]
 };
+
+/* ============================================================
+   EXTRA QUESTIONS
+   ============================================================ */
+TOPIC.mcq.push(
+  { level:"SL", stem:"A DNA sample contains 20% adenine. What percentage is guanine?",
+    opts:[["20%", "That is the percentage of thymine."],["30%", ""],["60%", "60% is the total for G and C together."],["80%", "This would leave no room for thymine."]],
+    answer:1, why:"A = T = 20%, so G + C = 60%. G = C, so guanine is 30%." },
+  { level:"SL", stem:"How many hydrogen bonds join a cytosine–guanine base pair?",
+    opts:[["1", "C–G pairs are held by more than one hydrogen bond."],["2", "Two hydrogen bonds join A–T."],["3", ""],["4", "No base pair in DNA has four."]],
+    answer:2, why:"C–G pairs have three hydrogen bonds and A–T pairs have two, so DNA with more C–G is slightly more stable." },
+  { level:"SL", stem:"How many different base sequences are possible for a section of DNA three bases long?",
+    opts:[["12", "This is 4 × 3. Each position has 4 options, so multiply 4 × 4 × 4."],["27", "This would be 3³."],["64", ""],["81", "This would be 3⁴."]],
+    answer:2, why:"4³ = 64. This is also why there are 64 codons in the genetic code." },
+  { level:"SL", stem:"How is an RNA polymer formed?",
+    opts:[["Nucleotides join by condensation reactions, releasing water.", ""],["Amino acids join by peptide bonds.", "That is how proteins form."],["Nucleotides join by hydrolysis.", "Hydrolysis breaks polymers apart."],["Bases join by ionic bonds.", "The backbone is formed by covalent sugar–phosphate bonds."]],
+    answer:0, why:"Each condensation reaction links the phosphate of one nucleotide to the sugar of the next." },
+  { level:"SL", stem:"Some viruses do not contain DNA. What is their genetic material?",
+    opts:[["RNA", ""],["Protein", "Hershey and Chase showed that protein is not the genetic material."],["Lipid", "Lipids do not store genetic information."],["ATP", "ATP is an energy carrier."]],
+    answer:0, why:"Retroviruses such as HIV and many others use RNA as their genetic material." },
+  { level:"AHL", stem:"Which bases are purines?",
+    opts:[["Adenine and guanine", ""],["Cytosine and thymine", "These are pyrimidines, with a single ring."],["Adenine and thymine", "Thymine is a pyrimidine."],["Uracil and cytosine", "Both are pyrimidines."]],
+    answer:0, why:"Purines have a double-ring structure. Each pairs with a single-ring pyrimidine." },
+  { level:"AHL", stem:"Which end of a DNA strand has a free phosphate group?",
+    opts:[["The 5′ end", ""],["The 3′ end", "The 3′ end has a free –OH on the sugar."],["Both ends", "The two ends of a strand are different."],["Neither end", "One end always has a free phosphate."]],
+    answer:0, why:"The 5′ carbon of the sugar carries the phosphate, so the strand starts with a phosphate at the 5′ end." },
+  { level:"AHL", stem:"What is the role of the H1 histone in a nucleosome?",
+    opts:[["It holds the DNA in place around the core of eight histones.", ""],["It forms the core that DNA wraps around.", "The core is made of eight other histones."],["It copies the DNA.", "That is DNA polymerase."],["It cuts DNA into genes.", "Histones do not cut DNA."]],
+    answer:0, why:"H1 binds to the DNA where it enters and leaves the nucleosome, helping pack DNA more tightly." }
+);
+TOPIC.exam.push(
+  { level:"SL", title:"Joining nucleotides", parts:[
+    { prompt:"Outline how two nucleotides are joined together in a DNA strand.", marks:3,
+      points:["By a condensation reaction","Water is released","A covalent bond forms between the phosphate of one nucleotide and the sugar (C3) of the next","This bond is a phosphodiester bond","Repeated joining forms the sugar–phosphate backbone"],
+      examiner:"", mistakes:["Saying the bases are joined to each other along the strand"] }
+  ]},
+  { level:"SL", title:"Storing information", parts:[
+    { prompt:"Explain how the structure of DNA allows it to store a very large amount of information.", marks:3,
+      points:["Four bases can be arranged in any order","The information is held in the sequence of bases","The number of possible sequences is 4ⁿ for n bases","DNA molecules are very long, with millions of bases","The base sequence varies between genes and between organisms"],
+      examiner:"", mistakes:["Saying information is stored in the sugar–phosphate backbone"] }
+  ]},
+  { level:"AHL", title:"Directionality", parts:[
+    { prompt:"Explain the importance of the directionality of nucleic acids.", marks:3,
+      points:["Each strand has a 5′ end and a 3′ end","The two strands of DNA are antiparallel","Nucleotides can only be added to the 3′ end, so strands grow 5′ → 3′","DNA polymerase and RNA polymerase work in this direction only","So the template is read 3′ → 5′, and in replication one strand is made in fragments"],
+      examiner:"", mistakes:["Saying both strands run in the same direction"] }
+  ]},
+  { level:"SL", title:"Extended response: DNA structure and replication", parts:[
+    { prompt:"Describe the structure of DNA and explain how this structure allows it to be copied accurately.", marks:7,
+      points:["Nucleotides each have a phosphate, deoxyribose and a nitrogenous base","Covalent bonds between sugar and phosphate form the backbone","Two antiparallel strands form a double helix","Bases are A, T, C and G","Complementary base pairing: A with T, C with G","Base pairs are held by hydrogen bonds","Hydrogen bonds are weak, so the strands can be separated","Each strand acts as a template","Free nucleotides pair with complementary bases on the template","So each new molecule is identical to the original","Each new molecule has one old strand and one new strand (semi-conservative)"],
+      examiner:"Cover both parts: describe the structure, then explain how it allows accurate copying.", mistakes:["Describing structure only"] }
+  ]}
+);
+/* Keep SL questions first, then AHL */
+TOPIC.mcq.sort((a, b) => (a.level === "AHL") - (b.level === "AHL"));
+TOPIC.exam.sort((a, b) => (a.level === "AHL") - (b.level === "AHL"));
 </script>
 <script src="topic.js"></script>
 <script src="helix.js"></script>

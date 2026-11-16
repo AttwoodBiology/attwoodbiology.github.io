@@ -251,6 +251,61 @@ const TOPIC = {
     { level:"SL", title:"Molecule diagrams to label", desc:"α- and β-glucose, triglyceride and phospholipid.", file:"" }
   ]
 };
+
+/* ============================================================
+   EXTRA QUESTIONS
+   ============================================================ */
+TOPIC.mcq.push(
+  { level:"SL", stem:"Which of these is a disaccharide?",
+    opts:[["Glucose", "Glucose is a monosaccharide."],["Sucrose", ""],["Glycogen", "Glycogen is a polysaccharide."],["Cellulose", "Cellulose is a polysaccharide."]],
+    answer:1, why:"Sucrose is made of glucose and fructose joined by a glycosidic bond." },
+  { level:"SL", stem:"Which glycosidic bonds form the branches in amylopectin and glycogen?",
+    opts:[["1,6 glycosidic bonds", ""],["1,4 glycosidic bonds", "1,4 bonds form the straight chains."],["Ester bonds", "Ester bonds are found in lipids."],["Hydrogen bonds", "Branches are formed by covalent glycosidic bonds."]],
+    answer:0, why:"A 1,6 bond joins carbon 1 of one glucose to carbon 6 of another, starting a new branch." },
+  { level:"SL", stem:"Why can humans not digest cellulose?",
+    opts:[["We lack an enzyme that hydrolyses the bonds between β-glucose units.", ""],["Cellulose is made of α-glucose.", "Cellulose is made of β-glucose."],["Cellulose is a lipid.", "Cellulose is a carbohydrate."],["Cellulose is too small to digest.", "Cellulose molecules are very large."]],
+    answer:0, why:"Amylase only fits the bonds between α-glucose units. Hydrolysing cellulose needs cellulase, which humans do not make." },
+  { level:"SL", stem:"Which monosaccharide is a pentose?",
+    opts:[["Ribose", ""],["Glucose", "Glucose has six carbons."],["Fructose", "Fructose has six carbons."],["Galactose", "Galactose has six carbons."]],
+    answer:0, why:"Ribose and deoxyribose are 5-carbon sugars found in nucleotides." },
+  { level:"SL", stem:"Why are triglycerides used for long-term energy storage rather than glycogen?",
+    opts:[["They store about twice as much energy per gram.", ""],["They are soluble in water.", "Triglycerides are insoluble."],["They can be broken down more quickly.", "Glycogen is mobilised more quickly."],["They can be respired anaerobically.", "Fatty acids need oxygen to be respired."]],
+    answer:0, why:"Lipids store more energy per gram and are stored without water, so they are lighter for the energy they hold." },
+  { level:"SL", stem:"What is a saturated fatty acid?",
+    opts:[["A fatty acid with only single C–C bonds", ""],["A fatty acid with one C=C double bond", "That is monounsaturated."],["A fatty acid dissolved in water", "Fatty acids are hydrophobic."],["A fatty acid joined to glycerol", "Joining to glycerol forms a glyceride."]],
+    answer:0, why:"With no double bonds, every carbon carries as many hydrogen atoms as possible." },
+  { level:"SL", stem:"What are the two main functions of triglycerides in adipose tissue?",
+    opts:[["Energy storage and thermal insulation", ""],["Enzyme action and transport", "Triglycerides are not enzymes or carriers."],["Forming cell membranes and hormones", "Phospholipids form membranes and steroids act as hormones."],["Cell recognition and signalling", "That is the role of glycoproteins."]],
+    answer:0, why:"Fat stores energy and, under the skin, reduces heat loss, which is important for animals in cold climates." },
+  { level:"SL", stem:"In a trans fatty acid, the hydrogens at the double bond are on opposite sides. What effect does this have?",
+    opts:[["The chain stays fairly straight, so it packs closely and has a higher melting point.", ""],["The chain bends sharply.", "That is a cis double bond."],["It becomes saturated.", "It still has a double bond."],["It becomes water soluble.", "It remains hydrophobic."]],
+    answer:0, why:"Trans fatty acids behave more like saturated ones because there is no kink in the chain." }
+);
+TOPIC.exam.push(
+  { level:"SL", title:"Alpha and beta glucose", parts:[
+    { prompt:"Distinguish between α-glucose and β-glucose, and explain how this difference affects the properties of starch and cellulose.", marks:4,
+      points:["In α-glucose the –OH on carbon 1 is below the ring; in β-glucose it is above","α-glucose units join to form starch, which coils or branches","In cellulose, alternate β-glucose units are inverted to form glycosidic bonds","This gives straight chains in cellulose","Hydrogen bonds between parallel chains form strong microfibrils","So starch is compact and easily hydrolysed (storage), while cellulose has high tensile strength (structure)"],
+      examiner:"Draw the two forms of glucose if it helps, labelling carbon 1.", mistakes:["Saying cellulose is made of α-glucose"] }
+  ]},
+  { level:"SL", title:"Energy content", intro:"The table shows the energy released per gram when different substances are respired.",
+    table:{ head:["Substance","Energy / kJ g⁻¹"], rows:[["Carbohydrate","17"],["Lipid","37"]] },
+    parts:[
+    { prompt:"(a) Calculate how many times more energy per gram lipid releases compared with carbohydrate.", marks:1,
+      points:["37 ÷ 17 = 2.2 times"],
+      examiner:"", mistakes:[] },
+    { prompt:"(b) Suggest why migrating birds store energy as lipid before a long flight.", marks:2,
+      points:["Lipid stores more than twice the energy per gram (data)","So less mass needs to be carried for the same amount of energy","Lipid is stored without water, which also keeps mass down","Lipid respiration releases metabolic water"],
+      examiner:"Link the data to the needs of flight.", mistakes:[] }
+  ]},
+  { level:"SL", title:"Extended response: carbohydrates", parts:[
+    { prompt:"Describe the structure and functions of carbohydrates in living organisms.", marks:7,
+      points:["Monosaccharides such as glucose are the monomers","Glucose is soluble and is used in respiration to release energy","Disaccharides form by condensation, with a glycosidic bond","Polysaccharides are polymers of many monosaccharides","Starch (amylose and amylopectin) stores energy in plants","Glycogen stores energy in animals and fungi","Storage polysaccharides are compact and insoluble, so they have no osmotic effect","Branching allows rapid hydrolysis to release glucose","Cellulose is a structural polysaccharide in plant cell walls","Cellulose is made of β-glucose and forms microfibrils with high tensile strength","Glycoproteins on cell surfaces are used for cell recognition","Ribose and deoxyribose are found in nucleic acids"],
+      examiner:"Cover both structure and function, linking them where you can.", mistakes:["Describing only starch and glucose"] }
+  ]}
+);
+/* Keep SL questions first, then AHL */
+TOPIC.mcq.sort((a, b) => (a.level === "AHL") - (b.level === "AHL"));
+TOPIC.exam.sort((a, b) => (a.level === "AHL") - (b.level === "AHL"));
 </script>
 <script src="topic.js"></script>
 <script src="helix.js"></script>

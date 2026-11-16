@@ -216,6 +216,61 @@ const TOPIC = {
     { level:"AHL", title:"Oscilloscope traces", desc:"Annotate each phase of an action potential.", file:"" }
   ]
 };
+
+/* ============================================================
+   EXTRA QUESTIONS
+   ============================================================ */
+TOPIC.mcq.push(
+  { level:"SL", stem:"Which part of a neuron receives signals from other neurons?",
+    opts:[["Dendrites", ""],["Axon terminal", "The axon terminal passes signals on."],["Myelin sheath", "Myelin insulates the axon."],["Node of Ranvier", "Nodes are gaps in the myelin along the axon."]],
+    answer:0, why:"Dendrites carry signals towards the cell body. The axon carries impulses away from it." },
+  { level:"SL", stem:"Why does an impulse only travel one way across a synapse?",
+    opts:[["Neurotransmitter is released only from the presynaptic side, and receptors are only on the postsynaptic side.", ""],["The synaptic cleft is too narrow for it to go back.", "Width is not the reason."],["Myelin blocks it.", "There is no myelin at the synapse."],["Impulses can only travel towards the brain.", "Motor neurons carry impulses away from the brain."]],
+    answer:0, why:"Vesicles are only in the presynaptic terminal, and receptors are only on the postsynaptic membrane." },
+  { level:"SL", stem:"What happens to acetylcholine after it has bound to its receptors?",
+    opts:[["It is broken down by acetylcholinesterase.", ""],["It enters the postsynaptic neuron.", "It does not enter the cell."],["It stays bound permanently.", "This would cause continuous stimulation."],["It is converted to dopamine.", "They are different neurotransmitters."]],
+    answer:0, why:"Rapid breakdown stops the signal, so each impulse produces a separate response." },
+  { level:"SL", stem:"How does axon diameter affect the speed of a nerve impulse?",
+    opts:[["Wider axons conduct faster.", ""],["Narrower axons conduct faster.", "Narrow axons have more resistance."],["Diameter has no effect.", "Diameter does affect speed."],["Only myelinated axons are affected by diameter.", "Diameter affects all axons."]],
+    answer:0, why:"Wider axons have less resistance to the flow of ions, so local currents spread further and faster." },
+  { level:"SL", stem:"Which cells form the myelin sheath around neurons in the peripheral nervous system?",
+    opts:[["Schwann cells", ""],["Red blood cells", "These carry oxygen."],["Sensory neurons", "These are neurons, not myelin-forming cells."],["Muscle cells", "Muscle cells do not form myelin."]],
+    answer:0, why:"Schwann cells wrap their membranes around the axon many times, leaving gaps called nodes of Ranvier." },
+  { level:"AHL", stem:"What is meant by an action potential being “all-or-nothing”?",
+    opts:[["If threshold is reached, a full-size action potential fires; if not, none fires.", ""],["Stronger stimuli produce larger action potentials.", "All action potentials are the same size."],["Every stimulus causes an action potential.", "Sub-threshold stimuli do not."],["Action potentials only happen in myelinated neurons.", "They occur in all neurons."]],
+    answer:0, why:"Stimulus strength is coded by the frequency of action potentials, not their size." },
+  { level:"AHL", stem:"In saltatory conduction, where does depolarisation occur?",
+    opts:[["Only at the nodes of Ranvier", ""],["Along the whole axon membrane", "That is conduction in unmyelinated axons."],["Only at the synapse", "This is about the axon."],["Inside the myelin sheath", "Myelin prevents ion movement."]],
+    answer:0, why:"Myelin insulates the membrane, so ion channels open only at the nodes and the impulse jumps between them." },
+  { level:"AHL", stem:"Which structures detect pain in the skin?",
+    opts:[["Free nerve endings of sensory neurons", ""],["Motor neurons", "Motor neurons carry signals to effectors."],["Hair cells", "Hair cells are found in the ear."],["Rod cells", "Rods are found in the retina."]],
+    answer:0, why:"Stimuli such as heat, acid or pressure open channels in free nerve endings and trigger action potentials." }
+);
+TOPIC.exam.push(
+  { level:"SL", title:"Myelination", parts:[
+    { prompt:"Explain how myelination increases the speed of nerve impulses.", marks:3,
+      points:["The myelin sheath (Schwann cells) insulates the axon","Ions cannot move across the membrane where it is myelinated","Depolarisation only happens at the nodes of Ranvier","The impulse jumps from node to node (saltatory conduction)","So fewer sections of membrane need to depolarise"],
+      examiner:"", mistakes:["Saying myelin conducts electricity"] }
+  ]},
+  { level:"SL", title:"One-way transmission", parts:[
+    { prompt:"Explain why nerve impulses pass in only one direction across a synapse.", marks:2,
+      points:["Vesicles of neurotransmitter are only in the presynaptic terminal","Receptors for the neurotransmitter are only on the postsynaptic membrane"],
+      examiner:"", mistakes:[] }
+  ]},
+  { level:"AHL", title:"Propagation", parts:[
+    { prompt:"Explain how an action potential is propagated along an unmyelinated axon.", marks:4,
+      points:["Na⁺ enters at the site of the action potential","Na⁺ diffuses along the inside of the axon to the next section (local currents)","This depolarises the next section to threshold","Voltage-gated Na⁺ channels open there, so the action potential moves along","The section behind is repolarising and cannot fire again immediately, so the impulse moves in one direction"],
+      examiner:"", mistakes:["Saying the action potential itself “flows” down the axon like electricity in a wire"] }
+  ]},
+  { level:"AHL", title:"Extended response: from one neuron to the next", parts:[
+    { prompt:"Describe how a nerve impulse is generated and passed from one neuron to the next.", marks:7,
+      points:["Resting potential of about −70 mV is maintained by the Na⁺/K⁺ pump","A stimulus depolarises the membrane to threshold","Voltage-gated Na⁺ channels open and Na⁺ diffuses in","The membrane depolarises to about +30 mV","Na⁺ channels close and voltage-gated K⁺ channels open","K⁺ diffuses out, repolarising the membrane","Local currents depolarise the next section, propagating the impulse","At the axon terminal, Ca²⁺ channels open and Ca²⁺ enters","Vesicles release neurotransmitter by exocytosis","The neurotransmitter diffuses across the cleft and binds to receptors","Na⁺ channels open, depolarising the postsynaptic membrane","The neurotransmitter is broken down or reabsorbed"],
+      examiner:"Keep the sequence logical from start to finish.", mistakes:["Mixing up Na⁺ and K⁺ movements"] }
+  ]}
+);
+/* Keep SL questions first, then AHL */
+TOPIC.mcq.sort((a, b) => (a.level === "AHL") - (b.level === "AHL"));
+TOPIC.exam.sort((a, b) => (a.level === "AHL") - (b.level === "AHL"));
 </script>
 <script src="topic.js"></script>
 <script src="helix.js"></script>

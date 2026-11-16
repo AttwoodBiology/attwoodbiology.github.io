@@ -289,6 +289,56 @@ const TOPIC = {
     { level:"AHL", title:"Origin of water", desc:"Extraplanetary origin and the habitable zone.", file:"" }
   ]
 };
+
+/* ============================================================
+   EXTRA QUESTIONS
+   ============================================================ */
+TOPIC.mcq.push(
+  { level:"SL", stem:"How many hydrogen bonds can one water molecule form with neighbouring water molecules?",
+    opts:[["1", "Each molecule has several δ+ and δ− regions."],["2", "Count both hydrogens and both lone pairs on oxygen."],["4", ""],["6", "Water has only four sites for hydrogen bonding."]],
+    answer:2, why:"Each of the two hydrogens can bond to another oxygen, and the oxygen can accept two hydrogen bonds, giving up to four." },
+  { level:"SL", stem:"A pond skater can stand on the surface of water. Which property allows this?",
+    opts:[["Surface tension caused by cohesion", ""],["Adhesion to the insect's legs", "The legs are water-repellent. It is water molecules sticking to each other that matters."],["Buoyancy", "The insect is not floating in the water. It stands on the surface film."],["High specific heat capacity", "This affects temperature, not the surface."]],
+    answer:0, why:"Hydrogen bonds pull surface water molecules together, forming a surface film that can support a small, light animal." },
+  { level:"SL", stem:"Which substance is hydrophilic?",
+    opts:[["Sodium ions", ""],["Triglycerides", "Triglycerides are non-polar."],["Cholesterol", "Cholesterol is non-polar."],["Oxygen", "O₂ is non-polar, so it has low solubility."]],
+    answer:0, why:"Charged ions attract the partial charges on water molecules, which surround them and keep them in solution." },
+  { level:"SL", stem:"Why is sodium chloride soluble in water?",
+    opts:[["Polar water molecules are attracted to the Na⁺ and Cl⁻ ions and surround them.", ""],["NaCl is non-polar.", "NaCl is ionic."],["Water forms covalent bonds with Na⁺.", "The attractions are not covalent bonds."],["NaCl is less dense than water.", "Density does not explain solubility."]],
+    answer:0, why:"δ− oxygens face the Na⁺ ions and δ+ hydrogens face the Cl⁻ ions, pulling the ions apart and keeping them dissolved." },
+  { level:"SL", stem:"Why does water make a good medium for metabolic reactions?",
+    opts:[["Enzymes and substrates dissolve in it, so they can move and collide.", ""],["It is a catalyst.", "Water is not a catalyst."],["It is non-polar.", "Water is polar."],["It has low viscosity compared with air.", "Water is more viscous than air, and this is not why it suits metabolism."]],
+    answer:0, why:"Dissolved molecules move freely by diffusion, allowing collisions between enzymes and substrates." },
+  { level:"SL", stem:"Water rises up a narrow glass tube. Which properties are involved?",
+    opts:[["Both adhesion and cohesion", ""],["Adhesion only", "Adhesion pulls water up the walls, but cohesion pulls the rest of the water along."],["Cohesion only", "Water also needs to be attracted to the glass."],["Neither: it is caused by air pressure", "This is capillary action, which depends on hydrogen bonding."]],
+    answer:0, why:"Adhesion to the polar glass pulls water upwards, and cohesion drags the column of water up behind it." },
+  { level:"AHL", stem:"Which evidence supports the idea that Earth's water came from asteroids?",
+    opts:[["Some asteroids have a hydrogen isotope (D:H) ratio similar to Earth's oceans.", ""],["Asteroids contain living cells.", "No living cells have been found in asteroids."],["All planets have oceans.", "Most planets do not have liquid water."],["Water forms during photosynthesis.", "Photosynthesis uses water rather than making Earth's water."]],
+    answer:0, why:"Matching isotope ratios suggest a shared source for the water in asteroids and on Earth." },
+  { level:"AHL", stem:"What is the habitable (Goldilocks) zone?",
+    opts:[["The range of distances from a star where liquid water could exist on a planet's surface", ""],["The part of Earth with the most species", "That would be a biodiversity hotspot."],["The layer of the atmosphere containing ozone", "That is the stratosphere."],["The depth of ocean where light reaches", "That is the photic zone."]],
+    answer:0, why:"Too close to the star, water boils away. Too far, it freezes. The habitable zone is in between." }
+);
+TOPIC.exam.push(
+  { level:"SL", title:"Water as a transport medium", parts:[
+    { prompt:"Explain how the properties of water make it suitable as a transport medium in plants and animals.", marks:4,
+      points:["Water is polar, so it is a good solvent","Hydrophilic substances such as glucose, amino acids and ions dissolve and are carried in blood plasma and phloem sap","Cohesion allows a continuous column of water to be pulled up the xylem","Adhesion to xylem walls helps water move upwards by capillary action","Water is liquid over the temperature range of most organisms, so it can flow","Non-polar substances need special carriers, such as lipoproteins and haemoglobin"],
+      examiner:"Give examples from both plants and animals.", mistakes:["Saying all substances dissolve in water"] }
+  ]},
+  { level:"SL", title:"Specific heat capacity", parts:[
+    { prompt:"Outline how hydrogen bonding gives water a high specific heat capacity, and explain one consequence for aquatic organisms.", marks:3,
+      points:["Energy is needed to break hydrogen bonds before water molecules can move faster","So a lot of energy is needed to raise the temperature of water","Large bodies of water change temperature slowly / are thermally stable","Aquatic organisms experience fewer extremes of temperature"],
+      examiner:"Link the molecular explanation to the effect on organisms.", mistakes:["Saying water “holds heat” without mentioning hydrogen bonds"] }
+  ]},
+  { level:"SL", title:"Extended response: water and life", parts:[
+    { prompt:"Describe how the properties of water allow it to act as a medium for life.", marks:7,
+      points:["Water molecules are polar","Hydrogen bonds form between water molecules","Water is a good solvent for polar and charged substances","Metabolic reactions take place in aqueous solution in the cytoplasm","Dissolved substances can be transported, e.g. in blood plasma","Cohesion allows water to be pulled up the xylem under tension","Cohesion creates surface tension, used as a habitat by some organisms","Adhesion causes capillary action in soil and cell walls","High specific heat capacity keeps aquatic habitats thermally stable","High density gives buoyancy and support to aquatic organisms","High thermal conductivity means aquatic animals lose heat quickly","The first cells are thought to have evolved in water"],
+      examiner:"In extended responses, aim for one clear point per sentence, and give an example for each property. Clear organisation can earn credit.", mistakes:["Listing properties without saying why they matter for life"] }
+  ]}
+);
+/* Keep SL questions first, then AHL */
+TOPIC.mcq.sort((a, b) => (a.level === "AHL") - (b.level === "AHL"));
+TOPIC.exam.sort((a, b) => (a.level === "AHL") - (b.level === "AHL"));
 </script>
 <script src="topic.js"></script>
 <script src="helix.js"></script>
