@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AttwoodBiology D1.3 Mutations and gene editing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-strand="D">
+<header class="hero">
+  <canvas class="helix" aria-hidden="true"></canvas>
+  <div class="wrap hero-inner">
+    <a class="brand" href="./"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M9 3c0 7 14 9 14 13S9 22 9 29M23 3c0 7-14 9-14 13s14 6 14 13" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M11 8h10M11 24h10M13 12h6M13 20h6" stroke="var(--glow)" stroke-width="2" stroke-linecap="round"/></svg>Attwood<span>Biology</span></a>
+    <div class="crumb"><a href="./">IB Biology</a><span>›</span><span id="theme-name"></span><span>›</span><b id="topic-code"></b></div>
+    <div class="hero-row">
+      <div class="hero-copy">
+        <h1 id="topic-title"></h1>
+        <p class="lede" id="topic-guiding"></p>
+      </div>
+      <div class="level-switch" role="group" aria-label="Choose your level">
+        <button type="button" id="btn-sl" aria-pressed="false">SL</button>
+        <button type="button" id="btn-hl" aria-pressed="true">HL (SL + AHL)</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="sections" aria-label="Page sections">
+  <div class="wrap">
+    <a href="#videos">Videos</a>
+    <a href="#ideas">Key ideas</a>
+    <a href="#quick-check">Quick check</a>
+    <a href="#exam">Exam questions</a>
+    <a href="#sheets">Revision sheets</a>
+    <span class="score-chip" id="score-chip">Quick check: 0 answered</span>
+  </div>
+</nav>
+
+<main class="wrap">
+  <section id="videos">
+    <div class="sec-head"><h2><span class="num">01</span>Watch</h2><p>Start here, then test yourself below.</p></div>
+    <div class="videos" id="video-list"></div>
+  </section>
+  <section id="ideas">
+    <div class="sec-head"><h2><span class="num">02</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
+    <div class="ideas" id="idea-list"></div>
+  </section>
+  <section id="quick-check">
+    <div class="sec-head">
+      <h2><span class="num">03</span>Quick check</h2>
+      <div class="toolbar"><span class="note" id="mcq-score"></span><button type="button" class="btn ghost" id="mcq-reset">Start again</button></div>
+    </div>
+    <div class="mcq-list" id="mcq-list"></div>
+  </section>
+  <section id="exam">
+    <div class="sec-head"><h2><span class="num">04</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
+    <div class="exam-list" id="exam-list"></div>
+  </section>
+  <section id="sheets">
+    <div class="sec-head"><h2><span class="num">05</span>Revision sheets</h2><p>Printable PDFs to go with the videos.</p></div>
+    <div class="sheets" id="sheet-list"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><b>AttwoodBiology</b> · IB Biology revision. All questions are original exam-style questions written for this page. They are not taken from IB past papers.</div>
+</footer>
+
+<script>
+/* ============================================================
+   TOPIC DATA: the only part that changes per topic.
+   Videos: paste the YouTube video ID (the part after v= in the URL).
+   Sheets: put the PDF in the revision-sheets folder and give its path.
+   ============================================================ */
+const TOPIC = {
+ "code": "D1.3",
+ "title": "Mutations and gene editing",
+ "theme": "Theme D: Continuity and change",
+ "guiding": "How do mutations change genes, and how can genes be deliberately edited?",
+ "videos": [
+  {
+   "level": "SL + HL",
+   "title": "Mutations",
+   "youtubeId": "",
+   "desc": "Covers all of the content for this topic."
+  }
+ ],
+ "ideas": [
+  {
+   "level": "SL",
+   "h": "Gene mutations",
+   "p": "Structural changes to genes at the molecular level: changes in the base sequence."
+  },
+  {
+   "level": "SL",
+   "h": "Base substitutions",
+   "p": "One base replaced by another. Can be silent (same amino acid), missense (different amino acid) or nonsense (stop codon)."
+  },
+  {
+   "level": "SL",
+   "h": "Insertions and deletions",
+   "p": "Adding or removing bases shifts the reading frame (frameshift) unless a multiple of three is involved, usually changing many amino acids."
+  },
+  {
+   "level": "SL",
+   "h": "Causes of mutation",
+   "p": "Mutagens such as UV light, X-rays and some chemicals, as well as errors during DNA replication."
+  },
+  {
+   "level": "SL",
+   "h": "Randomness",
+   "p": "Mutations can happen anywhere in the genome, but some sites are more likely to mutate than others."
+  },
+  {
+   "level": "SL",
+   "h": "Germ cells and somatic cells",
+   "p": "Mutations in germ cells can be inherited. Mutations in somatic cells are not inherited but can cause cancer."
+  },
+  {
+   "level": "SL",
+   "h": "Source of variation",
+   "p": "Mutation is the original source of new alleles and genetic variation."
+  },
+  {
+   "level": "AHL",
+   "h": "Gene knockout",
+   "p": "A gene is made inactive in an organism (e.g. knockout mice) to find out its function."
+  },
+  {
+   "level": "AHL",
+   "h": "CRISPR-Cas9",
+   "p": "A guide RNA leads the Cas9 enzyme to a specific DNA sequence, where it cuts both strands. The cell's repair can disable the gene or insert a new sequence."
+  },
+  {
+   "level": "AHL",
+   "h": "Conserved sequences",
+   "p": "Some sequences are almost identical across species. They may be essential to function, so mutations there are selected against."
+  }
+ ],
+ "mcq": [
+  {
+   "level": "SL",
+   "stem": "A substitution changes a codon from GGU to GGC. Both code for glycine. What type of mutation is this?",
+   "opts": [
+    [
+     "Silent",
+     ""
+    ],
+    [
+     "Missense",
+     "The amino acid does not change."
+    ],
+    [
+     "Nonsense",
+     "No stop codon is created."
+    ],
+    [
+     "Frameshift",
+     "No bases are added or removed."
+    ]
+   ],
+   "answer": 0,
+   "why": "Because the code is degenerate, some substitutions do not change the polypeptide."
+  },
+  {
+   "level": "SL",
+   "stem": "Why does a single-base deletion usually have a large effect?",
+   "opts": [
+    [
+     "It removes a whole gene.",
+     "Only one base is removed."
+    ],
+    [
+     "It shifts the reading frame, changing every codon after it.",
+     ""
+    ],
+    [
+     "It changes only one amino acid.",
+     "Many are changed."
+    ],
+    [
+     "It always creates a stop codon at the start.",
+     "Not always."
+    ]
+   ],
+   "answer": 1,
+   "why": "Codons are read in threes, so removing one base changes all later codons."
+  },
+  {
+   "level": "SL",
+   "stem": "Which is a mutagen?",
+   "opts": [
+    [
+     "Water",
+     "Not a mutagen."
+    ],
+    [
+     "Ultraviolet light",
+     ""
+    ],
+    [
+     "Glucose",
+     "Not a mutagen."
+    ],
+    [
+     "Oxygen at normal levels",
+     "Not usually considered a mutagen."
+    ]
+   ],
+   "answer": 1,
+   "why": "UV can cause bases to bond abnormally, leading to errors."
+  },
+  {
+   "level": "SL",
+   "stem": "What is a nonsense mutation?",
+   "opts": [
+    [
+     "A mutation with no effect",
+     "That is silent."
+    ],
+    [
+     "A mutation that creates a stop codon",
+     ""
+    ],
+    [
+     "A mutation in a non-coding region",
+     "Not the definition."
+    ],
+    [
+     "A mutation that adds a base",
+     "That is an insertion."
+    ]
+   ],
+   "answer": 1,
+   "why": "The polypeptide is cut short and is often non-functional."
+  },
+  {
+   "level": "SL",
+   "stem": "Why are mutations in germ cells more significant for evolution than mutations in somatic cells?",
+   "opts": [
+    [
+     "Germ cell mutations can be passed to offspring.",
+     ""
+    ],
+    [
+     "Somatic mutations are always harmful.",
+     "Not always."
+    ],
+    [
+     "Germ cell mutations never cause disease.",
+     "They can."
+    ],
+    [
+     "Somatic cells do not have DNA.",
+     "They do."
+    ]
+   ],
+   "answer": 0,
+   "why": "Only mutations in gametes (or the cells that make them) are inherited."
+  },
+  {
+   "level": "SL",
+   "stem": "What is the original source of all new alleles?",
+   "opts": [
+    [
+     "Meiosis",
+     "Meiosis shuffles existing alleles."
+    ],
+    [
+     "Fertilisation",
+     "Fertilisation combines alleles."
+    ],
+    [
+     "Mutation",
+     ""
+    ],
+    [
+     "Natural selection",
+     "Selection acts on existing variation."
+    ]
+   ],
+   "answer": 2,
+   "why": "Mutation creates new base sequences."
+  },
+  {
+   "level": "SL",
+   "stem": "Which insertion would cause the smallest change to a polypeptide?",
+   "opts": [
+    [
+     "Insertion of one base near the start",
+     "Causes frameshift."
+    ],
+    [
+     "Insertion of two bases",
+     "Causes frameshift."
+    ],
+    [
+     "Insertion of three bases",
+     ""
+    ],
+    [
+     "Insertion of four bases",
+     "Causes frameshift."
+    ]
+   ],
+   "answer": 2,
+   "why": "Adding three bases adds one amino acid without changing the reading frame."
+  },
+  {
+   "level": "AHL",
+   "stem": "What is the role of the guide RNA in CRISPR-Cas9?",
+   "opts": [
+    [
+     "To cut the DNA",
+     "Cas9 cuts DNA."
+    ],
+    [
+     "To bind to a complementary DNA sequence and direct Cas9 to it",
+     ""
+    ],
+    [
+     "To repair the DNA",
+     "The cell repairs DNA."
+    ],
+    [
+     "To translate the gene",
+     "Not its role."
+    ]
+   ],
+   "answer": 1,
+   "why": "The guide RNA's sequence determines where the cut is made."
+  },
+  {
+   "level": "AHL",
+   "stem": "What is the purpose of a gene knockout experiment?",
+   "opts": [
+    [
+     "To find out the function of a gene by inactivating it",
+     ""
+    ],
+    [
+     "To increase gene expression",
+     "It removes expression."
+    ],
+    [
+     "To clone an organism",
+     "Not the purpose."
+    ],
+    [
+     "To sequence a genome",
+     "Not the purpose."
+    ]
+   ],
+   "answer": 0,
+   "why": "Comparing knockout organisms with normal ones reveals the gene's role."
+  },
+  {
+   "level": "AHL",
+   "stem": "Why are some DNA sequences highly conserved between species?",
+   "opts": [
+    [
+     "They mutate faster than other sequences.",
+     "They change very little."
+    ],
+    [
+     "Changes would harm an essential function, so mutations are selected against.",
+     ""
+    ],
+    [
+     "They are not transcribed.",
+     "Many are transcribed."
+    ],
+    [
+     "They were recently created.",
+     "They are ancient."
+    ]
+   ],
+   "answer": 1,
+   "why": "Conserved genes, such as those for ribosomal RNA, are vital to all life."
+  }
+ ],
+ "exam": [
+  {
+   "level": "SL",
+   "title": "Types of mutation",
+   "parts": [
+    {
+     "prompt": "Distinguish between the effects of base substitutions and insertions or deletions.",
+     "marks": 4,
+     "points": [
+      "Substitution changes one codon only",
+      "May be silent if the codon still codes for the same amino acid",
+      "May be missense, changing one amino acid",
+      "May be nonsense, creating a stop codon",
+      "Insertions/deletions shift the reading frame",
+      "Frameshift changes all following amino acids, usually causing a non-functional protein"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ]
+  },
+  {
+   "level": "SL",
+   "title": "Mutations and cancer",
+   "parts": [
+    {
+     "prompt": "Explain the consequences of mutations in somatic cells and in germ cells.",
+     "marks": 3,
+     "points": [
+      "Somatic mutations affect only the individual",
+      "They can cause uncontrolled cell division (cancer)",
+      "Germ cell mutations can be inherited by offspring",
+      "They can cause genetic diseases in offspring",
+      "They can provide new alleles for evolution"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ]
+  },
+  {
+   "level": "SL",
+   "title": "Mutation data",
+   "parts": [
+    {
+     "prompt": "Identify the type of mutation and explain its likely effect.",
+     "marks": 2,
+     "points": [
+      "Base substitution creating a stop codon (UAG): nonsense mutation",
+      "Polypeptide is shortened and probably non-functional"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ],
+   "table": {
+    "head": [
+     "Codon",
+     "Original",
+     "Mutated"
+    ],
+    "rows": [
+     [
+      "DNA template",
+      "TTC",
+      "ATC"
+     ],
+     [
+      "mRNA",
+      "AAG",
+      "UAG"
+     ]
+    ]
+   }
+  },
+  {
+   "level": "SL",
+   "title": "Extended response: mutation",
+   "parts": [
+    {
+     "prompt": "Discuss the causes and consequences of gene mutations.",
+     "marks": 7,
+     "points": [
+      "Mutations are changes in base sequence",
+      "Caused by mutagens (radiation, chemicals) or replication errors",
+      "Mutations occur randomly",
+      "Substitutions may be silent, missense or nonsense",
+      "Insertions and deletions cause frameshifts",
+      "Most mutations are neutral or harmful",
+      "Example: sickle cell anaemia from a single substitution",
+      "Somatic mutations can cause cancer",
+      "Germ cell mutations are inherited",
+      "Mutations are the source of new alleles",
+      "Some mutations are beneficial and are selected for",
+      "Without mutation there could be no evolution"
+     ],
+     "examiner": "Consider benefits as well as harm.",
+     "mistakes": []
+    }
+   ]
+  },
+  {
+   "level": "AHL",
+   "title": "CRISPR-Cas9",
+   "parts": [
+    {
+     "prompt": "Explain how CRISPR-Cas9 can be used to edit a gene.",
+     "marks": 4,
+     "points": [
+      "A guide RNA is designed to be complementary to the target DNA sequence",
+      "Guide RNA and Cas9 form a complex",
+      "The complex binds to the target sequence",
+      "Cas9 cuts both strands of DNA",
+      "The cell repairs the cut, often disabling the gene",
+      "A new DNA sequence can be supplied and inserted during repair"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ]
+  }
+ ],
+ "sheets": [
+  {
+   "level": "SL",
+   "title": "D1.3 Mutations and gene editing revision sheet",
+   "desc": "Printable revision mat to complete after watching the video.",
+   "file": ""
+  }
+ ]
+};
+</script>
+<script src="topic.js"></script>
+<script src="helix.js"></script>
+</body>
+</html>

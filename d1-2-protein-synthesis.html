@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AttwoodBiology D1.2 Protein synthesis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-strand="D">
+<header class="hero">
+  <canvas class="helix" aria-hidden="true"></canvas>
+  <div class="wrap hero-inner">
+    <a class="brand" href="./"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M9 3c0 7 14 9 14 13S9 22 9 29M23 3c0 7-14 9-14 13s14 6 14 13" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M11 8h10M11 24h10M13 12h6M13 20h6" stroke="var(--glow)" stroke-width="2" stroke-linecap="round"/></svg>Attwood<span>Biology</span></a>
+    <div class="crumb"><a href="./">IB Biology</a><span>›</span><span id="theme-name"></span><span>›</span><b id="topic-code"></b></div>
+    <div class="hero-row">
+      <div class="hero-copy">
+        <h1 id="topic-title"></h1>
+        <p class="lede" id="topic-guiding"></p>
+      </div>
+      <div class="level-switch" role="group" aria-label="Choose your level">
+        <button type="button" id="btn-sl" aria-pressed="false">SL</button>
+        <button type="button" id="btn-hl" aria-pressed="true">HL (SL + AHL)</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="sections" aria-label="Page sections">
+  <div class="wrap">
+    <a href="#videos">Videos</a>
+    <a href="#ideas">Key ideas</a>
+    <a href="#quick-check">Quick check</a>
+    <a href="#exam">Exam questions</a>
+    <a href="#sheets">Revision sheets</a>
+    <span class="score-chip" id="score-chip">Quick check: 0 answered</span>
+  </div>
+</nav>
+
+<main class="wrap">
+  <section id="videos">
+    <div class="sec-head"><h2><span class="num">01</span>Watch</h2><p>Start here, then test yourself below.</p></div>
+    <div class="videos" id="video-list"></div>
+  </section>
+  <section id="ideas">
+    <div class="sec-head"><h2><span class="num">02</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
+    <div class="ideas" id="idea-list"></div>
+  </section>
+  <section id="quick-check">
+    <div class="sec-head">
+      <h2><span class="num">03</span>Quick check</h2>
+      <div class="toolbar"><span class="note" id="mcq-score"></span><button type="button" class="btn ghost" id="mcq-reset">Start again</button></div>
+    </div>
+    <div class="mcq-list" id="mcq-list"></div>
+  </section>
+  <section id="exam">
+    <div class="sec-head"><h2><span class="num">04</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
+    <div class="exam-list" id="exam-list"></div>
+  </section>
+  <section id="sheets">
+    <div class="sec-head"><h2><span class="num">05</span>Revision sheets</h2><p>Printable PDFs to go with the videos.</p></div>
+    <div class="sheets" id="sheet-list"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><b>AttwoodBiology</b> · IB Biology revision. All questions are original exam-style questions written for this page. They are not taken from IB past papers.</div>
+</footer>
+
+<script>
+/* ============================================================
+   TOPIC DATA: the only part that changes per topic.
+   Videos: paste the YouTube video ID (the part after v= in the URL).
+   Sheets: put the PDF in the revision-sheets folder and give its path.
+   ============================================================ */
+const TOPIC = {
+ "code": "D1.2",
+ "title": "Protein synthesis",
+ "theme": "Theme D: Continuity and change",
+ "guiding": "How is the information in a gene used to make a polypeptide?",
+ "videos": [
+  {
+   "level": "SL + HL",
+   "title": "Protein synthesis",
+   "youtubeId": "",
+   "desc": "Covers all of the content for this topic."
+  }
+ ],
+ "ideas": [
+  {
+   "level": "SL",
+   "h": "Transcription",
+   "p": "RNA polymerase makes an RNA copy of a gene, using one DNA strand as a template."
+  },
+  {
+   "level": "SL",
+   "h": "Base pairing in transcription",
+   "p": "RNA nucleotides pair with complementary bases on the DNA template: A–U, T–A, C–G, G–C. Hydrogen bonds hold them while RNA polymerase links them."
+  },
+  {
+   "level": "SL",
+   "h": "Stable templates",
+   "p": "DNA is a stable template, so the same gene can be transcribed many times."
+  },
+  {
+   "level": "SL",
+   "h": "Translation",
+   "p": "Ribosomes use the base sequence of mRNA to make a polypeptide."
+  },
+  {
+   "level": "SL",
+   "h": "mRNA, tRNA and ribosomes",
+   "p": "mRNA carries the code. Each tRNA carries a specific amino acid and has an anticodon. Ribosomes hold mRNA and tRNA and form peptide bonds."
+  },
+  {
+   "level": "SL",
+   "h": "Codons and anticodons",
+   "p": "Each codon is three bases on mRNA. tRNA anticodons pair with complementary codons."
+  },
+  {
+   "level": "SL",
+   "h": "The genetic code",
+   "p": "Triplet (three bases per amino acid), degenerate (more than one codon per amino acid), and universal (almost all organisms use the same code)."
+  },
+  {
+   "level": "SL",
+   "h": "Elongation",
+   "p": "The ribosome moves along the mRNA one codon at a time, adding amino acids joined by peptide bonds until a stop codon."
+  },
+  {
+   "level": "SL",
+   "h": "Sickle cell",
+   "p": "A base substitution (GAG → GTG) changes glutamic acid to valine in haemoglobin, causing sickle cell disease."
+  },
+  {
+   "level": "AHL",
+   "h": "Direction",
+   "p": "Transcription and translation both happen in the 5′ → 3′ direction."
+  },
+  {
+   "level": "AHL",
+   "h": "Promoters",
+   "p": "RNA polymerase binds at a promoter to start transcription."
+  },
+  {
+   "level": "AHL",
+   "h": "Non-coding DNA",
+   "p": "Includes regulators, introns, telomeres and genes for tRNA and rRNA."
+  },
+  {
+   "level": "AHL",
+   "h": "Post-transcriptional modification",
+   "p": "In eukaryotes, introns are removed, a 5′ cap is added and a poly-A tail is added before mRNA leaves the nucleus."
+  },
+  {
+   "level": "AHL",
+   "h": "Alternative splicing",
+   "p": "Different combinations of exons can be joined, so one gene can produce several different polypeptides."
+  },
+  {
+   "level": "AHL",
+   "h": "Initiation of translation",
+   "p": "The small ribosomal subunit binds to mRNA and finds the start codon (AUG). tRNA carrying methionine binds, then the large subunit joins."
+  },
+  {
+   "level": "AHL",
+   "h": "Modification and recycling",
+   "p": "Polypeptides may be modified to become functional (e.g. insulin is cleaved). Unwanted proteins are broken down by proteasomes and amino acids recycled."
+  }
+ ],
+ "mcq": [
+  {
+   "level": "SL",
+   "stem": "Which enzyme carries out transcription?",
+   "opts": [
+    [
+     "DNA polymerase",
+     "That copies DNA."
+    ],
+    [
+     "RNA polymerase",
+     ""
+    ],
+    [
+     "Helicase",
+     "That unwinds DNA in replication."
+    ],
+    [
+     "Ligase",
+     "That joins DNA."
+    ]
+   ],
+   "answer": 1,
+   "why": "RNA polymerase separates DNA strands and links RNA nucleotides."
+  },
+  {
+   "level": "SL",
+   "stem": "A DNA template strand has the sequence TAC. What is the mRNA codon?",
+   "opts": [
+    [
+     "TAC",
+     "This is the template."
+    ],
+    [
+     "ATG",
+     "DNA has T, but RNA uses U."
+    ],
+    [
+     "AUG",
+     ""
+    ],
+    [
+     "UAC",
+     "This is not complementary."
+    ]
+   ],
+   "answer": 2,
+   "why": "T pairs with A, A pairs with U, C pairs with G."
+  },
+  {
+   "level": "SL",
+   "stem": "What is the role of tRNA?",
+   "opts": [
+    [
+     "To carry the genetic code from the nucleus",
+     "That is mRNA."
+    ],
+    [
+     "To bring specific amino acids to the ribosome",
+     ""
+    ],
+    [
+     "To form peptide bonds",
+     "The ribosome does this."
+    ],
+    [
+     "To unwind DNA",
+     "Not its role."
+    ]
+   ],
+   "answer": 1,
+   "why": "Each tRNA's anticodon pairs with a codon on mRNA."
+  },
+  {
+   "level": "SL",
+   "stem": "What does it mean that the genetic code is degenerate?",
+   "opts": [
+    [
+     "It changes over time.",
+     "It is stable."
+    ],
+    [
+     "Several codons can code for the same amino acid.",
+     ""
+    ],
+    [
+     "Each codon codes for several amino acids.",
+     "Each codon codes for one."
+    ],
+    [
+     "It differs between species.",
+     "It is universal."
+    ]
+   ],
+   "answer": 1,
+   "why": "For example, GGU, GGC, GGA and GGG all code for glycine."
+  },
+  {
+   "level": "SL",
+   "stem": "How many bases code for one amino acid?",
+   "opts": [
+    [
+     "1",
+     "Too few combinations."
+    ],
+    [
+     "2",
+     "Only 16 combinations."
+    ],
+    [
+     "3",
+     ""
+    ],
+    [
+     "4",
+     "Too many."
+    ]
+   ],
+   "answer": 2,
+   "why": "Three bases give 64 combinations, enough for 20 amino acids plus stop codons."
+  },
+  {
+   "level": "SL",
+   "stem": "What happens when the ribosome reaches a stop codon?",
+   "opts": [
+    [
+     "Translation ends and the polypeptide is released.",
+     ""
+    ],
+    [
+     "A new amino acid is added.",
+     "No amino acid is coded."
+    ],
+    [
+     "Transcription starts.",
+     "Transcription is separate."
+    ],
+    [
+     "The mRNA is copied.",
+     "mRNA is not copied."
+    ]
+   ],
+   "answer": 0,
+   "why": "Stop codons have no matching tRNA."
+  },
+  {
+   "level": "SL",
+   "stem": "In sickle cell disease, which change causes the abnormal haemoglobin?",
+   "opts": [
+    [
+     "An extra chromosome",
+     "It is a gene mutation."
+    ],
+    [
+     "A deletion of a whole gene",
+     "It is a single base change."
+    ],
+    [
+     "A base substitution changing one amino acid",
+     ""
+    ],
+    [
+     "A change in tRNA",
+     "It is in the haemoglobin gene."
+    ]
+   ],
+   "answer": 2,
+   "why": "GAG → GTG gives valine instead of glutamic acid."
+  },
+  {
+   "level": "AHL",
+   "stem": "What are introns?",
+   "opts": [
+    [
+     "Sequences that code for amino acids",
+     "Those are exons."
+    ],
+    [
+     "Non-coding sequences removed from pre-mRNA",
+     ""
+    ],
+    [
+     "Stop codons",
+     "Not introns."
+    ],
+    [
+     "tRNA molecules",
+     "Not introns."
+    ]
+   ],
+   "answer": 1,
+   "why": "Introns are spliced out before mRNA leaves the nucleus."
+  },
+  {
+   "level": "AHL",
+   "stem": "How can one gene code for more than one polypeptide?",
+   "opts": [
+    [
+     "By using two genetic codes",
+     "There is one code."
+    ],
+    [
+     "By alternative splicing of exons",
+     ""
+    ],
+    [
+     "By translating in both directions",
+     "Translation is 5′ → 3′."
+    ],
+    [
+     "By mutation every time",
+     "Not the mechanism."
+    ]
+   ],
+   "answer": 1,
+   "why": "Different combinations of exons are joined in different cells."
+  },
+  {
+   "level": "AHL",
+   "stem": "What is the start codon?",
+   "opts": [
+    [
+     "AUG",
+     ""
+    ],
+    [
+     "UAA",
+     "This is a stop codon."
+    ],
+    [
+     "GGG",
+     "This codes for glycine."
+    ],
+    [
+     "UGA",
+     "This is a stop codon."
+    ]
+   ],
+   "answer": 0,
+   "why": "AUG codes for methionine and marks the start of translation."
+  },
+  {
+   "level": "AHL",
+   "stem": "Where does RNA polymerase bind to begin transcription?",
+   "opts": [
+    [
+     "At the start codon",
+     "That is on mRNA."
+    ],
+    [
+     "At the promoter",
+     ""
+    ],
+    [
+     "At an intron",
+     "Not the binding site."
+    ],
+    [
+     "At the telomere",
+     "Not involved."
+    ]
+   ],
+   "answer": 1,
+   "why": "Promoters are sequences upstream of the gene."
+  }
+ ],
+ "exam": [
+  {
+   "level": "SL",
+   "title": "Transcription",
+   "parts": [
+    {
+     "prompt": "Describe the process of transcription.",
+     "marks": 4,
+     "points": [
+      "RNA polymerase binds to DNA at the start of a gene",
+      "DNA strands separate",
+      "One strand is used as a template",
+      "RNA nucleotides pair with complementary bases (U with A)",
+      "RNA polymerase links nucleotides to form mRNA",
+      "mRNA detaches and the DNA re-forms a double helix"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ]
+  },
+  {
+   "level": "SL",
+   "title": "Translation",
+   "parts": [
+    {
+     "prompt": "Explain how a polypeptide is produced during translation.",
+     "marks": 5,
+     "points": [
+      "mRNA binds to a ribosome",
+      "tRNA molecules carry specific amino acids",
+      "tRNA anticodons pair with complementary mRNA codons",
+      "The ribosome holds two tRNAs at a time",
+      "Peptide bonds form between amino acids",
+      "The ribosome moves along the mRNA one codon at a time",
+      "Process continues until a stop codon"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ]
+  },
+  {
+   "level": "SL",
+   "title": "The genetic code",
+   "parts": [
+    {
+     "prompt": "Use the table to explain why some base substitutions have no effect on the polypeptide.",
+     "marks": 2,
+     "points": [
+      "The genetic code is degenerate",
+      "GAA and GAG both code for glutamic acid, so a change between them is silent"
+     ],
+     "examiner": "",
+     "mistakes": []
+    },
+    {
+     "prompt": "Explain how a change from GAG to GUG affects the polypeptide.",
+     "marks": 2,
+     "points": [
+      "Glutamic acid is replaced by valine",
+      "This can change the protein's shape and function (e.g. sickle cell haemoglobin)"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ],
+   "table": {
+    "head": [
+     "mRNA codon",
+     "AUG",
+     "GAA",
+     "GAG",
+     "GUG",
+     "UAA"
+    ],
+    "rows": [
+     [
+      "Amino acid",
+      "Met",
+      "Glu",
+      "Glu",
+      "Val",
+      "Stop"
+     ]
+    ]
+   }
+  },
+  {
+   "level": "SL",
+   "title": "Extended response: protein synthesis",
+   "parts": [
+    {
+     "prompt": "Explain how the base sequence of a gene determines the amino acid sequence of a polypeptide.",
+     "marks": 7,
+     "points": [
+      "A gene is a sequence of bases on DNA",
+      "RNA polymerase transcribes the gene into mRNA",
+      "Complementary base pairing copies the sequence",
+      "mRNA moves to ribosomes",
+      "Each codon of three bases codes for one amino acid",
+      "The code is degenerate and universal",
+      "tRNA anticodons pair with codons",
+      "Each tRNA carries a specific amino acid",
+      "Ribosome forms peptide bonds between amino acids",
+      "Sequence of codons gives sequence of amino acids",
+      "Start and stop codons mark the beginning and end",
+      "A mutation changing a codon can change the amino acid"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ]
+  },
+  {
+   "level": "AHL",
+   "title": "mRNA processing",
+   "parts": [
+    {
+     "prompt": "Outline the post-transcriptional modification of mRNA in eukaryotes.",
+     "marks": 4,
+     "points": [
+      "Pre-mRNA is produced by transcription",
+      "Introns are removed by splicing",
+      "Exons are joined together",
+      "Alternative splicing can produce different mRNAs",
+      "A 5′ cap is added",
+      "A poly-A tail is added to the 3′ end"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ]
+  }
+ ],
+ "sheets": [
+  {
+   "level": "SL",
+   "title": "D1.2 Protein synthesis revision sheet",
+   "desc": "Printable revision mat to complete after watching the video.",
+   "file": ""
+  }
+ ]
+};
+</script>
+<script src="topic.js"></script>
+<script src="helix.js"></script>
+</body>
+</html>

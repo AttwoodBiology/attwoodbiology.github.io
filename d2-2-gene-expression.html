@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AttwoodBiology D2.2 Gene expression</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-strand="D">
+<header class="hero">
+  <canvas class="helix" aria-hidden="true"></canvas>
+  <div class="wrap hero-inner">
+    <a class="brand" href="./"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M9 3c0 7 14 9 14 13S9 22 9 29M23 3c0 7-14 9-14 13s14 6 14 13" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M11 8h10M11 24h10M13 12h6M13 20h6" stroke="var(--glow)" stroke-width="2" stroke-linecap="round"/></svg>Attwood<span>Biology</span></a>
+    <div class="crumb"><a href="./">IB Biology</a><span>›</span><span id="theme-name"></span><span>›</span><b id="topic-code"></b></div>
+    <div class="hero-row">
+      <div class="hero-copy">
+        <h1 id="topic-title"></h1>
+        <p class="lede" id="topic-guiding"></p>
+      </div>
+      <div class="level-switch" role="group" aria-label="Choose your level">
+        <button type="button" id="btn-sl" aria-pressed="false">SL</button>
+        <button type="button" id="btn-hl" aria-pressed="true">HL (SL + AHL)</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="sections" aria-label="Page sections">
+  <div class="wrap">
+    <a href="#videos">Videos</a>
+    <a href="#ideas">Key ideas</a>
+    <a href="#quick-check">Quick check</a>
+    <a href="#exam">Exam questions</a>
+    <a href="#sheets">Revision sheets</a>
+    <span class="score-chip" id="score-chip">Quick check: 0 answered</span>
+  </div>
+</nav>
+
+<main class="wrap">
+  <section id="videos">
+    <div class="sec-head"><h2><span class="num">01</span>Watch</h2><p>Start here, then test yourself below.</p></div>
+    <div class="videos" id="video-list"></div>
+  </section>
+  <section id="ideas">
+    <div class="sec-head"><h2><span class="num">02</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
+    <div class="ideas" id="idea-list"></div>
+  </section>
+  <section id="quick-check">
+    <div class="sec-head">
+      <h2><span class="num">03</span>Quick check</h2>
+      <div class="toolbar"><span class="note" id="mcq-score"></span><button type="button" class="btn ghost" id="mcq-reset">Start again</button></div>
+    </div>
+    <div class="mcq-list" id="mcq-list"></div>
+  </section>
+  <section id="exam">
+    <div class="sec-head"><h2><span class="num">04</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
+    <div class="exam-list" id="exam-list"></div>
+  </section>
+  <section id="sheets">
+    <div class="sec-head"><h2><span class="num">05</span>Revision sheets</h2><p>Printable PDFs to go with the videos.</p></div>
+    <div class="sheets" id="sheet-list"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><b>AttwoodBiology</b> · IB Biology revision. All questions are original exam-style questions written for this page. They are not taken from IB past papers.</div>
+</footer>
+
+<script>
+/* ============================================================
+   TOPIC DATA: the only part that changes per topic.
+   Videos: paste the YouTube video ID (the part after v= in the URL).
+   Sheets: put the PDF in the revision-sheets folder and give its path.
+   ============================================================ */
+const TOPIC = {
+ "code": "D2.2",
+ "title": "Gene expression",
+ "theme": "Theme D: Continuity and change",
+ "guiding": "How is gene expression regulated, and how can the environment and epigenetics affect it?",
+ "hlOnly": true,
+ "videos": [
+  {
+   "level": "AHL",
+   "title": "Gene expression",
+   "youtubeId": "",
+   "desc": "Covers all of the content for this topic."
+  }
+ ],
+ "ideas": [
+  {
+   "level": "AHL",
+   "h": "Gene expression",
+   "p": "The process by which information in a gene affects the phenotype, through transcription and translation."
+  },
+  {
+   "level": "AHL",
+   "h": "Regulating transcription",
+   "p": "Transcription factors bind to specific base sequences (promoters and enhancers), switching genes on or off."
+  },
+  {
+   "level": "AHL",
+   "h": "mRNA degradation",
+   "p": "Controlling how quickly mRNA is broken down regulates how much protein is made."
+  },
+  {
+   "level": "AHL",
+   "h": "Epigenesis",
+   "p": "The development of patterns of differentiation in cells of a multicellular organism."
+  },
+  {
+   "level": "AHL",
+   "h": "Genome, transcriptome and proteome",
+   "p": "Genome: all the genes. Transcriptome: all the mRNA being made in a cell. Proteome: all the proteins being made. The genome is fixed, but the others vary between cells."
+  },
+  {
+   "level": "AHL",
+   "h": "Epigenetic tags",
+   "p": "Methylation of DNA promoters usually silences genes. Modification of histones in nucleosomes changes how tightly DNA is packed."
+  },
+  {
+   "level": "AHL",
+   "h": "Epigenetic inheritance",
+   "p": "Epigenetic tags are copied when somatic cells divide. Some tags can pass through the germ line."
+  },
+  {
+   "level": "AHL",
+   "h": "Reprogramming",
+   "p": "Most, but not all, epigenetic tags are removed from egg and sperm, so some may be inherited by offspring."
+  },
+  {
+   "level": "AHL",
+   "h": "Environment and gene expression",
+   "p": "Factors such as diet, temperature, stress and pollutants can change gene expression."
+  },
+  {
+   "level": "AHL",
+   "h": "Twin studies",
+   "p": "Monozygotic twins have the same genome, so differences between them show the effect of environment on gene expression."
+  }
+ ],
+ "mcq": [
+  {
+   "level": "AHL",
+   "stem": "What is a transcription factor?",
+   "opts": [
+    [
+     "An enzyme that makes DNA",
+     "That is DNA polymerase."
+    ],
+    [
+     "A protein that binds to DNA and regulates transcription of a gene",
+     ""
+    ],
+    [
+     "A type of mRNA",
+     "It is a protein."
+    ],
+    [
+     "A ribosome",
+     "Not a transcription factor."
+    ]
+   ],
+   "answer": 1,
+   "why": "Transcription factors help or block RNA polymerase binding at the promoter."
+  },
+  {
+   "level": "AHL",
+   "stem": "What is the transcriptome?",
+   "opts": [
+    [
+     "All the genes in an organism",
+     "That is the genome."
+    ],
+    [
+     "All the mRNA transcribed in a cell at a given time",
+     ""
+    ],
+    [
+     "All the proteins in a cell",
+     "That is the proteome."
+    ],
+    [
+     "All the chromosomes",
+     "That is the karyotype."
+    ]
+   ],
+   "answer": 1,
+   "why": "The transcriptome shows which genes are active."
+  },
+  {
+   "level": "AHL",
+   "stem": "How does methylation of a promoter usually affect a gene?",
+   "opts": [
+    [
+     "It silences the gene.",
+     ""
+    ],
+    [
+     "It increases transcription.",
+     "Usually it decreases it."
+    ],
+    [
+     "It changes the base sequence.",
+     "It adds methyl groups without changing bases."
+    ],
+    [
+     "It deletes the gene.",
+     "Not true."
+    ]
+   ],
+   "answer": 0,
+   "why": "Methyl groups stop transcription factors and RNA polymerase binding."
+  },
+  {
+   "level": "AHL",
+   "stem": "How does histone modification affect gene expression?",
+   "opts": [
+    [
+     "It changes the genetic code.",
+     "It does not."
+    ],
+    [
+     "It changes how tightly DNA is wound, affecting access for transcription.",
+     ""
+    ],
+    [
+     "It removes introns.",
+     "That is splicing."
+    ],
+    [
+     "It makes ribosomes.",
+     "Not related."
+    ]
+   ],
+   "answer": 1,
+   "why": "Loosely packed DNA is more easily transcribed."
+  },
+  {
+   "level": "AHL",
+   "stem": "Why do cells in different tissues have different proteomes?",
+   "opts": [
+    [
+     "They have different genomes.",
+     "Body cells share the same genome."
+    ],
+    [
+     "Different genes are expressed in each cell type.",
+     ""
+    ],
+    [
+     "Some cells lose their DNA.",
+     "Most do not."
+    ],
+    [
+     "They use different genetic codes.",
+     "The code is universal."
+    ]
+   ],
+   "answer": 1,
+   "why": "Gene regulation determines which proteins are made."
+  },
+  {
+   "level": "AHL",
+   "stem": "What do studies of monozygotic twins show?",
+   "opts": [
+    [
+     "Genes have no effect on phenotype.",
+     "They do."
+    ],
+    [
+     "Differences between them are due to environmental effects on gene expression.",
+     ""
+    ],
+    [
+     "Twins always have identical phenotypes.",
+     "They can differ."
+    ],
+    [
+     "Twins have different genomes.",
+     "They are genetically identical."
+    ]
+   ],
+   "answer": 1,
+   "why": "Twins' epigenetic differences increase with age."
+  },
+  {
+   "level": "AHL",
+   "stem": "What happens to most epigenetic tags in gametes?",
+   "opts": [
+    [
+     "They are removed, but some remain.",
+     ""
+    ],
+    [
+     "They are all kept.",
+     "Most are removed."
+    ],
+    [
+     "They are doubled.",
+     "Not true."
+    ],
+    [
+     "They become mutations.",
+     "They are not changes to the base sequence."
+    ]
+   ],
+   "answer": 0,
+   "why": "Incomplete removal allows some epigenetic inheritance."
+  },
+  {
+   "level": "AHL",
+   "stem": "How can the rate of mRNA degradation regulate gene expression?",
+   "opts": [
+    [
+     "It changes the gene sequence.",
+     "It does not."
+    ],
+    [
+     "Faster breakdown means fewer copies of the protein are made.",
+     ""
+    ],
+    [
+     "It stops transcription.",
+     "It acts after transcription."
+    ],
+    [
+     "It adds introns.",
+     "Not related."
+    ]
+   ],
+   "answer": 1,
+   "why": "Controlling mRNA lifespan controls how much translation happens."
+  },
+  {
+   "level": "AHL",
+   "stem": "Which is an epigenetic change?",
+   "opts": [
+    [
+     "A base substitution",
+     "That is a mutation."
+    ],
+    [
+     "Methylation of cytosine bases in DNA",
+     ""
+    ],
+    [
+     "A chromosome deletion",
+     "That is a mutation."
+    ],
+    [
+     "Translocation",
+     "That is a mutation."
+    ]
+   ],
+   "answer": 1,
+   "why": "Epigenetic changes alter expression without changing base sequence."
+  },
+  {
+   "level": "AHL",
+   "stem": "What is the role of an enhancer?",
+   "opts": [
+    [
+     "To start translation",
+     "Not its role."
+    ],
+    [
+     "To increase transcription when bound by transcription factors",
+     ""
+    ],
+    [
+     "To end transcription",
+     "Not its role."
+    ],
+    [
+     "To cut DNA",
+     "Not its role."
+    ]
+   ],
+   "answer": 1,
+   "why": "Enhancers can be far from the gene they regulate."
+  }
+ ],
+ "exam": [
+  {
+   "level": "AHL",
+   "title": "Regulation of transcription",
+   "parts": [
+    {
+     "prompt": "Explain how transcription of a gene can be regulated.",
+     "marks": 4,
+     "points": [
+      "Transcription factors bind to specific DNA sequences",
+      "Some bind at the promoter, others at enhancers",
+      "Activators help RNA polymerase bind and start transcription",
+      "Repressors block RNA polymerase",
+      "Methylation of promoters silences genes",
+      "Histone modification changes access to DNA"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ]
+  },
+  {
+   "level": "AHL",
+   "title": "Genome and proteome",
+   "parts": [
+    {
+     "prompt": "Distinguish between the genome, transcriptome and proteome of a cell.",
+     "marks": 3,
+     "points": [
+      "Genome: all the genetic information (DNA) of the organism",
+      "Transcriptome: all the mRNA transcribed in a cell at a given time",
+      "Proteome: all the proteins produced by a cell",
+      "Genome is the same in all body cells; transcriptome and proteome vary"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ]
+  },
+  {
+   "level": "AHL",
+   "title": "Epigenetics",
+   "parts": [
+    {
+     "prompt": "Explain how epigenetic tags affect gene expression and can be inherited.",
+     "marks": 4,
+     "points": [
+      "Methylation of DNA (promoters) usually silences genes",
+      "Modification of histones changes packing of DNA",
+      "Tightly packed DNA is less accessible for transcription",
+      "Tags are copied when somatic cells divide",
+      "Most tags are removed in gametes",
+      "Some remain and are passed to offspring"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ]
+  },
+  {
+   "level": "AHL",
+   "title": "Twin studies",
+   "parts": [
+    {
+     "prompt": "Describe and explain the change shown.",
+     "marks": 2,
+     "points": [
+      "Differences in methylation increase with age (from 5% to 35%)",
+      "Twins experience different environments over time, causing epigenetic changes"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ],
+   "table": {
+    "head": [
+     "Age of twins / years",
+     "3",
+     "50"
+    ],
+    "rows": [
+     [
+      "% of genome with different methylation patterns",
+      "5",
+      "35"
+     ]
+    ]
+   }
+  },
+  {
+   "level": "AHL",
+   "title": "Extended response: gene expression",
+   "parts": [
+    {
+     "prompt": "Discuss how genes and the environment interact to determine the phenotype.",
+     "marks": 7,
+     "points": [
+      "Phenotype depends on which genes are expressed",
+      "Transcription factors control whether genes are transcribed",
+      "Different cells express different genes, giving differentiation",
+      "Epigenetic tags (methylation, histone modification) regulate expression",
+      "Environmental factors (diet, stress, pollutants) change epigenetic tags",
+      "Monozygotic twins become more different with age",
+      "Some epigenetic tags are inherited",
+      "Phenotypic plasticity allows changes without altering DNA",
+      "mRNA degradation and protein modification also affect phenotype",
+      "Genes set limits, but environment influences outcome"
+     ],
+     "examiner": "Include both genetic and environmental influences.",
+     "mistakes": []
+    }
+   ]
+  }
+ ],
+ "sheets": [
+  {
+   "level": "AHL",
+   "title": "D2.2 Gene expression revision sheet",
+   "desc": "Printable revision mat to complete after watching the video.",
+   "file": ""
+  }
+ ]
+};
+</script>
+<script src="topic.js"></script>
+<script src="helix.js"></script>
+</body>
+</html>
