@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AttwoodBiology C1.3 Photosynthesis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-strand="C">
+<header class="hero">
+  <canvas class="helix" aria-hidden="true"></canvas>
+  <div class="wrap hero-inner">
+    <a class="brand" href="./"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M9 3c0 7 14 9 14 13S9 22 9 29M23 3c0 7-14 9-14 13s14 6 14 13" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M11 8h10M11 24h10M13 12h6M13 20h6" stroke="var(--glow)" stroke-width="2" stroke-linecap="round"/></svg>Attwood<span>Biology</span></a>
+    <div class="crumb"><a href="./">IB Biology</a><span>›</span><span id="theme-name"></span><span>›</span><b id="topic-code"></b></div>
+    <div class="hero-row">
+      <div class="hero-copy">
+        <h1 id="topic-title"></h1>
+        <p class="lede" id="topic-guiding"></p>
+      </div>
+      <div class="level-switch" role="group" aria-label="Choose your level">
+        <button type="button" id="btn-sl" aria-pressed="false">SL</button>
+        <button type="button" id="btn-hl" aria-pressed="true">HL (SL + AHL)</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="sections" aria-label="Page sections">
+  <div class="wrap">
+    <a href="#videos">Videos</a>
+    <a href="#ideas">Key ideas</a>
+    <a href="#quick-check">Quick check</a>
+    <a href="#exam">Exam questions</a>
+    <a href="#sheets">Revision sheets</a>
+    <span class="score-chip" id="score-chip">Quick check: 0 answered</span>
+  </div>
+</nav>
+
+<main class="wrap">
+  <section id="videos">
+    <div class="sec-head"><h2><span class="num">01</span>Watch</h2><p>Start here, then test yourself below.</p></div>
+    <div class="videos" id="video-list"></div>
+  </section>
+  <section id="ideas">
+    <div class="sec-head"><h2><span class="num">02</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
+    <div class="ideas" id="idea-list"></div>
+  </section>
+  <section id="quick-check">
+    <div class="sec-head">
+      <h2><span class="num">03</span>Quick check</h2>
+      <div class="toolbar"><span class="note" id="mcq-score"></span><button type="button" class="btn ghost" id="mcq-reset">Start again</button></div>
+    </div>
+    <div class="mcq-list" id="mcq-list"></div>
+  </section>
+  <section id="exam">
+    <div class="sec-head"><h2><span class="num">04</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
+    <div class="exam-list" id="exam-list"></div>
+  </section>
+  <section id="sheets">
+    <div class="sec-head"><h2><span class="num">05</span>Revision sheets</h2><p>Printable PDFs to go with the videos.</p></div>
+    <div class="sheets" id="sheet-list"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><b>AttwoodBiology</b> · IB Biology revision. All questions are original exam-style questions written for this page. They are not taken from IB past papers.</div>
+</footer>
+
+<script>
+/* ============================================================
+   TOPIC DATA: the only part that changes per topic.
+   Videos: paste the YouTube video ID (the part after v= in the URL).
+   Sheets: put the PDF in the revision-sheets folder and give its path.
+   ============================================================ */
+const TOPIC = {
+ "code": "C1.3",
+ "title": "Photosynthesis",
+ "theme": "Theme C: Interaction and interdependence",
+ "guiding": "How is light energy captured and used to make carbon compounds?",
+ "videos": [
+  {
+   "level": "SL",
+   "title": "Photosynthesis",
+   "youtubeId": "",
+   "desc": "Pigments, absorption and action spectra, and limiting factors."
+  },
+  {
+   "level": "AHL",
+   "title": "Light-dependent and light-independent reactions",
+   "youtubeId": "",
+   "desc": "Photosystems, photolysis, chemiosmosis and the Calvin cycle."
+  }
+ ],
+ "ideas": [
+  {
+   "level": "SL",
+   "h": "Energy transformation",
+   "p": "Photosynthesis converts light energy into chemical energy stored in carbon compounds."
+  },
+  {
+   "level": "SL",
+   "h": "Inputs and outputs",
+   "p": "CO₂ is reduced to glucose using hydrogen from splitting water. Oxygen is released as a by-product."
+  },
+  {
+   "level": "SL",
+   "h": "Chromatography",
+   "p": "Pigments are separated by chromatography and identified by their Rf values (distance moved by pigment ÷ distance moved by solvent)."
+  },
+  {
+   "level": "SL",
+   "h": "Absorption of light",
+   "p": "Chlorophylls absorb mainly red and blue light and reflect green. Carotenoids absorb blue and violet light."
+  },
+  {
+   "level": "SL",
+   "h": "Absorption and action spectra",
+   "p": "An absorption spectrum shows which wavelengths pigments absorb. An action spectrum shows the rate of photosynthesis at each wavelength. They closely match."
+  },
+  {
+   "level": "SL",
+   "h": "Limiting factors",
+   "p": "Light intensity, CO₂ concentration and temperature can each limit the rate. The factor in shortest supply is the limiting factor."
+  },
+  {
+   "level": "SL",
+   "h": "CO₂ enrichment experiments",
+   "p": "Free-air CO₂ enrichment (FACE) experiments raise CO₂ around plants in the field to predict future rates of photosynthesis."
+  },
+  {
+   "level": "AHL",
+   "h": "Photosystems",
+   "p": "Arrays of pigment molecules in thylakoid membranes. Light energy is passed to a reaction centre, where an electron is excited and emitted."
+  },
+  {
+   "level": "AHL",
+   "h": "Photolysis",
+   "p": "In photosystem II, water is split into electrons, protons and oxygen. The electrons replace those lost by the reaction centre."
+  },
+  {
+   "level": "AHL",
+   "h": "Chemiosmosis in thylakoids",
+   "p": "Electrons pass along an electron transport chain, pumping protons into the thylakoid space. Protons flow back through ATP synthase, making ATP."
+  },
+  {
+   "level": "AHL",
+   "h": "Reduction of NADP",
+   "p": "Photosystem I re-excites electrons, which are used to reduce NADP."
+  },
+  {
+   "level": "AHL",
+   "h": "Carbon fixation",
+   "p": "In the stroma, Rubisco fixes CO₂ to RuBP, forming two molecules of glycerate-3-phosphate (GP)."
+  },
+  {
+   "level": "AHL",
+   "h": "Calvin cycle",
+   "p": "GP is reduced to triose phosphate using ATP and reduced NADP. Most triose phosphate regenerates RuBP using ATP; some makes glucose, starch and amino acids."
+  },
+  {
+   "level": "AHL",
+   "h": "Interdependence",
+   "p": "The light-independent reactions need ATP and reduced NADP from the light-dependent reactions, which need ADP and NADP to be returned."
+  }
+ ],
+ "mcq": [
+  {
+   "level": "SL",
+   "stem": "Where does the oxygen released in photosynthesis come from?",
+   "opts": [
+    [
+     "Carbon dioxide",
+     "The oxygen comes from water."
+    ],
+    [
+     "Water",
+     ""
+    ],
+    [
+     "Glucose",
+     "Glucose is a product."
+    ],
+    [
+     "Chlorophyll",
+     "Chlorophyll is not broken down."
+    ]
+   ],
+   "answer": 1,
+   "why": "Water is split (photolysis), releasing O₂ as a by-product."
+  },
+  {
+   "level": "SL",
+   "stem": "Which colours of light are absorbed most by chlorophyll?",
+   "opts": [
+    [
+     "Green and yellow",
+     "Green is reflected."
+    ],
+    [
+     "Red and blue",
+     ""
+    ],
+    [
+     "Only green",
+     "Green is reflected."
+    ],
+    [
+     "Infrared",
+     "This is not used."
+    ]
+   ],
+   "answer": 1,
+   "why": "Leaves look green because chlorophyll reflects green light."
+  },
+  {
+   "level": "SL",
+   "stem": "A pigment moves 4.2 cm and the solvent front moves 6.0 cm. What is its Rf value?",
+   "opts": [
+    [
+     "1.4",
+     "Rf is pigment distance ÷ solvent distance."
+    ],
+    [
+     "0.70",
+     ""
+    ],
+    [
+     "0.42",
+     "Check your division."
+    ],
+    [
+     "1.8",
+     "This is the difference, not the ratio."
+    ]
+   ],
+   "answer": 1,
+   "why": "Rf = 4.2 ÷ 6.0 = 0.70. Rf values are always less than 1."
+  },
+  {
+   "level": "SL",
+   "stem": "Why do the absorption spectrum and action spectrum have similar shapes?",
+   "opts": [
+    [
+     "Light absorbed by pigments is used to drive photosynthesis.",
+     ""
+    ],
+    [
+     "Pigments are made by photosynthesis.",
+     "This is not the reason."
+    ],
+    [
+     "All light is absorbed equally.",
+     "It is not."
+    ],
+    [
+     "Both measure oxygen release.",
+     "Only the action spectrum does."
+    ]
+   ],
+   "answer": 0,
+   "why": "Wavelengths that are absorbed well give high rates of photosynthesis."
+  },
+  {
+   "level": "SL",
+   "stem": "Increasing light intensity no longer increases the rate of photosynthesis. What is the most likely explanation?",
+   "opts": [
+    [
+     "Light is still the limiting factor.",
+     "Rate would still increase."
+    ],
+    [
+     "Another factor, such as CO₂ concentration, has become limiting.",
+     ""
+    ],
+    [
+     "The plant has died.",
+     "The rate stays at a plateau."
+    ],
+    [
+     "Chlorophyll is destroyed.",
+     "Not at normal light intensities."
+    ]
+   ],
+   "answer": 1,
+   "why": "When one factor is in excess, the rate is limited by the one in shortest supply."
+  },
+  {
+   "level": "SL",
+   "stem": "Which method can be used to vary CO₂ concentration in an experiment with pondweed?",
+   "opts": [
+    [
+     "Changing the lamp distance",
+     "That varies light intensity."
+    ],
+    [
+     "Using a water bath",
+     "That varies temperature."
+    ],
+    [
+     "Adding different concentrations of sodium hydrogencarbonate",
+     ""
+    ],
+    [
+     "Adding more pondweed",
+     "That changes the amount of plant, not CO₂."
+    ]
+   ],
+   "answer": 2,
+   "why": "Hydrogencarbonate releases CO₂ into the water."
+  },
+  {
+   "level": "SL",
+   "stem": "Why does temperature affect the rate of photosynthesis?",
+   "opts": [
+    [
+     "It changes the colour of chlorophyll.",
+     "It does not."
+    ],
+    [
+     "The light-independent reactions are catalysed by enzymes.",
+     ""
+    ],
+    [
+     "It changes the wavelength of light.",
+     "It does not."
+    ],
+    [
+     "CO₂ is only released at high temperature.",
+     "This is not the reason."
+    ]
+   ],
+   "answer": 1,
+   "why": "Enzymes such as Rubisco work faster as temperature rises, up to an optimum."
+  },
+  {
+   "level": "AHL",
+   "stem": "What happens in photosystem II?",
+   "opts": [
+    [
+     "NADP is reduced.",
+     "This happens after photosystem I."
+    ],
+    [
+     "Water is split and electrons are excited.",
+     ""
+    ],
+    [
+     "CO₂ is fixed.",
+     "That happens in the Calvin cycle."
+    ],
+    [
+     "Glucose is made.",
+     "Glucose is made later."
+    ]
+   ],
+   "answer": 1,
+   "why": "Photolysis replaces electrons lost from the reaction centre and releases O₂."
+  },
+  {
+   "level": "AHL",
+   "stem": "Where do protons accumulate during the light-dependent reactions?",
+   "opts": [
+    [
+     "In the stroma",
+     "Protons are pumped out of the stroma."
+    ],
+    [
+     "In the thylakoid space",
+     ""
+    ],
+    [
+     "In the intermembrane space of the chloroplast",
+     "This is not where the gradient forms."
+    ],
+    [
+     "In the cytoplasm",
+     "This is outside the chloroplast."
+    ]
+   ],
+   "answer": 1,
+   "why": "Protons flow from the thylakoid space through ATP synthase into the stroma."
+  },
+  {
+   "level": "AHL",
+   "stem": "What does Rubisco catalyse?",
+   "opts": [
+    [
+     "Splitting of water",
+     "This is photolysis."
+    ],
+    [
+     "Reduction of NADP",
+     "This is a light-dependent reaction."
+    ],
+    [
+     "Fixing CO₂ to RuBP",
+     ""
+    ],
+    [
+     "Making ATP",
+     "That is ATP synthase."
+    ]
+   ],
+   "answer": 2,
+   "why": "RuBP (5C) + CO₂ → two GP (3C)."
+  },
+  {
+   "level": "AHL",
+   "stem": "In the Calvin cycle, which products of the light-dependent reactions are used?",
+   "opts": [
+    [
+     "Oxygen and water",
+     "These are not used."
+    ],
+    [
+     "ATP and reduced NADP",
+     ""
+    ],
+    [
+     "Glucose and CO₂",
+     "These are not products of light-dependent reactions."
+    ],
+    [
+     "NADP and ADP",
+     "These are returned to the light-dependent reactions."
+    ]
+   ],
+   "answer": 1,
+   "why": "ATP and reduced NADP convert GP to triose phosphate, and ATP regenerates RuBP."
+  },
+  {
+   "level": "AHL",
+   "stem": "Why does the Calvin cycle stop shortly after a plant is put in darkness?",
+   "opts": [
+    [
+     "ATP and reduced NADP are no longer produced.",
+     ""
+    ],
+    [
+     "Rubisco is destroyed in the dark.",
+     "It is not."
+    ],
+    [
+     "CO₂ is not available in the dark.",
+     "CO₂ is still present."
+    ],
+    [
+     "Water is used up.",
+     "Water is not used up."
+    ]
+   ],
+   "answer": 0,
+   "why": "The light-independent reactions depend on the products of the light-dependent reactions."
+  }
+ ],
+ "exam": [
+  {
+   "level": "SL",
+   "title": "Chromatography",
+   "parts": [
+    {
+     "prompt": "Outline how photosynthetic pigments can be separated and identified.",
+     "marks": 3,
+     "points": [
+      "Grind leaves with a solvent to extract pigments",
+      "Spot the extract onto chromatography paper or a TLC plate",
+      "Place in a solvent; the pigments move different distances",
+      "Calculate Rf = distance moved by pigment ÷ distance moved by solvent",
+      "Compare Rf values with known values to identify pigments"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ]
+  },
+  {
+   "level": "SL",
+   "title": "Limiting factors",
+   "parts": [
+    {
+     "prompt": "Identify the limiting factor at light intensity 10 and at 40 for the low CO₂ plant.",
+     "marks": 2,
+     "points": [
+      "At 10: light intensity",
+      "At 40: CO₂ concentration"
+     ],
+     "examiner": "",
+     "mistakes": []
+    },
+    {
+     "prompt": "Explain the effect of increasing CO₂ concentration at light intensity 40.",
+     "marks": 2,
+     "points": [
+      "Rate increases from 16 to 29",
+      "CO₂ was limiting, so more CO₂ allows more carbon fixation"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ],
+   "table": {
+    "head": [
+     "Light intensity / arbitrary units",
+     "0",
+     "10",
+     "20",
+     "30",
+     "40",
+     "50"
+    ],
+    "rows": [
+     [
+      "Rate at low CO₂ / arbitrary units",
+      "0",
+      "8",
+      "14",
+      "16",
+      "16",
+      "16"
+     ],
+     [
+      "Rate at high CO₂ / arbitrary units",
+      "0",
+      "9",
+      "17",
+      "24",
+      "29",
+      "30"
+     ]
+    ]
+   }
+  },
+  {
+   "level": "SL",
+   "title": "Spectra",
+   "parts": [
+    {
+     "prompt": "Compare absorption and action spectra.",
+     "marks": 3,
+     "points": [
+      "Absorption spectrum shows the wavelengths absorbed by pigments",
+      "Action spectrum shows the rate of photosynthesis at each wavelength",
+      "Both peak in blue and red light",
+      "Both are low in green light",
+      "Action spectrum may be slightly higher in some regions due to accessory pigments"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ]
+  },
+  {
+   "level": "AHL",
+   "title": "Light-dependent reactions",
+   "parts": [
+    {
+     "prompt": "Explain how ATP and reduced NADP are produced in the light-dependent reactions.",
+     "marks": 5,
+     "points": [
+      "Light is absorbed by pigments in photosystem II",
+      "Electrons in the reaction centre are excited and emitted",
+      "Water is split (photolysis), replacing electrons and releasing O₂ and protons",
+      "Electrons pass along an electron transport chain",
+      "Energy is used to pump protons into the thylakoid space",
+      "Protons diffuse back through ATP synthase, producing ATP (chemiosmosis)",
+      "Photosystem I re-excites the electrons",
+      "Electrons reduce NADP"
+     ],
+     "examiner": "",
+     "mistakes": [
+      "Saying oxygen comes from CO₂"
+     ]
+    }
+   ]
+  },
+  {
+   "level": "AHL",
+   "title": "Extended response: the Calvin cycle",
+   "parts": [
+    {
+     "prompt": "Describe the light-independent reactions and explain their dependence on the light-dependent reactions.",
+     "marks": 7,
+     "points": [
+      "Take place in the stroma",
+      "CO₂ combines with RuBP",
+      "Catalysed by Rubisco",
+      "Forms two molecules of glycerate-3-phosphate (GP)",
+      "GP is reduced to triose phosphate using reduced NADP",
+      "ATP is used in this reduction",
+      "Some triose phosphate is used to make glucose, starch, lipids or amino acids",
+      "Most triose phosphate regenerates RuBP",
+      "Regeneration of RuBP uses ATP",
+      "ATP and reduced NADP come from the light-dependent reactions",
+      "ADP and NADP are returned to the light-dependent reactions",
+      "In darkness, the cycle stops as ATP and reduced NADP run out"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ]
+  }
+ ],
+ "sheets": [
+  {
+   "level": "SL",
+   "title": "C1.3 Photosynthesis revision sheet",
+   "desc": "Printable revision mat to complete after watching the video.",
+   "file": ""
+  }
+ ]
+};
+</script>
+<script src="topic.js"></script>
+<script src="helix.js"></script>
+</body>
+</html>
