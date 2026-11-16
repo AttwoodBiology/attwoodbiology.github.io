@@ -28,7 +28,7 @@
 /* To make a topic live: add its file name after the topic name. true = AHL-only topic. */
 const THEMES = [
   { letter:"A", name:"Unity and diversity", topics:[
-    ["A1.1","Water"],["A1.2","Nucleic acids"],["A2.1","Origins of cells","",true],["A2.2","Cell structure"],
+    ["A1.1","Water","a1-1-water.html"],["A1.2","Nucleic acids"],["A2.1","Origins of cells","",true],["A2.2","Cell structure"],
     ["A2.3","Viruses","",true],["A3.1","Diversity of organisms"],["A3.2","Classification and cladistics","",true],
     ["A4.1","Evolution and speciation"],["A4.2","Conservation of biodiversity"]]},
   { letter:"B", name:"Form and function", topics:[
@@ -38,11 +38,11 @@ const THEMES = [
   { letter:"C", name:"Interaction and interdependence", topics:[
     ["C1.1","Enzymes and metabolism"],["C1.2","Cell respiration","c1-2-cell-respiration.html"],["C1.3","Photosynthesis"],
     ["C2.1","Chemical signalling","",true],["C2.2","Neural signalling"],["C3.1","Integration of body systems"],
-    ["C3.2","Defence against disease"],["C4.1","Populations and communities"],["C4.2","Transfers of energy and matter"]]},
+    ["C3.2","Defence against disease"],["C4.1","Populations and communities","c4-1-populations-and-communities.html"],["C4.2","Transfers of energy and matter"]]},
   { letter:"D", name:"Continuity and change", topics:[
     ["D1.1","DNA replication"],["D1.2","Protein synthesis"],["D1.3","Mutations and gene editing"],
     ["D2.1","Cell and nuclear division"],["D2.2","Gene expression","",true],["D2.3","Water potential"],
-    ["D3.1","Reproduction"],["D3.2","Inheritance"],["D3.3","Homeostasis"],
+    ["D3.1","Reproduction"],["D3.2","Inheritance","d3-2-inheritance.html"],["D3.3","Homeostasis"],
     ["D4.1","Natural selection"],["D4.2","Stability and change"],["D4.3","Climate change"]]}
 ];
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));

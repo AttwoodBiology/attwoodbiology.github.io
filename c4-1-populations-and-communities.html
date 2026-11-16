@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AttwoodBiology C4.1 Populations and Communities</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-strand="C">
+<header class="hero">
+  <canvas class="helix" aria-hidden="true"></canvas>
+  <div class="wrap hero-inner">
+    <a class="brand" href="./"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M9 3c0 7 14 9 14 13S9 22 9 29M23 3c0 7-14 9-14 13s14 6 14 13" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M11 8h10M11 24h10M13 12h6M13 20h6" stroke="var(--glow)" stroke-width="2" stroke-linecap="round"/></svg>Attwood<span>Biology</span></a>
+    <div class="crumb"><a href="./">IB Biology</a><span>›</span><span id="theme-name"></span><span>›</span><b id="topic-code"></b></div>
+    <div class="hero-row">
+      <div class="hero-copy">
+        <h1 id="topic-title"></h1>
+        <p class="lede" id="topic-guiding"></p>
+      </div>
+      <div class="level-switch" role="group" aria-label="Choose your level">
+        <button type="button" id="btn-sl" aria-pressed="false">SL</button>
+        <button type="button" id="btn-hl" aria-pressed="true">HL (SL + AHL)</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="sections" aria-label="Page sections">
+  <div class="wrap">
+    <a href="#videos">Videos</a>
+    <a href="#ideas">Key ideas</a>
+    <a href="#quick-check">Quick check</a>
+    <a href="#exam">Exam questions</a>
+    <a href="#sheets">Revision sheets</a>
+    <span class="score-chip" id="score-chip">Quick check: 0 answered</span>
+  </div>
+</nav>
+
+<main class="wrap">
+  <section id="videos">
+    <div class="sec-head"><h2><span class="num">01</span>Watch</h2><p>Start here, then test yourself below.</p></div>
+    <div class="videos" id="video-list"></div>
+  </section>
+  <section id="ideas">
+    <div class="sec-head"><h2><span class="num">02</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
+    <div class="ideas" id="idea-list"></div>
+  </section>
+  <section id="quick-check">
+    <div class="sec-head">
+      <h2><span class="num">03</span>Quick check</h2>
+      <div class="toolbar"><span class="note" id="mcq-score"></span><button type="button" class="btn ghost" id="mcq-reset">Start again</button></div>
+    </div>
+    <div class="mcq-list" id="mcq-list"></div>
+  </section>
+  <section id="exam">
+    <div class="sec-head"><h2><span class="num">04</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
+    <div class="exam-list" id="exam-list"></div>
+  </section>
+  <section id="sheets">
+    <div class="sec-head"><h2><span class="num">05</span>Revision sheets</h2><p>Printable PDFs to go with the videos.</p></div>
+    <div class="sheets" id="sheet-list"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><b>AttwoodBiology</b> · IB Biology revision. All questions are original exam-style questions written for this page. They are not taken from IB past papers.</div>
+</footer>
+
+<script>
+/* ============================================================
+   TOPIC DATA: the only part that changes per topic.
+   Videos: paste the YouTube video ID (the part after v= in the URL).
+   Sheets: put the PDF in the revision-sheets folder and give its path.
+   ============================================================ */
+const TOPIC = {
+  code: "C4.1",
+  title: "Populations and communities",
+  theme: "Theme C: Interaction and interdependence",
+  guiding: "How do interactions between organisms affect the size of populations, and how are communities structured by these relationships?",
+
+  videos: [
+    { level:"SL", title:"Populations and communities", youtubeId:"fqOU0Fwzyi8", desc:"Watch this first, then try the quick check below." }
+  ],
+
+  ideas: [
+    { level:"SL", h:"Populations", p:"A group of organisms of the same species living and interacting in the same area." },
+    { level:"SL", h:"Estimating population size", p:"Use random sampling. Quadrats suit sessile organisms. Capture–mark–release–recapture suits mobile animals: N = (M × C) ÷ R." },
+    { level:"SL", h:"Carrying capacity", p:"The maximum population an environment can support long-term, set by limited resources such as food, space and light." },
+    { level:"SL", h:"Density-dependent control", p:"Negative feedback. As density rises, competition, predation and disease increase, which slows population growth." },
+    { level:"SL", h:"Sigmoid growth curve", p:"Exponential growth while resources are plentiful, a transitional phase as limiting factors act, then a plateau at carrying capacity." },
+    { level:"SL", h:"Communities", p:"All the populations of different species living and interacting in an area." },
+    { level:"SL", h:"Intraspecific relationships", p:"Between members of the same species: competition for resources and mates, and cooperation such as hunting in packs." },
+    { level:"SL", h:"Interspecific relationships", p:"Between different species: herbivory, predation, competition, mutualism, parasitism and pathogenicity." },
+    { level:"SL", h:"Mutualism", p:"Both species benefit, for example root nodules in Fabaceae, mycorrhizae in orchids, and zooxanthellae in hard corals." },
+    { level:"SL", h:"Invasive species", p:"Introduced species often lack natural predators and outcompete endemic species for resources." },
+    { level:"SL", h:"Testing for competition and association", p:"Removal experiments, lab experiments and field observation test for competition. A chi-squared test on quadrat data tests for association." },
+    { level:"SL", h:"Predator–prey cycles", p:"A density-dependent relationship. Predator numbers rise and fall after prey numbers, with a time lag." },
+    { level:"SL", h:"Top-down and bottom-up control", p:"Top-down: limited by predators at higher trophic levels. Bottom-up: limited by resources and producers." },
+    { level:"SL", h:"Allelopathy and antibiotics", p:"Some plants release chemicals that inhibit competitors. Some microorganisms secrete antibiotics that kill or inhibit others." }
+  ],
+
+  mcq: [
+    { level:"SL", stem:"In a capture–mark–recapture study, 40 beetles were marked and released. Later, 50 beetles were caught, 10 of which were marked. What is the estimated population size?",
+      opts:[["100", "Check the Lincoln index: N = (M × C) ÷ R."],["200", ""],["500", "This uses the wrong numbers in the formula."],["2000", "You need to divide by the number recaptured (10)."]],
+      answer:1, why:"N = (40 × 50) ÷ 10 = 200." },
+
+    { level:"SL", stem:"Which assumption is needed for capture–mark–recapture to give a valid estimate?",
+      opts:[
+        ["All individuals are caught in the first sample.", "The method only works because not all individuals are caught."],
+        ["Marked individuals mix randomly back into the population.", ""],
+        ["The population is growing quickly.", "The population size should stay constant between samples."],
+        ["Marks make individuals easier to find.", "Marks must not affect an individual's chance of being caught or surviving."]],
+      answer:1, why:"If marked animals do not mix, the proportion recaptured will not represent the whole population." },
+
+    { level:"SL", stem:"Which organism is most suitable for estimating population size with quadrats?",
+      opts:[["Daisies on a lawn", ""],["Field mice", "Mice move, so capture–mark–recapture is more suitable."],["Butterflies", "Butterflies are mobile."],["Fish in a pond", "Fish are mobile, so quadrats cannot sample them."]],
+      answer:0, why:"Quadrats suit sessile or slow-moving organisms that stay in place while they are counted." },
+
+    { level:"SL", stem:"What is happening when a population reaches the plateau of a sigmoid growth curve?",
+      opts:[
+        ["Birth rate is much greater than death rate.", "That describes the exponential phase."],
+        ["Birth rate is roughly equal to death rate.", ""],
+        ["Resources are unlimited.", "Resources are limited at the plateau."],
+        ["The population is about to become extinct.", "A plateau shows a stable population."]],
+      answer:1, why:"At carrying capacity, limiting factors balance births and deaths, so the population stays roughly constant." },
+
+    { level:"SL", stem:"Which is a density-dependent factor?",
+      opts:[["A forest fire", "Fire affects populations regardless of their density."],["An unusually cold winter", "Weather is density-independent."],["Disease spreading through a crowded population", ""],["A flood", "Floods are density-independent."]],
+      answer:2, why:"Disease spreads more easily when individuals are close together, so its effect increases with population density." },
+
+    { level:"SL", stem:"What type of relationship exists between Rhizobium bacteria and plants in the pea family (Fabaceae)?",
+      opts:[["Parasitism", "In parasitism only one species benefits, at the host's expense."],["Mutualism", ""],["Predation", "No organism is killed and eaten."],["Interspecific competition", "The species are not competing for a resource."]],
+      answer:1, why:"The bacteria fix nitrogen for the plant, and the plant supplies the bacteria with carbohydrates and a protected home in its root nodules." },
+
+    { level:"SL", stem:"What do zooxanthellae provide to the hard corals they live in?",
+      opts:[["Protection from predators", "The coral provides protection to the algae, not the other way round."],["Sugars and other products of photosynthesis", ""],["Nitrogen fixed from the atmosphere", "This is the role of Rhizobium in root nodules."],["Calcium carbonate for the skeleton", "The coral makes its own skeleton."]],
+      answer:1, why:"The algae photosynthesise and pass sugars to the coral. The coral gives them a sheltered, well-lit position, plus CO₂ and nutrients." },
+
+    { level:"SL", stem:"A tapeworm lives in the intestine of a mammal and absorbs digested food. What is this relationship?",
+      opts:[["Mutualism", "The mammal does not benefit."],["Parasitism", ""],["Herbivory", "Herbivory is an animal feeding on plants."],["Pathogenicity", "Pathogens are microorganisms that cause disease. A tapeworm is a parasite."]],
+      answer:1, why:"The tapeworm benefits and the host is harmed, which is parasitism." },
+
+    { level:"SL", stem:"A chi-squared test is used to look for an association between two plant species in quadrats. What is the null hypothesis?",
+      opts:[
+        ["The two species are always found together.", "This is a type of association, not the null hypothesis."],
+        ["There is no association between the distributions of the two species.", ""],
+        ["One species outcompetes the other.", "This is a possible explanation, not the null hypothesis."],
+        ["The species have the same population size.", "The test is about whether they occur together, not how many there are."]],
+      answer:1, why:"The null hypothesis always states no relationship. A significant χ² value means it is rejected." },
+
+    { level:"SL", stem:"In a predator–prey cycle, how do the predator numbers change compared with the prey numbers?",
+      opts:[
+        ["They peak at the same time as prey numbers.", "There is a delay while predators respond to the extra food."],
+        ["They peak shortly after prey numbers.", ""],
+        ["They peak shortly before prey numbers.", "Predators need more prey before their numbers can rise."],
+        ["They stay constant.", "Predator numbers rise and fall with the food supply."]],
+      answer:1, why:"More prey means more food, so more predators survive and breed after a time lag. Then predation reduces the prey." },
+
+    { level:"SL", stem:"Sea otters eat sea urchins, which graze on kelp. Removing the otters leads to fewer kelp. What does this show?",
+      opts:[["Bottom-up control", "Bottom-up control is limitation by resources or producers."],["Top-down control", ""],["Allelopathy", "Allelopathy involves chemicals released by plants."],["Mutualism", "None of these relationships benefits both species."]],
+      answer:1, why:"The predator at the top of the food chain controls the populations below it, which is top-down control." },
+
+    { level:"SL", stem:"What is allelopathy?",
+      opts:[
+        ["A plant releasing chemicals that inhibit the growth of competing plants", ""],
+        ["Bacteria producing antibiotics", "This is a similar idea in microorganisms, but allelopathy refers to plants."],
+        ["Two plant species helping each other to grow", "That would be mutualism."],
+        ["A plant being eaten by a herbivore", "That is herbivory."]],
+      answer:0, why:"Allelopathic chemicals reduce competition by inhibiting germination or growth of nearby plants." }
+  ],
+
+  exam: [
+    { level:"SL", title:"Capture–mark–recapture", intro:"In a garden, 60 woodlice were caught, marked and released. A week later, 75 woodlice were caught, of which 15 were marked.",
+      parts:[
+      { prompt:"(a) Estimate the size of the woodlouse population, showing your working.", marks:1,
+        points:["(60 × 75) ÷ 15 = 300"],
+        examiner:"", mistakes:["Dividing by 75 instead of 15"] },
+      { prompt:"(b) State two assumptions made when using this method.", marks:2,
+        points:["Marks are not lost and do not affect survival or the chance of being caught","Enough time is allowed for marked individuals to mix back into the population","No immigration, emigration, births or deaths between samples","Every individual has an equal chance of being caught"],
+        examiner:"“State” needs a short answer. Two clear assumptions score two marks.", mistakes:["Saying “the sample is big enough”, which is not an assumption of the method"] }
+    ]},
+
+    { level:"SL", title:"Population growth", parts:[
+      { prompt:"Describe the sigmoid population growth curve and explain the reasons for each phase.", marks:4,
+        points:[
+          "Exponential phase: rapid growth, because resources are plentiful and limiting factors are few",
+          "In the exponential phase, birth rate is greater than death rate",
+          "Transitional phase: growth slows as resources become limiting and competition increases",
+          "Plateau at carrying capacity: birth rate equals death rate",
+          "Density-dependent factors (competition, predation, disease) act as negative feedback"],
+        examiner:"Name each phase and give a reason for it. A sketch of the curve with labelled phases helps.",
+        mistakes:["Saying the population “stops reproducing” at the plateau"] }
+    ]},
+
+    { level:"SL", title:"Testing for association", intro:"Students recorded whether species A and species B were present in 100 random quadrats.",
+      table:{ head:["","Species B present","Species B absent","Total"], rows:[["Species A present","30","10","40"],["Species A absent","20","40","60"],["Total","50","50","100"]] },
+      parts:[
+      { prompt:"(a) Calculate the expected number of quadrats with both species present.", marks:1,
+        points:["(40 × 50) ÷ 100 = 20"],
+        examiner:"Expected = (row total × column total) ÷ grand total.", mistakes:["Using the observed value (30)"] },
+      { prompt:"(b) The χ² value is 16.7 and the critical value at p = 0.05 with 1 degree of freedom is 3.84. Evaluate what this shows.", marks:2,
+        points:["16.7 is greater than 3.84, so the null hypothesis is rejected","There is a significant association between the species","It is a positive association, because they are found together more often than expected (30 vs 20)"],
+        examiner:"Say whether the association is positive or negative, using the data.", mistakes:["Stopping at “significant” without saying which direction"] },
+      { prompt:"(c) Suggest one reason for this association.", marks:1,
+        points:["Similar habitat requirements (e.g. soil moisture, light, pH)","A mutualistic relationship between the species","One species provides shelter or food for the other"],
+        examiner:"", mistakes:[] }
+    ]},
+
+    { level:"SL", title:"Mutualism", parts:[
+      { prompt:"Explain the mutualistic relationship between plants in the Fabaceae and Rhizobium bacteria.", marks:3,
+        points:[
+          "Mutualism is a relationship in which both species benefit",
+          "Rhizobium lives in root nodules",
+          "The bacteria fix atmospheric nitrogen into ammonia/ammonium",
+          "The plant uses this to make amino acids and proteins",
+          "The plant supplies the bacteria with carbohydrates from photosynthesis and a protected environment"],
+        examiner:"Say what each partner gains.",
+        mistakes:["Saying the plant fixes the nitrogen"] }
+    ]},
+
+    { level:"SL", title:"Invasive species", parts:[
+      { prompt:"Outline how invasive species can affect endemic species.", marks:3,
+        points:[
+          "Invasive species are introduced to a new area, often by humans",
+          "They often have no natural predators or pathogens, so their populations grow quickly",
+          "They outcompete endemic species for resources such as food and space",
+          "They may prey on or spread disease to endemic species",
+          "Endemic populations decline, which can lead to extinction and loss of biodiversity"],
+        examiner:"A named example strengthens your answer.",
+        mistakes:["Confusing endemic with “endangered”"] }
+    ]}
+  ],
+
+  sheets: [
+    { level:"SL", title:"C4.1 Summary sheet", desc:"Populations, sampling, growth curves and relationships between species.", file:"" },
+    { level:"SL", title:"Sampling and statistics practice", desc:"Lincoln index and chi-squared association practice questions.", file:"" }
+  ]
+};
+</script>
+<script src="topic.js"></script>
+<script src="helix.js"></script>
+</body>
+</html>
