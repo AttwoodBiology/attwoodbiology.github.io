@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AttwoodBiology B1.2 Proteins</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-strand="B">
+<header class="hero">
+  <canvas class="helix" aria-hidden="true"></canvas>
+  <div class="wrap hero-inner">
+    <a class="brand" href="./"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M9 3c0 7 14 9 14 13S9 22 9 29M23 3c0 7-14 9-14 13s14 6 14 13" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M11 8h10M11 24h10M13 12h6M13 20h6" stroke="var(--glow)" stroke-width="2" stroke-linecap="round"/></svg>Attwood<span>Biology</span></a>
+    <div class="crumb"><a href="./">IB Biology</a><span>›</span><span id="theme-name"></span><span>›</span><b id="topic-code"></b></div>
+    <div class="hero-row">
+      <div class="hero-copy">
+        <h1 id="topic-title"></h1>
+        <p class="lede" id="topic-guiding"></p>
+      </div>
+      <div class="level-switch" role="group" aria-label="Choose your level">
+        <button type="button" id="btn-sl" aria-pressed="false">SL</button>
+        <button type="button" id="btn-hl" aria-pressed="true">HL (SL + AHL)</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="sections" aria-label="Page sections">
+  <div class="wrap">
+    <a href="#videos">Videos</a>
+    <a href="#ideas">Key ideas</a>
+    <a href="#quick-check">Quick check</a>
+    <a href="#exam">Exam questions</a>
+    <a href="#sheets">Revision sheets</a>
+    <span class="score-chip" id="score-chip">Quick check: 0 answered</span>
+  </div>
+</nav>
+
+<main class="wrap">
+  <section id="videos">
+    <div class="sec-head"><h2><span class="num">01</span>Watch</h2><p>Start here, then test yourself below.</p></div>
+    <div class="videos" id="video-list"></div>
+  </section>
+  <section id="ideas">
+    <div class="sec-head"><h2><span class="num">02</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
+    <div class="ideas" id="idea-list"></div>
+  </section>
+  <section id="quick-check">
+    <div class="sec-head">
+      <h2><span class="num">03</span>Quick check</h2>
+      <div class="toolbar"><span class="note" id="mcq-score"></span><button type="button" class="btn ghost" id="mcq-reset">Start again</button></div>
+    </div>
+    <div class="mcq-list" id="mcq-list"></div>
+  </section>
+  <section id="exam">
+    <div class="sec-head"><h2><span class="num">04</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
+    <div class="exam-list" id="exam-list"></div>
+  </section>
+  <section id="sheets">
+    <div class="sec-head"><h2><span class="num">05</span>Revision sheets</h2><p>Printable PDFs to go with the videos.</p></div>
+    <div class="sheets" id="sheet-list"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><b>AttwoodBiology</b> · IB Biology revision. All questions are original exam-style questions written for this page. They are not taken from IB past papers.</div>
+</footer>
+
+<script>
+/* ============================================================
+   TOPIC DATA: the only part that changes per topic.
+   Videos: paste the YouTube video ID (the part after v= in the URL).
+   Sheets: put the PDF in the revision-sheets folder and give its path.
+   ============================================================ */
+const TOPIC = {
+ "code": "B1.2",
+ "title": "Proteins",
+ "theme": "Theme B: Form and function",
+ "guiding": "How does the structure of a protein determine its function?",
+ "videos": [
+  {
+   "level": "SL",
+   "title": "Proteins",
+   "youtubeId": "",
+   "desc": "Amino acids, peptide bonds, diet and denaturation."
+  },
+  {
+   "level": "AHL",
+   "title": "Protein structure",
+   "youtubeId": "",
+   "desc": "R groups and primary, secondary, tertiary and quaternary structure."
+  }
+ ],
+ "ideas": [
+  {
+   "level": "SL",
+   "h": "Amino acids",
+   "p": "A central carbon bonded to an amine group (–NH₂), a carboxyl group (–COOH), a hydrogen atom and a variable R group."
+  },
+  {
+   "level": "SL",
+   "h": "Peptide bonds",
+   "p": "Amino acids join by condensation to form a dipeptide, releasing water. Ribosomes link many amino acids into a polypeptide."
+  },
+  {
+   "level": "SL",
+   "h": "Essential amino acids",
+   "p": "Some amino acids cannot be made by the body and must be eaten. Vegan diets need a variety of plant proteins to supply them all."
+  },
+  {
+   "level": "SL",
+   "h": "Infinite variety",
+   "p": "There are 20 amino acids, so a polypeptide of n amino acids has 20ⁿ possible sequences."
+  },
+  {
+   "level": "SL",
+   "h": "Denaturation",
+   "p": "High temperature or extreme pH breaks bonds holding the 3D shape, so the protein loses its structure and function. It is usually permanent."
+  },
+  {
+   "level": "AHL",
+   "h": "Diversity of R groups",
+   "p": "R groups can be hydrophobic or hydrophilic, and hydrophilic ones may be polar or charged (acidic or basic)."
+  },
+  {
+   "level": "AHL",
+   "h": "Primary structure",
+   "p": "The sequence of amino acids. It determines how the chain folds, and therefore the protein's shape."
+  },
+  {
+   "level": "AHL",
+   "h": "Secondary structure",
+   "p": "Hydrogen bonds between C=O and N–H groups of the backbone form α-helices and β-pleated sheets."
+  },
+  {
+   "level": "AHL",
+   "h": "Tertiary structure",
+   "p": "The 3D folding of the polypeptide, held by hydrogen bonds, ionic bonds, disulfide bonds and hydrophobic interactions between R groups."
+  },
+  {
+   "level": "AHL",
+   "h": "Polar and non-polar R groups",
+   "p": "In soluble proteins, non-polar R groups face inwards and polar R groups face outwards. In membrane proteins, non-polar R groups face the lipid bilayer."
+  },
+  {
+   "level": "AHL",
+   "h": "Quaternary structure",
+   "p": "Two or more polypeptides combined. Conjugated proteins include a non-protein group, e.g. haemoglobin has haem. Insulin and collagen are non-conjugated."
+  },
+  {
+   "level": "AHL",
+   "h": "Globular and fibrous",
+   "p": "Globular proteins (e.g. insulin) are compact and soluble. Fibrous proteins (e.g. collagen) are long, insoluble and strong."
+  }
+ ],
+ "mcq": [
+  {
+   "level": "SL",
+   "stem": "Which group varies between different amino acids?",
+   "opts": [
+    [
+     "Amine group",
+     "All amino acids have an amine group."
+    ],
+    [
+     "Carboxyl group",
+     "All amino acids have a carboxyl group."
+    ],
+    [
+     "R group",
+     ""
+    ],
+    [
+     "Hydrogen atom",
+     "All amino acids have this."
+    ]
+   ],
+   "answer": 2,
+   "why": "The R group (side chain) gives each of the 20 amino acids its own properties."
+  },
+  {
+   "level": "SL",
+   "stem": "What is released when two amino acids join to form a dipeptide?",
+   "opts": [
+    [
+     "Carbon dioxide",
+     "Condensation releases water."
+    ],
+    [
+     "Water",
+     ""
+    ],
+    [
+     "Ammonia",
+     "This is not released."
+    ],
+    [
+     "Oxygen",
+     "This is not released."
+    ]
+   ],
+   "answer": 1,
+   "why": "The –OH from a carboxyl group and an –H from an amine group form water, and a peptide bond forms."
+  },
+  {
+   "level": "SL",
+   "stem": "How many different tripeptides can be made from the 20 amino acids?",
+   "opts": [
+    [
+     "60",
+     "This is 20 × 3."
+    ],
+    [
+     "400",
+     "This is 20², for dipeptides."
+    ],
+    [
+     "8000",
+     ""
+    ],
+    [
+     "1 140",
+     "This does not account for order."
+    ]
+   ],
+   "answer": 2,
+   "why": "20 × 20 × 20 = 8000 possible sequences."
+  },
+  {
+   "level": "SL",
+   "stem": "What is an essential amino acid?",
+   "opts": [
+    [
+     "One that is found in every protein",
+     "This is not the definition."
+    ],
+    [
+     "One that cannot be made by the body and must be obtained from the diet",
+     ""
+    ],
+    [
+     "One that is used only for energy",
+     "This is not the definition."
+    ],
+    [
+     "One with a non-polar R group",
+     "Polarity is unrelated."
+    ]
+   ],
+   "answer": 1,
+   "why": "Essential amino acids must be eaten because the body cannot synthesise them."
+  },
+  {
+   "level": "SL",
+   "stem": "Why does heating an enzyme to 80 °C stop it working?",
+   "opts": [
+    [
+     "The peptide bonds break.",
+     "Peptide bonds are not usually broken by heat."
+    ],
+    [
+     "Bonds holding the 3D shape break, so the protein denatures.",
+     ""
+    ],
+    [
+     "The protein becomes a carbohydrate.",
+     "Proteins do not change into carbohydrates."
+    ],
+    [
+     "More amino acids are added.",
+     "No amino acids are added."
+    ]
+   ],
+   "answer": 1,
+   "why": "Denaturation changes the shape of the protein, including the active site."
+  },
+  {
+   "level": "AHL",
+   "stem": "What type of bond holds an α-helix in shape?",
+   "opts": [
+    [
+     "Peptide bonds between R groups",
+     "Peptide bonds form the backbone."
+    ],
+    [
+     "Hydrogen bonds between groups in the backbone",
+     ""
+    ],
+    [
+     "Disulfide bonds only",
+     "These are involved in tertiary structure."
+    ],
+    [
+     "Ionic bonds between R groups",
+     "These are mainly tertiary."
+    ]
+   ],
+   "answer": 1,
+   "why": "Hydrogen bonds form between C=O and N–H groups of amino acids a few positions apart."
+  },
+  {
+   "level": "AHL",
+   "stem": "Which bond is a strong covalent bond between cysteine R groups?",
+   "opts": [
+    [
+     "Disulfide bond",
+     ""
+    ],
+    [
+     "Hydrogen bond",
+     "Hydrogen bonds are weak."
+    ],
+    [
+     "Ionic bond",
+     "This forms between charged R groups."
+    ],
+    [
+     "Hydrophobic interaction",
+     "This is not a covalent bond."
+    ]
+   ],
+   "answer": 0,
+   "why": "Disulfide bridges form between the sulfur atoms of two cysteine R groups and stabilise tertiary structure."
+  },
+  {
+   "level": "AHL",
+   "stem": "In a water-soluble globular protein, where are non-polar R groups usually found?",
+   "opts": [
+    [
+     "On the outside, facing the water",
+     "Polar R groups face the water."
+    ],
+    [
+     "In the centre, away from the water",
+     ""
+    ],
+    [
+     "Only at the active site",
+     "Not necessarily."
+    ],
+    [
+     "Randomly placed",
+     "Folding is driven by polarity."
+    ]
+   ],
+   "answer": 1,
+   "why": "Hydrophobic interactions cluster non-polar R groups in the core, while polar groups keep the protein soluble."
+  },
+  {
+   "level": "AHL",
+   "stem": "Why is haemoglobin described as a conjugated protein?",
+   "opts": [
+    [
+     "It is made of one polypeptide.",
+     "It has four polypeptides."
+    ],
+    [
+     "It is fibrous.",
+     "Haemoglobin is globular."
+    ],
+    [
+     "It contains a non-protein haem group.",
+     ""
+    ],
+    [
+     "It contains disulfide bonds.",
+     "This is not what conjugated means."
+    ]
+   ],
+   "answer": 2,
+   "why": "Conjugated proteins have a prosthetic group, here the iron-containing haem that binds oxygen."
+  },
+  {
+   "level": "AHL",
+   "stem": "Which feature of collagen suits its role in tendons?",
+   "opts": [
+    [
+     "It is soluble and compact.",
+     "This describes globular proteins."
+    ],
+    [
+     "It is a fibrous protein with three chains wound together, giving high tensile strength.",
+     ""
+    ],
+    [
+     "It has an active site.",
+     "Collagen is structural, not an enzyme."
+    ],
+    [
+     "It contains haem.",
+     "It does not."
+    ]
+   ],
+   "answer": 1,
+   "why": "Collagen's triple helix makes it strong and resistant to stretching."
+  }
+ ],
+ "exam": [
+  {
+   "level": "SL",
+   "title": "Amino acids",
+   "parts": [
+    {
+     "prompt": "Draw the general structure of an amino acid and label its groups.",
+     "marks": 3,
+     "points": [
+      "Central (α) carbon with a hydrogen atom",
+      "Amine group (–NH₂) labelled",
+      "Carboxyl group (–COOH) labelled",
+      "R group labelled"
+     ],
+     "examiner": "Bonds should be drawn as single lines to the central carbon.",
+     "mistakes": [
+      "Drawing the R group as part of the amine group"
+     ]
+    }
+   ]
+  },
+  {
+   "level": "SL",
+   "title": "Denaturation",
+   "parts": [
+    {
+     "prompt": "Explain the effect of high temperature and extreme pH on protein structure.",
+     "marks": 3,
+     "points": [
+      "High temperature increases vibration, breaking hydrogen bonds and other weak interactions",
+      "Extreme pH changes charges on R groups, breaking ionic and hydrogen bonds",
+      "The protein loses its 3D (tertiary) structure: it is denatured",
+      "Function is lost, e.g. an active site changes shape",
+      "Denaturation is usually permanent"
+     ],
+     "examiner": "",
+     "mistakes": [
+      "Saying peptide bonds break"
+     ]
+    }
+   ]
+  },
+  {
+   "level": "AHL",
+   "title": "Levels of structure",
+   "parts": [
+    {
+     "prompt": "Outline the four levels of protein structure.",
+     "marks": 6,
+     "points": [
+      "Primary: the sequence of amino acids",
+      "Joined by peptide bonds",
+      "Secondary: α-helices and β-pleated sheets",
+      "Held by hydrogen bonds between backbone groups",
+      "Tertiary: the 3D folding of the polypeptide",
+      "Held by hydrogen, ionic and disulfide bonds and hydrophobic interactions between R groups",
+      "Quaternary: two or more polypeptides combined",
+      "May include a prosthetic group, e.g. haem in haemoglobin"
+     ],
+     "examiner": "",
+     "mistakes": [
+      "Saying secondary structure involves R groups"
+     ]
+    }
+   ]
+  },
+  {
+   "level": "AHL",
+   "title": "Globular and fibrous proteins",
+   "parts": [
+    {
+     "prompt": "Compare the structure and function of globular and fibrous proteins, using named examples.",
+     "marks": 4,
+     "points": [
+      "Globular proteins are compact and roughly spherical; fibrous proteins are long and thin",
+      "Globular proteins are usually soluble; fibrous proteins are insoluble",
+      "Globular: enzymes, hormones such as insulin, haemoglobin",
+      "Fibrous: structural roles, e.g. collagen in tendons and skin, keratin",
+      "Fibrous proteins often have repeating sequences; globular ones have irregular sequences"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ]
+  },
+  {
+   "level": "AHL",
+   "title": "Extended response: structure and function",
+   "parts": [
+    {
+     "prompt": "Explain how the structure of a protein is related to its function.",
+     "marks": 7,
+     "points": [
+      "Primary structure (amino acid sequence) determines how the polypeptide folds",
+      "Secondary structure forms α-helices and β-sheets by hydrogen bonding",
+      "Tertiary structure gives a precise 3D shape",
+      "This shape is held by bonds between R groups",
+      "Enzymes have an active site with a shape complementary to the substrate",
+      "A single amino acid change can alter the shape and function, e.g. sickle-cell haemoglobin",
+      "Polar R groups on the outside make globular proteins soluble",
+      "Non-polar R groups allow membrane proteins to sit in the bilayer",
+      "Quaternary structure: haemoglobin has four polypeptides and haem groups that bind oxygen",
+      "Fibrous proteins such as collagen have high tensile strength for structural roles",
+      "Denaturation changes shape, so function is lost"
+     ],
+     "examiner": "Use named examples to link structure to function.",
+     "mistakes": [
+      "Describing structure without linking it to function"
+     ]
+    }
+   ]
+  }
+ ],
+ "sheets": [
+  {
+   "level": "SL",
+   "title": "B1.2 Proteins revision sheet",
+   "desc": "Printable revision mat to complete after watching the video. 2 pages.",
+   "file": "revision-sheets/b1-2-proteins.pdf"
+  }
+ ]
+};
+</script>
+<script src="topic.js"></script>
+<script src="helix.js"></script>
+</body>
+</html>

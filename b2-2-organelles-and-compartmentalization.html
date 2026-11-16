@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AttwoodBiology B2.2 Organelles and compartmentalization</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-strand="B">
+<header class="hero">
+  <canvas class="helix" aria-hidden="true"></canvas>
+  <div class="wrap hero-inner">
+    <a class="brand" href="./"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M9 3c0 7 14 9 14 13S9 22 9 29M23 3c0 7-14 9-14 13s14 6 14 13" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M11 8h10M11 24h10M13 12h6M13 20h6" stroke="var(--glow)" stroke-width="2" stroke-linecap="round"/></svg>Attwood<span>Biology</span></a>
+    <div class="crumb"><a href="./">IB Biology</a><span>›</span><span id="theme-name"></span><span>›</span><b id="topic-code"></b></div>
+    <div class="hero-row">
+      <div class="hero-copy">
+        <h1 id="topic-title"></h1>
+        <p class="lede" id="topic-guiding"></p>
+      </div>
+      <div class="level-switch" role="group" aria-label="Choose your level">
+        <button type="button" id="btn-sl" aria-pressed="false">SL</button>
+        <button type="button" id="btn-hl" aria-pressed="true">HL (SL + AHL)</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="sections" aria-label="Page sections">
+  <div class="wrap">
+    <a href="#videos">Videos</a>
+    <a href="#ideas">Key ideas</a>
+    <a href="#quick-check">Quick check</a>
+    <a href="#exam">Exam questions</a>
+    <a href="#sheets">Revision sheets</a>
+    <span class="score-chip" id="score-chip">Quick check: 0 answered</span>
+  </div>
+</nav>
+
+<main class="wrap">
+  <section id="videos">
+    <div class="sec-head"><h2><span class="num">01</span>Watch</h2><p>Start here, then test yourself below.</p></div>
+    <div class="videos" id="video-list"></div>
+  </section>
+  <section id="ideas">
+    <div class="sec-head"><h2><span class="num">02</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
+    <div class="ideas" id="idea-list"></div>
+  </section>
+  <section id="quick-check">
+    <div class="sec-head">
+      <h2><span class="num">03</span>Quick check</h2>
+      <div class="toolbar"><span class="note" id="mcq-score"></span><button type="button" class="btn ghost" id="mcq-reset">Start again</button></div>
+    </div>
+    <div class="mcq-list" id="mcq-list"></div>
+  </section>
+  <section id="exam">
+    <div class="sec-head"><h2><span class="num">04</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
+    <div class="exam-list" id="exam-list"></div>
+  </section>
+  <section id="sheets">
+    <div class="sec-head"><h2><span class="num">05</span>Revision sheets</h2><p>Printable PDFs to go with the videos.</p></div>
+    <div class="sheets" id="sheet-list"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><b>AttwoodBiology</b> · IB Biology revision. All questions are original exam-style questions written for this page. They are not taken from IB past papers.</div>
+</footer>
+
+<script>
+/* ============================================================
+   TOPIC DATA: the only part that changes per topic.
+   Videos: paste the YouTube video ID (the part after v= in the URL).
+   Sheets: put the PDF in the revision-sheets folder and give its path.
+   ============================================================ */
+const TOPIC = {
+ "code": "B2.2",
+ "title": "Organelles and compartmentalization",
+ "theme": "Theme B: Form and function",
+ "guiding": "How are organelles adapted to their functions, and why is compartmentalisation useful?",
+ "videos": [
+  {
+   "level": "SL",
+   "title": "Organelles and compartmentalization",
+   "youtubeId": "",
+   "desc": "Organelles, the nucleus and the advantages of compartments."
+  },
+  {
+   "level": "AHL",
+   "title": "Organelles in detail",
+   "youtubeId": "",
+   "desc": "Mitochondria, chloroplasts, the nuclear envelope, ribosomes, Golgi and vesicles."
+  }
+ ],
+ "ideas": [
+  {
+   "level": "SL",
+   "h": "Organelles",
+   "p": "Discrete subunits of cells, each adapted to perform specific functions. Cell walls, cytoskeleton and cytoplasm are not counted as organelles."
+  },
+  {
+   "level": "SL",
+   "h": "Nucleus and cytoplasm",
+   "p": "Separating them keeps transcription and translation apart, so mRNA can be modified before translation begins."
+  },
+  {
+   "level": "SL",
+   "h": "Compartments in the cytoplasm",
+   "p": "Membranes keep enzymes and substrates at high concentrations and keep harmful enzymes away from the rest of the cell, e.g. in lysosomes."
+  },
+  {
+   "level": "SL",
+   "h": "Phagocytic vacuoles",
+   "p": "Food or pathogens are taken in and digested by enzymes inside a vacuole, without damaging the cytoplasm."
+  },
+  {
+   "level": "AHL",
+   "h": "Mitochondria",
+   "p": "Double membrane; a small intermembrane space for a steep proton gradient; cristae give a large surface area for the ETC; the matrix holds Krebs cycle enzymes."
+  },
+  {
+   "level": "AHL",
+   "h": "Chloroplasts",
+   "p": "Thylakoids stacked into grana give a large surface area for photosystems and pigments; small thylakoid space for a proton gradient; stroma holds Calvin cycle enzymes."
+  },
+  {
+   "level": "AHL",
+   "h": "The nuclear envelope",
+   "p": "A double membrane with nuclear pores. Pores let mRNA out and proteins in, while keeping DNA inside."
+  },
+  {
+   "level": "AHL",
+   "h": "Free and bound ribosomes",
+   "p": "Free ribosomes make proteins for use in the cytoplasm. Ribosomes bound to the rough ER make proteins for secretion, membranes or lysosomes."
+  },
+  {
+   "level": "AHL",
+   "h": "Golgi apparatus",
+   "p": "Receives proteins from the rough ER, modifies them (e.g. adds carbohydrates) and packages them into vesicles."
+  },
+  {
+   "level": "AHL",
+   "h": "Vesicles",
+   "p": "Membrane-bound sacs that transport materials. Clathrin-coated vesicles form during endocytosis."
+  }
+ ],
+ "mcq": [
+  {
+   "level": "SL",
+   "stem": "Which is NOT considered an organelle?",
+   "opts": [
+    [
+     "Mitochondrion",
+     "This is an organelle."
+    ],
+    [
+     "Nucleus",
+     "This is an organelle."
+    ],
+    [
+     "Cell wall",
+     ""
+    ],
+    [
+     "Ribosome",
+     "Ribosomes are usually counted as organelles."
+    ]
+   ],
+   "answer": 2,
+   "why": "The cell wall is outside the plasma membrane and is not a discrete functional subunit."
+  },
+  {
+   "level": "SL",
+   "stem": "What is an advantage of separating the nucleus from the cytoplasm?",
+   "opts": [
+    [
+     "mRNA can be modified before it is translated.",
+     ""
+    ],
+    [
+     "Proteins can be made inside the nucleus.",
+     "Proteins are made in the cytoplasm."
+    ],
+    [
+     "DNA can leave the nucleus.",
+     "DNA stays in the nucleus."
+    ],
+    [
+     "It removes the need for ribosomes.",
+     "Ribosomes are still needed."
+    ]
+   ],
+   "answer": 0,
+   "why": "In eukaryotes, mRNA is processed (e.g. introns removed) before it reaches the ribosomes."
+  },
+  {
+   "level": "SL",
+   "stem": "Why are digestive enzymes kept inside lysosomes?",
+   "opts": [
+    [
+     "To keep them warm",
+     "Temperature is not the reason."
+    ],
+    [
+     "To prevent them from digesting the cell's own components",
+     ""
+    ],
+    [
+     "To make them more active by diluting them",
+     "They are concentrated, not diluted."
+    ],
+    [
+     "So they can leave the cell easily",
+     "Lysosomes work inside cells."
+    ]
+   ],
+   "answer": 1,
+   "why": "Compartmentalisation keeps enzymes concentrated and away from structures they could damage."
+  },
+  {
+   "level": "SL",
+   "stem": "How does compartmentalisation increase the efficiency of metabolism?",
+   "opts": [
+    [
+     "Enzymes and substrates can be kept at high concentrations in one place.",
+     ""
+    ],
+    [
+     "It makes the cell larger.",
+     "Size is not the advantage."
+    ],
+    [
+     "It slows reactions down.",
+     "It speeds them up."
+    ],
+    [
+     "It removes the need for membranes.",
+     "It depends on membranes."
+    ]
+   ],
+   "answer": 0,
+   "why": "Higher concentrations increase collision rates, and conditions such as pH can be optimised for each compartment."
+  },
+  {
+   "level": "AHL",
+   "stem": "How are mitochondrial cristae adapted to their function?",
+   "opts": [
+    [
+     "They store DNA.",
+     "DNA is in the matrix."
+    ],
+    [
+     "They give a large surface area for the electron transport chain and ATP synthase.",
+     ""
+    ],
+    [
+     "They make the mitochondrion lighter.",
+     "This is not the function."
+    ],
+    [
+     "They contain Krebs cycle enzymes.",
+     "These are in the matrix."
+    ]
+   ],
+   "answer": 1,
+   "why": "More membrane means more ETC proteins and ATP synthase, so more ATP can be made."
+  },
+  {
+   "level": "AHL",
+   "stem": "Why is the small volume of the intermembrane space important?",
+   "opts": [
+    [
+     "It stores ATP.",
+     "ATP is not stored there."
+    ],
+    [
+     "A steep proton gradient can be built up quickly.",
+     ""
+    ],
+    [
+     "It holds Krebs cycle enzymes.",
+     "These are in the matrix."
+    ],
+    [
+     "It allows glucose to enter.",
+     "Glucose is not respired in mitochondria."
+    ]
+   ],
+   "answer": 1,
+   "why": "A small volume means pumping protons quickly raises their concentration."
+  },
+  {
+   "level": "AHL",
+   "stem": "Where are the enzymes of the Calvin cycle found?",
+   "opts": [
+    [
+     "Thylakoid membranes",
+     "These hold photosystems and the ETC."
+    ],
+    [
+     "Stroma",
+     ""
+    ],
+    [
+     "Intermembrane space",
+     "This is not where they are."
+    ],
+    [
+     "Thylakoid space",
+     "This is where protons accumulate."
+    ]
+   ],
+   "answer": 1,
+   "why": "The stroma contains Rubisco and the other Calvin cycle enzymes."
+  },
+  {
+   "level": "AHL",
+   "stem": "What is the function of nuclear pores?",
+   "opts": [
+    [
+     "To let mRNA leave and proteins enter the nucleus",
+     ""
+    ],
+    [
+     "To let DNA leave the nucleus",
+     "DNA stays in the nucleus."
+    ],
+    [
+     "To make ribosomes",
+     "Ribosome subunits are made in the nucleolus."
+    ],
+    [
+     "To allow the nucleus to divide",
+     "This is not their function."
+    ]
+   ],
+   "answer": 0,
+   "why": "Pores control traffic between the nucleus and the cytoplasm."
+  },
+  {
+   "level": "AHL",
+   "stem": "Where are proteins made that will be secreted from the cell?",
+   "opts": [
+    [
+     "On free ribosomes",
+     "These make proteins for use in the cytoplasm."
+    ],
+    [
+     "On ribosomes bound to the rough ER",
+     ""
+    ],
+    [
+     "In the Golgi apparatus",
+     "The Golgi modifies proteins but does not make them."
+    ],
+    [
+     "In the nucleus",
+     "Translation happens in the cytoplasm."
+    ]
+   ],
+   "answer": 1,
+   "why": "Proteins made on the rough ER enter its lumen, then go to the Golgi apparatus in vesicles."
+  },
+  {
+   "level": "AHL",
+   "stem": "What is the role of the Golgi apparatus?",
+   "opts": [
+    [
+     "Making ATP",
+     "That is the mitochondrion."
+    ],
+    [
+     "Making lipids only",
+     "The smooth ER makes lipids."
+    ],
+    [
+     "Modifying and packaging proteins into vesicles",
+     ""
+    ],
+    [
+     "Breaking down old organelles",
+     "That is the lysosome."
+    ]
+   ],
+   "answer": 2,
+   "why": "The Golgi adds carbohydrates to make glycoproteins and sorts proteins for their destination."
+  }
+ ],
+ "exam": [
+  {
+   "level": "SL",
+   "title": "Compartmentalisation",
+   "parts": [
+    {
+     "prompt": "Outline the advantages of compartmentalisation in eukaryotic cells.",
+     "marks": 3,
+     "points": [
+      "Enzymes and substrates can be kept at high concentrations",
+      "Conditions (e.g. pH) can be different in each compartment",
+      "Harmful enzymes are kept away from other cell components (e.g. lysosomes)",
+      "Transcription and translation are separated, so mRNA can be processed first",
+      "Different processes can happen at the same time without interfering"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ]
+  },
+  {
+   "level": "AHL",
+   "title": "The mitochondrion",
+   "parts": [
+    {
+     "prompt": "Explain how the structure of a mitochondrion is adapted for aerobic respiration.",
+     "marks": 4,
+     "points": [
+      "Double membrane separates the matrix from the cytoplasm",
+      "Cristae (inner membrane folds) give a large surface area for the ETC and ATP synthase",
+      "Small intermembrane space allows a steep proton gradient to build up",
+      "The matrix contains enzymes for the link reaction and Krebs cycle",
+      "The matrix contains its own DNA and 70S ribosomes to make some of its proteins"
+     ],
+     "examiner": "",
+     "mistakes": [
+      "Saying the outer membrane is folded"
+     ]
+    }
+   ]
+  },
+  {
+   "level": "AHL",
+   "title": "The chloroplast",
+   "parts": [
+    {
+     "prompt": "Explain how the structure of a chloroplast is adapted for photosynthesis.",
+     "marks": 4,
+     "points": [
+      "Thylakoids give a large surface area for light absorption",
+      "Photosystems and pigments are arranged in thylakoid membranes",
+      "Grana (stacks) hold many thylakoids",
+      "Small thylakoid space allows a steep proton gradient for ATP synthase",
+      "Stroma contains enzymes of the Calvin cycle, such as Rubisco",
+      "Starch grains store products of photosynthesis"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ]
+  },
+  {
+   "level": "AHL",
+   "title": "Protein secretion",
+   "parts": [
+    {
+     "prompt": "Describe how a protein for secretion is produced and released from a cell.",
+     "marks": 4,
+     "points": [
+      "mRNA is translated by ribosomes on the rough ER",
+      "The polypeptide enters the lumen of the rough ER",
+      "It is transported to the Golgi apparatus in vesicles",
+      "The Golgi modifies the protein, e.g. adding carbohydrates",
+      "The protein is packaged into secretory vesicles",
+      "Vesicles fuse with the plasma membrane and release the protein by exocytosis"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ]
+  },
+  {
+   "level": "AHL",
+   "title": "Extended response: organelles",
+   "parts": [
+    {
+     "prompt": "Compare the structure and function of mitochondria and chloroplasts.",
+     "marks": 7,
+     "points": [
+      "Both have a double membrane",
+      "Both have their own circular DNA and 70S ribosomes",
+      "Both have internal membranes with a large surface area: cristae and thylakoids",
+      "Both use an ETC and chemiosmosis to make ATP",
+      "Both have ATP synthase in their internal membranes",
+      "Mitochondria carry out aerobic respiration; chloroplasts carry out photosynthesis",
+      "In mitochondria protons are pumped into the intermembrane space; in chloroplasts into the thylakoid space",
+      "Mitochondrial matrix has Krebs cycle enzymes; chloroplast stroma has Calvin cycle enzymes",
+      "Chloroplasts contain pigments such as chlorophyll; mitochondria do not",
+      "Both are thought to have arisen by endosymbiosis"
+     ],
+     "examiner": "Include similarities and differences.",
+     "mistakes": []
+    }
+   ]
+  }
+ ],
+ "sheets": [
+  {
+   "level": "SL",
+   "title": "B2.2 Organelles and compartmentalization revision sheet",
+   "desc": "Printable revision mat to complete after watching the video.",
+   "file": ""
+  }
+ ]
+};
+</script>
+<script src="topic.js"></script>
+<script src="helix.js"></script>
+</body>
+</html>

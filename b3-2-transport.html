@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AttwoodBiology B3.2 Transport</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-strand="B">
+<header class="hero">
+  <canvas class="helix" aria-hidden="true"></canvas>
+  <div class="wrap hero-inner">
+    <a class="brand" href="./"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M9 3c0 7 14 9 14 13S9 22 9 29M23 3c0 7-14 9-14 13s14 6 14 13" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M11 8h10M11 24h10M13 12h6M13 20h6" stroke="var(--glow)" stroke-width="2" stroke-linecap="round"/></svg>Attwood<span>Biology</span></a>
+    <div class="crumb"><a href="./">IB Biology</a><span>›</span><span id="theme-name"></span><span>›</span><b id="topic-code"></b></div>
+    <div class="hero-row">
+      <div class="hero-copy">
+        <h1 id="topic-title"></h1>
+        <p class="lede" id="topic-guiding"></p>
+      </div>
+      <div class="level-switch" role="group" aria-label="Choose your level">
+        <button type="button" id="btn-sl" aria-pressed="false">SL</button>
+        <button type="button" id="btn-hl" aria-pressed="true">HL (SL + AHL)</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="sections" aria-label="Page sections">
+  <div class="wrap">
+    <a href="#videos">Videos</a>
+    <a href="#ideas">Key ideas</a>
+    <a href="#quick-check">Quick check</a>
+    <a href="#exam">Exam questions</a>
+    <a href="#sheets">Revision sheets</a>
+    <span class="score-chip" id="score-chip">Quick check: 0 answered</span>
+  </div>
+</nav>
+
+<main class="wrap">
+  <section id="videos">
+    <div class="sec-head"><h2><span class="num">01</span>Watch</h2><p>Start here, then test yourself below.</p></div>
+    <div class="videos" id="video-list"></div>
+  </section>
+  <section id="ideas">
+    <div class="sec-head"><h2><span class="num">02</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
+    <div class="ideas" id="idea-list"></div>
+  </section>
+  <section id="quick-check">
+    <div class="sec-head">
+      <h2><span class="num">03</span>Quick check</h2>
+      <div class="toolbar"><span class="note" id="mcq-score"></span><button type="button" class="btn ghost" id="mcq-reset">Start again</button></div>
+    </div>
+    <div class="mcq-list" id="mcq-list"></div>
+  </section>
+  <section id="exam">
+    <div class="sec-head"><h2><span class="num">04</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
+    <div class="exam-list" id="exam-list"></div>
+  </section>
+  <section id="sheets">
+    <div class="sec-head"><h2><span class="num">05</span>Revision sheets</h2><p>Printable PDFs to go with the videos.</p></div>
+    <div class="sheets" id="sheet-list"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><b>AttwoodBiology</b> · IB Biology revision. All questions are original exam-style questions written for this page. They are not taken from IB past papers.</div>
+</footer>
+
+<script>
+/* ============================================================
+   TOPIC DATA: the only part that changes per topic.
+   Videos: paste the YouTube video ID (the part after v= in the URL).
+   Sheets: put the PDF in the revision-sheets folder and give its path.
+   ============================================================ */
+const TOPIC = {
+ "code": "B3.2",
+ "title": "Transport",
+ "theme": "Theme B: Form and function",
+ "guiding": "How are blood vessels, the heart and plant tissues adapted for transport?",
+ "videos": [
+  {
+   "level": "SL",
+   "title": "Transport",
+   "youtubeId": "",
+   "desc": "Blood vessels, coronary heart disease and transport of water in plants."
+  },
+  {
+   "level": "AHL",
+   "title": "Transport in more depth",
+   "youtubeId": "",
+   "desc": "Tissue fluid, the heart, the cardiac cycle, root pressure and phloem."
+  }
+ ],
+ "ideas": [
+  {
+   "level": "SL",
+   "h": "Capillaries",
+   "p": "Walls one cell thick, often with fenestrations (pores), a large surface area and slow blood flow for exchange with tissues."
+  },
+  {
+   "level": "SL",
+   "h": "Arteries",
+   "p": "Thick walls with elastic and muscle fibres. Elastic recoil maintains high pressure between heartbeats."
+  },
+  {
+   "level": "SL",
+   "h": "Veins",
+   "p": "Thin walls, wide lumen, and valves to stop backflow. Contraction of skeletal muscles helps push blood back to the heart."
+  },
+  {
+   "level": "SL",
+   "h": "Pulse rate",
+   "p": "Measured at the radial or carotid artery by counting beats for a set time, or with a digital monitor."
+  },
+  {
+   "level": "SL",
+   "h": "Coronary occlusion",
+   "p": "Fatty plaques (atherosclerosis) can block coronary arteries, cutting off oxygen to heart muscle and causing a heart attack."
+  },
+  {
+   "level": "SL",
+   "h": "Water transport in plants",
+   "p": "Transpiration pulls water up the xylem. Cohesion keeps the water column continuous; adhesion to xylem walls helps."
+  },
+  {
+   "level": "SL",
+   "h": "Xylem vessels",
+   "p": "Dead, hollow tubes with no end walls. Lignin strengthens walls against tension, and pits allow sideways movement."
+  },
+  {
+   "level": "SL",
+   "h": "Plant tissue distribution",
+   "p": "In a dicot stem, vascular bundles are in a ring. In a dicot root, xylem is in the centre in an X-shape with phloem between its arms."
+  },
+  {
+   "level": "AHL",
+   "h": "Tissue fluid",
+   "p": "High pressure at the arterial end of capillaries forces fluid out. At the venous end, lower pressure and osmosis draw most of it back in."
+  },
+  {
+   "level": "AHL",
+   "h": "Lymph",
+   "p": "Excess tissue fluid drains into lymph vessels and returns to the blood."
+  },
+  {
+   "level": "AHL",
+   "h": "Single and double circulation",
+   "p": "Fish: blood passes through the heart once per circuit. Mammals: twice, so blood to the body is at high pressure."
+  },
+  {
+   "level": "AHL",
+   "h": "The heart",
+   "p": "Cardiac muscle, a pacemaker (SAN), atria and ventricles, atrioventricular and semilunar valves, a septum and coronary vessels."
+  },
+  {
+   "level": "AHL",
+   "h": "Cardiac cycle",
+   "p": "Atrial systole, ventricular systole (AV valves close, semilunar valves open), then diastole as the heart fills."
+  },
+  {
+   "level": "AHL",
+   "h": "Root pressure",
+   "p": "Active transport of mineral ions into the xylem draws water in by osmosis, pushing water upwards, especially when transpiration is low."
+  },
+  {
+   "level": "AHL",
+   "h": "Phloem",
+   "p": "Sieve tubes with sieve plates and little cytoplasm, supported by companion cells with many mitochondria. Sap moves from source to sink."
+  }
+ ],
+ "mcq": [
+  {
+   "level": "SL",
+   "stem": "Which feature of capillaries makes exchange of materials efficient?",
+   "opts": [
+    [
+     "Thick muscular walls",
+     "This describes arteries."
+    ],
+    [
+     "Walls one cell thick",
+     ""
+    ],
+    [
+     "Valves",
+     "Valves are found in veins."
+    ],
+    [
+     "A narrow lumen with high pressure",
+     "Pressure in capillaries is lower than in arteries."
+    ]
+   ],
+   "answer": 1,
+   "why": "Thin walls give a short diffusion distance between blood and tissue."
+  },
+  {
+   "level": "SL",
+   "stem": "Why do arteries have elastic fibres in their walls?",
+   "opts": [
+    [
+     "To stop blood flowing backwards",
+     "That is the role of valves."
+    ],
+    [
+     "To stretch and recoil, maintaining pressure between heartbeats",
+     ""
+    ],
+    [
+     "To allow exchange with tissues",
+     "Exchange happens in capillaries."
+    ],
+    [
+     "To make them thinner",
+     "They make walls thicker."
+    ]
+   ],
+   "answer": 1,
+   "why": "Elastic recoil smooths out pressure and keeps blood moving."
+  },
+  {
+   "level": "SL",
+   "stem": "What prevents backflow of blood in veins?",
+   "opts": [
+    [
+     "Elastic fibres",
+     "These are mainly in arteries."
+    ],
+    [
+     "High blood pressure",
+     "Pressure in veins is low."
+    ],
+    [
+     "Valves",
+     ""
+    ],
+    [
+     "Capillaries",
+     "Capillaries do not prevent backflow."
+    ]
+   ],
+   "answer": 2,
+   "why": "Valves close if blood starts to flow backwards."
+  },
+  {
+   "level": "SL",
+   "stem": "What is the main cause of coronary heart disease?",
+   "opts": [
+    [
+     "Fatty deposits narrowing or blocking the coronary arteries",
+     ""
+    ],
+    [
+     "Too much oxygen in the blood",
+     "This is not the cause."
+    ],
+    [
+     "Damaged heart valves only",
+     "This is a different condition."
+    ],
+    [
+     "Low blood pressure",
+     "High blood pressure is a risk factor."
+    ]
+   ],
+   "answer": 0,
+   "why": "Atherosclerosis reduces blood flow to heart muscle. A clot can block an artery completely."
+  },
+  {
+   "level": "SL",
+   "stem": "How does water move up the xylem?",
+   "opts": [
+    [
+     "It is pumped by the leaves.",
+     "Leaves do not pump water."
+    ],
+    [
+     "It is pulled up by tension from transpiration, using cohesion.",
+     ""
+    ],
+    [
+     "It moves by active transport.",
+     "Movement in xylem is passive."
+    ],
+    [
+     "It flows down from the leaves.",
+     "Water moves up."
+    ]
+   ],
+   "answer": 1,
+   "why": "Evaporation from leaves pulls a continuous column of water up, held together by cohesion."
+  },
+  {
+   "level": "SL",
+   "stem": "Why are xylem walls strengthened with lignin?",
+   "opts": [
+    [
+     "To make them waterproof only",
+     "Lignin also strengthens them."
+    ],
+    [
+     "To stop them collapsing under tension",
+     ""
+    ],
+    [
+     "To store sugars",
+     "Xylem does not store sugars."
+    ],
+    [
+     "To allow active transport",
+     "Xylem cells are dead."
+    ]
+   ],
+   "answer": 1,
+   "why": "The negative pressure in xylem could pull the walls inwards without strengthening."
+  },
+  {
+   "level": "AHL",
+   "stem": "Why does tissue fluid form at the arterial end of a capillary?",
+   "opts": [
+    [
+     "Blood pressure is higher than the osmotic effect of plasma proteins.",
+     ""
+    ],
+    [
+     "Plasma proteins leave the blood.",
+     "Proteins mostly stay in the blood."
+    ],
+    [
+     "Red blood cells push fluid out.",
+     "Cells do not leave."
+    ],
+    [
+     "There is no pressure there.",
+     "Pressure is relatively high."
+    ]
+   ],
+   "answer": 0,
+   "why": "Hydrostatic pressure forces water and small solutes out through the capillary wall."
+  },
+  {
+   "level": "AHL",
+   "stem": "What is the advantage of double circulation in mammals?",
+   "opts": [
+    [
+     "Blood only needs to pass through the heart once.",
+     "That is single circulation."
+    ],
+    [
+     "Blood can be pumped to the body at high pressure after returning from the lungs.",
+     ""
+    ],
+    [
+     "It mixes oxygenated and deoxygenated blood.",
+     "Blood is kept separate."
+    ],
+    [
+     "It removes the need for capillaries.",
+     "Capillaries are still needed."
+    ]
+   ],
+   "answer": 1,
+   "why": "Blood loses pressure in the lung capillaries, so returning to the heart lets it be pumped again at high pressure."
+  },
+  {
+   "level": "AHL",
+   "stem": "During ventricular systole, what happens to the valves?",
+   "opts": [
+    [
+     "AV valves open and semilunar valves close.",
+     "The opposite happens."
+    ],
+    [
+     "AV valves close and semilunar valves open.",
+     ""
+    ],
+    [
+     "All valves close.",
+     "Semilunar valves open to let blood out."
+    ],
+    [
+     "All valves open.",
+     "AV valves close to prevent backflow."
+    ]
+   ],
+   "answer": 1,
+   "why": "Pressure in the ventricles rises above the atria (closing AV valves) and above the arteries (opening semilunar valves)."
+  },
+  {
+   "level": "AHL",
+   "stem": "Why do companion cells have many mitochondria?",
+   "opts": [
+    [
+     "To make glucose",
+     "Mitochondria do not make glucose."
+    ],
+    [
+     "To supply ATP for actively loading sugars into sieve tubes",
+     ""
+    ],
+    [
+     "To strengthen the phloem",
+     "This is not their role."
+    ],
+    [
+     "To carry out photosynthesis",
+     "That is chloroplasts."
+    ]
+   ],
+   "answer": 1,
+   "why": "Active loading of sucrose at sources creates the pressure that moves phloem sap."
+  }
+ ],
+ "exam": [
+  {
+   "level": "SL",
+   "title": "Blood vessels",
+   "parts": [
+    {
+     "prompt": "Compare the structure of arteries, veins and capillaries.",
+     "marks": 4,
+     "points": [
+      "Arteries have thick walls; veins have thinner walls; capillaries have walls one cell thick",
+      "Arteries have a narrow lumen; veins a wide lumen",
+      "Arteries have more elastic and muscle tissue",
+      "Veins have valves; arteries do not (except at the heart)",
+      "Capillaries may have fenestrations",
+      "Arteries carry blood at high pressure; veins at low pressure"
+     ],
+     "examiner": "A table is a clear way to answer.",
+     "mistakes": []
+    }
+   ]
+  },
+  {
+   "level": "SL",
+   "title": "Transport in xylem",
+   "parts": [
+    {
+     "prompt": "Explain how water moves from the roots to the leaves of a plant.",
+     "marks": 4,
+     "points": [
+      "Water evaporates from mesophyll cells and diffuses out through stomata (transpiration)",
+      "This creates tension in the xylem",
+      "Water is pulled up the xylem",
+      "Cohesion between water molecules keeps the column continuous",
+      "Adhesion to xylem walls helps water rise",
+      "Lignified walls prevent xylem collapsing"
+     ],
+     "examiner": "",
+     "mistakes": [
+      "Saying xylem cells pump water"
+     ]
+    }
+   ]
+  },
+  {
+   "level": "SL",
+   "title": "Extended response: transport in mammals and plants",
+   "parts": [
+    {
+     "prompt": "Compare the transport of materials in mammals and in flowering plants.",
+     "marks": 7,
+     "points": [
+      "Mammals have a heart that pumps blood; plants have no pump",
+      "Mammals transport materials in blood; plants in xylem and phloem",
+      "Blood moves in a closed circulation of vessels; plant transport is in two separate systems",
+      "Water moves up xylem by transpiration pull (passive)",
+      "Phloem moves sugars from source to sink, using active loading",
+      "Mammalian blood carries O₂, CO₂, nutrients, hormones and waste",
+      "Xylem carries water and mineral ions; phloem carries sucrose and amino acids",
+      "Both rely on pressure differences to move fluids",
+      "Capillaries allow exchange with tissues; plant cells exchange through cell walls",
+      "Valves in veins and heart prevent backflow; xylem flow is one-way"
+     ],
+     "examiner": "Include similarities and differences.",
+     "mistakes": []
+    }
+   ]
+  },
+  {
+   "level": "AHL",
+   "title": "Tissue fluid",
+   "parts": [
+    {
+     "prompt": "Explain how tissue fluid is formed and returned to the blood.",
+     "marks": 4,
+     "points": [
+      "At the arterial end, hydrostatic pressure is high",
+      "Fluid is forced out through capillary walls (pressure filtration)",
+      "Large proteins and cells remain in the blood",
+      "Exchange of substances occurs between tissue fluid and cells",
+      "At the venous end, pressure is lower, and water returns by osmosis",
+      "Excess fluid drains into lymph vessels"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ]
+  },
+  {
+   "level": "AHL",
+   "title": "The cardiac cycle",
+   "parts": [
+    {
+     "prompt": "Identify the time interval during which the semilunar valve is open and explain.",
+     "marks": 2,
+     "points": [
+      "From about 0.15 s to 0.3 s (accept 0.2–0.3 s)",
+      "Ventricular pressure is equal to or higher than aortic pressure, so blood is pushed into the aorta"
+     ],
+     "examiner": "",
+     "mistakes": []
+    },
+    {
+     "prompt": "Explain why aortic pressure stays above 10 kPa even when the ventricle is relaxed.",
+     "marks": 2,
+     "points": [
+      "The semilunar valve closes, preventing backflow",
+      "Elastic recoil of the aorta wall maintains pressure"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ],
+   "table": {
+    "head": [
+     "Time / s",
+     "0.0",
+     "0.1",
+     "0.2",
+     "0.3",
+     "0.4"
+    ],
+    "rows": [
+     [
+      "Left ventricle pressure / kPa",
+      "1",
+      "2",
+      "16",
+      "15",
+      "3"
+     ],
+     [
+      "Aortic pressure / kPa",
+      "10",
+      "10",
+      "16",
+      "15",
+      "12"
+     ]
+    ]
+   }
+  }
+ ],
+ "sheets": [
+  {
+   "level": "SL",
+   "title": "B3.2 Transport revision sheet",
+   "desc": "Printable revision mat to complete after watching the video.",
+   "file": ""
+  }
+ ]
+};
+</script>
+<script src="topic.js"></script>
+<script src="helix.js"></script>
+</body>
+</html>

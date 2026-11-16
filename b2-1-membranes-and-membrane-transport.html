@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AttwoodBiology B2.1 Membranes and membrane transport</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-strand="B">
+<header class="hero">
+  <canvas class="helix" aria-hidden="true"></canvas>
+  <div class="wrap hero-inner">
+    <a class="brand" href="./"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M9 3c0 7 14 9 14 13S9 22 9 29M23 3c0 7-14 9-14 13s14 6 14 13" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M11 8h10M11 24h10M13 12h6M13 20h6" stroke="var(--glow)" stroke-width="2" stroke-linecap="round"/></svg>Attwood<span>Biology</span></a>
+    <div class="crumb"><a href="./">IB Biology</a><span>›</span><span id="theme-name"></span><span>›</span><b id="topic-code"></b></div>
+    <div class="hero-row">
+      <div class="hero-copy">
+        <h1 id="topic-title"></h1>
+        <p class="lede" id="topic-guiding"></p>
+      </div>
+      <div class="level-switch" role="group" aria-label="Choose your level">
+        <button type="button" id="btn-sl" aria-pressed="false">SL</button>
+        <button type="button" id="btn-hl" aria-pressed="true">HL (SL + AHL)</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="sections" aria-label="Page sections">
+  <div class="wrap">
+    <a href="#videos">Videos</a>
+    <a href="#ideas">Key ideas</a>
+    <a href="#quick-check">Quick check</a>
+    <a href="#exam">Exam questions</a>
+    <a href="#sheets">Revision sheets</a>
+    <span class="score-chip" id="score-chip">Quick check: 0 answered</span>
+  </div>
+</nav>
+
+<main class="wrap">
+  <section id="videos">
+    <div class="sec-head"><h2><span class="num">01</span>Watch</h2><p>Start here, then test yourself below.</p></div>
+    <div class="videos" id="video-list"></div>
+  </section>
+  <section id="ideas">
+    <div class="sec-head"><h2><span class="num">02</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
+    <div class="ideas" id="idea-list"></div>
+  </section>
+  <section id="quick-check">
+    <div class="sec-head">
+      <h2><span class="num">03</span>Quick check</h2>
+      <div class="toolbar"><span class="note" id="mcq-score"></span><button type="button" class="btn ghost" id="mcq-reset">Start again</button></div>
+    </div>
+    <div class="mcq-list" id="mcq-list"></div>
+  </section>
+  <section id="exam">
+    <div class="sec-head"><h2><span class="num">04</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
+    <div class="exam-list" id="exam-list"></div>
+  </section>
+  <section id="sheets">
+    <div class="sec-head"><h2><span class="num">05</span>Revision sheets</h2><p>Printable PDFs to go with the videos.</p></div>
+    <div class="sheets" id="sheet-list"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><b>AttwoodBiology</b> · IB Biology revision. All questions are original exam-style questions written for this page. They are not taken from IB past papers.</div>
+</footer>
+
+<script>
+/* ============================================================
+   TOPIC DATA: the only part that changes per topic.
+   Videos: paste the YouTube video ID (the part after v= in the URL).
+   Sheets: put the PDF in the revision-sheets folder and give its path.
+   ============================================================ */
+const TOPIC = {
+ "code": "B2.1",
+ "title": "Membranes and membrane transport",
+ "theme": "Theme B: Form and function",
+ "guiding": "How do the structure and composition of membranes control what enters and leaves cells?",
+ "videos": [
+  {
+   "level": "SL",
+   "title": "Membranes and membrane transport",
+   "youtubeId": "",
+   "desc": "The fluid mosaic model, diffusion, osmosis and active transport."
+  },
+  {
+   "level": "AHL",
+   "title": "Membranes in more depth",
+   "youtubeId": "",
+   "desc": "Fluidity, cholesterol, gated channels, pumps, cotransport and cell adhesion."
+  }
+ ],
+ "ideas": [
+  {
+   "level": "SL",
+   "h": "Lipid bilayers",
+   "p": "Phospholipids form a bilayer with hydrophilic heads facing out and hydrophobic tails inside. This is the basis of all cell membranes."
+  },
+  {
+   "level": "SL",
+   "h": "A barrier",
+   "p": "The hydrophobic core has low permeability to large particles and to ions and polar molecules."
+  },
+  {
+   "level": "SL",
+   "h": "Simple diffusion",
+   "p": "Small, non-polar molecules such as O₂ and CO₂ diffuse through the bilayer, down a concentration gradient. No energy needed."
+  },
+  {
+   "level": "SL",
+   "h": "Membrane proteins",
+   "p": "Integral proteins are embedded in the bilayer. Peripheral proteins are attached to the surface."
+  },
+  {
+   "level": "SL",
+   "h": "Osmosis and aquaporins",
+   "p": "Water moves across membranes by osmosis, from lower to higher solute concentration. Aquaporins are channels that greatly increase water permeability."
+  },
+  {
+   "level": "SL",
+   "h": "Facilitated diffusion",
+   "p": "Channel proteins let specific ions or polar molecules diffuse through, down their gradient, without using energy."
+  },
+  {
+   "level": "SL",
+   "h": "Active transport",
+   "p": "Pump proteins use ATP to move particles against their concentration gradient. Pumps are selective."
+  },
+  {
+   "level": "SL",
+   "h": "Glycoproteins and glycolipids",
+   "p": "Carbohydrate chains on the outer surface form the glycocalyx, used in cell recognition and adhesion."
+  },
+  {
+   "level": "SL",
+   "h": "Fluid mosaic model",
+   "p": "Proteins float in a fluid phospholipid bilayer, like a mosaic of different pieces."
+  },
+  {
+   "level": "AHL",
+   "h": "Fluidity",
+   "p": "Unsaturated fatty acids with kinks make membranes more fluid. Saturated fatty acids pack closely, making membranes less fluid."
+  },
+  {
+   "level": "AHL",
+   "h": "Cholesterol",
+   "p": "In animal cells, cholesterol sits between phospholipids and stops membranes becoming too fluid when warm or too rigid when cold."
+  },
+  {
+   "level": "AHL",
+   "h": "Endocytosis and exocytosis",
+   "p": "Membrane fluidity allows vesicles to form by pinching off (endocytosis) or to fuse with the membrane (exocytosis)."
+  },
+  {
+   "level": "AHL",
+   "h": "Gated ion channels",
+   "p": "Neurotransmitter-gated channels (e.g. nicotinic acetylcholine receptor) and voltage-gated Na⁺ and K⁺ channels open only in response to a signal."
+  },
+  {
+   "level": "AHL",
+   "h": "Sodium–potassium pump",
+   "p": "An exchange transporter: uses one ATP to pump 3 Na⁺ out and 2 K⁺ in."
+  },
+  {
+   "level": "AHL",
+   "h": "Cotransport",
+   "p": "Sodium-dependent glucose cotransporters use the Na⁺ gradient (made by the pump) to move glucose into cells against its gradient: indirect active transport."
+  },
+  {
+   "level": "AHL",
+   "h": "Cell adhesion",
+   "p": "Cell adhesion molecules (CAMs) bind cells together to form tissues."
+  }
+ ],
+ "mcq": [
+  {
+   "level": "SL",
+   "stem": "Which molecule can diffuse directly through the phospholipid bilayer?",
+   "opts": [
+    [
+     "Oxygen",
+     ""
+    ],
+    [
+     "Glucose",
+     "Glucose is polar and too large."
+    ],
+    [
+     "Sodium ions",
+     "Ions are repelled by the hydrophobic core."
+    ],
+    [
+     "Proteins",
+     "Proteins are far too large."
+    ]
+   ],
+   "answer": 0,
+   "why": "Small, non-polar molecules such as O₂ and CO₂ pass easily through the hydrophobic core."
+  },
+  {
+   "level": "SL",
+   "stem": "What are aquaporins?",
+   "opts": [
+    [
+     "Pumps that move water using ATP",
+     "Water moves passively."
+    ],
+    [
+     "Channel proteins that allow rapid movement of water",
+     ""
+    ],
+    [
+     "Carbohydrates on the cell surface",
+     "They are proteins."
+    ],
+    [
+     "Vesicles containing water",
+     "They are channels in the membrane."
+    ]
+   ],
+   "answer": 1,
+   "why": "Aquaporins greatly increase the rate of osmosis in cells such as kidney collecting duct cells."
+  },
+  {
+   "level": "SL",
+   "stem": "What distinguishes active transport from facilitated diffusion?",
+   "opts": [
+    [
+     "Facilitated diffusion uses ATP.",
+     "It does not."
+    ],
+    [
+     "Active transport moves substances down their gradient.",
+     "It moves them against the gradient."
+    ],
+    [
+     "Active transport uses ATP to move substances against a concentration gradient.",
+     ""
+    ],
+    [
+     "Only facilitated diffusion uses proteins.",
+     "Both use proteins."
+    ]
+   ],
+   "answer": 2,
+   "why": "Pump proteins change shape using energy from ATP."
+  },
+  {
+   "level": "SL",
+   "stem": "A red blood cell is placed in pure water. What happens?",
+   "opts": [
+    [
+     "It shrinks.",
+     "Water moves in, not out."
+    ],
+    [
+     "Nothing changes.",
+     "Water enters by osmosis."
+    ],
+    [
+     "Water enters by osmosis and the cell may burst.",
+     ""
+    ],
+    [
+     "Salt enters the cell.",
+     "There is no salt in pure water."
+    ]
+   ],
+   "answer": 2,
+   "why": "The cytoplasm has a higher solute concentration, so water moves in. Animal cells have no wall to stop them bursting."
+  },
+  {
+   "level": "SL",
+   "stem": "Where are glycoproteins found in the plasma membrane?",
+   "opts": [
+    [
+     "On the inner surface only",
+     "The carbohydrate faces outwards."
+    ],
+    [
+     "With their carbohydrate chains on the outer surface",
+     ""
+    ],
+    [
+     "In the hydrophobic core only",
+     "They have parts outside the bilayer."
+    ],
+    [
+     "Inside the nucleus",
+     "They are in the plasma membrane."
+    ]
+   ],
+   "answer": 1,
+   "why": "The glycocalyx on the outer surface allows recognition by other cells."
+  },
+  {
+   "level": "SL",
+   "stem": "What is an integral protein?",
+   "opts": [
+    [
+     "A protein only on the surface of the membrane",
+     "That is a peripheral protein."
+    ],
+    [
+     "A protein embedded in the bilayer, often spanning it",
+     ""
+    ],
+    [
+     "A protein found in the cytoplasm",
+     "This is not a membrane protein."
+    ],
+    [
+     "A carbohydrate",
+     "Integral proteins are proteins."
+    ]
+   ],
+   "answer": 1,
+   "why": "Integral proteins have hydrophobic regions that interact with the core of the bilayer."
+  },
+  {
+   "level": "AHL",
+   "stem": "How does cholesterol affect animal cell membranes?",
+   "opts": [
+    [
+     "It makes them completely rigid.",
+     "It moderates fluidity."
+    ],
+    [
+     "It reduces fluidity at high temperatures and prevents stiffening at low temperatures.",
+     ""
+    ],
+    [
+     "It makes them permeable to ions.",
+     "It reduces permeability."
+    ],
+    [
+     "It is found only in plant membranes.",
+     "It is mainly in animal membranes."
+    ]
+   ],
+   "answer": 1,
+   "why": "Cholesterol acts as a fluidity buffer between the phospholipids."
+  },
+  {
+   "level": "AHL",
+   "stem": "How does the sodium–potassium pump work?",
+   "opts": [
+    [
+     "It moves 2 Na⁺ out and 3 K⁺ in.",
+     "It moves 3 Na⁺ out and 2 K⁺ in."
+    ],
+    [
+     "It uses one ATP to move 3 Na⁺ out and 2 K⁺ in.",
+     ""
+    ],
+    [
+     "It moves ions down their gradients.",
+     "It works against the gradients."
+    ],
+    [
+     "It needs no energy.",
+     "It uses ATP."
+    ]
+   ],
+   "answer": 1,
+   "why": "The pump changes shape when phosphorylated, moving ions against their gradients."
+  },
+  {
+   "level": "AHL",
+   "stem": "How does a sodium-dependent glucose cotransporter move glucose into a cell?",
+   "opts": [
+    [
+     "Using ATP directly",
+     "It does not use ATP directly."
+    ],
+    [
+     "Na⁺ diffuses in down its gradient, carrying glucose with it against its gradient.",
+     ""
+    ],
+    [
+     "By osmosis",
+     "Glucose does not move by osmosis."
+    ],
+    [
+     "By simple diffusion through the bilayer",
+     "Glucose is too polar."
+    ]
+   ],
+   "answer": 1,
+   "why": "This is indirect active transport. The Na⁺ gradient is maintained by the Na⁺/K⁺ pump."
+  },
+  {
+   "level": "AHL",
+   "stem": "A membrane has more unsaturated fatty acids. What is the effect?",
+   "opts": [
+    [
+     "The membrane is more fluid.",
+     ""
+    ],
+    [
+     "The membrane is more rigid.",
+     "Unsaturated tails are kinked, so they pack less tightly."
+    ],
+    [
+     "The membrane becomes permeable to proteins.",
+     "This is not the effect."
+    ],
+    [
+     "No effect",
+     "Fatty acid composition affects fluidity."
+    ]
+   ],
+   "answer": 0,
+   "why": "Kinks in unsaturated tails prevent close packing, increasing fluidity."
+  }
+ ],
+ "exam": [
+  {
+   "level": "SL",
+   "title": "The fluid mosaic model",
+   "parts": [
+    {
+     "prompt": "Describe the fluid mosaic model of membrane structure.",
+     "marks": 4,
+     "points": [
+      "A phospholipid bilayer",
+      "Hydrophilic phosphate heads face outwards, hydrophobic tails face inwards",
+      "Integral proteins are embedded in the bilayer, some spanning it",
+      "Peripheral proteins are attached to the surface",
+      "Glycoproteins and glycolipids have carbohydrate chains on the outer surface",
+      "Cholesterol is found between phospholipids in animal cells",
+      "Phospholipids and proteins can move laterally (fluid)"
+     ],
+     "examiner": "A labelled diagram can score most marks.",
+     "mistakes": [
+      "Drawing the heads facing inwards"
+     ]
+    }
+   ]
+  },
+  {
+   "level": "SL",
+   "title": "Membrane transport",
+   "parts": [
+    {
+     "prompt": "Distinguish between simple diffusion, facilitated diffusion and active transport.",
+     "marks": 4,
+     "points": [
+      "Simple diffusion: through the bilayer, without proteins",
+      "Facilitated diffusion: through channel or carrier proteins",
+      "Both diffusion types move substances down a concentration gradient",
+      "Both are passive, needing no ATP",
+      "Active transport moves substances against a concentration gradient",
+      "Active transport uses ATP and pump proteins"
+     ],
+     "examiner": "",
+     "mistakes": [
+      "Saying facilitated diffusion uses energy"
+     ]
+    }
+   ]
+  },
+  {
+   "level": "SL",
+   "title": "Osmosis",
+   "parts": [
+    {
+     "prompt": "Use the data to estimate the solute concentration at which there is no net movement of water.",
+     "marks": 2,
+     "points": [
+      "Between 0.2 and 0.4 mol dm⁻³",
+      "About 0.31–0.35 mol dm⁻³, where the change in mass is zero"
+     ],
+     "examiner": "",
+     "mistakes": []
+    },
+    {
+     "prompt": "Explain the change in mass at 0.8 mol dm⁻³.",
+     "marks": 2,
+     "points": [
+      "The solution has a higher solute concentration than the potato cells",
+      "Water leaves the cells by osmosis, so mass decreases"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ],
+   "table": {
+    "head": [
+     "Sucrose concentration / mol dm⁻³",
+     "0.0",
+     "0.2",
+     "0.4",
+     "0.6",
+     "0.8"
+    ],
+    "rows": [
+     [
+      "% change in mass of potato",
+      "+12",
+      "+4",
+      "−3",
+      "−9",
+      "−14"
+     ]
+    ]
+   }
+  },
+  {
+   "level": "AHL",
+   "title": "Cotransport",
+   "parts": [
+    {
+     "prompt": "Explain how glucose is absorbed into cells lining the small intestine by sodium-dependent cotransport.",
+     "marks": 4,
+     "points": [
+      "The Na⁺/K⁺ pump uses ATP to pump Na⁺ out of the cell",
+      "This creates a low Na⁺ concentration inside the cell",
+      "Na⁺ diffuses back in through a cotransporter protein",
+      "Glucose is carried in at the same time, against its concentration gradient",
+      "This is indirect (secondary) active transport"
+     ],
+     "examiner": "",
+     "mistakes": [
+      "Saying glucose moves by osmosis"
+     ]
+    }
+   ]
+  },
+  {
+   "level": "AHL",
+   "title": "Extended response: membranes",
+   "parts": [
+    {
+     "prompt": "Explain how the structure of membranes allows them to control the movement of substances.",
+     "marks": 7,
+     "points": [
+      "Phospholipid bilayer has a hydrophobic core",
+      "Non-polar molecules such as O₂ and CO₂ diffuse through",
+      "Ions and polar molecules cannot easily cross the bilayer",
+      "Channel proteins allow facilitated diffusion of specific particles",
+      "Aquaporins allow rapid osmosis",
+      "Pump proteins use ATP for active transport against gradients",
+      "Proteins are selective, so only specific substances pass",
+      "Gated channels open only in response to signals, e.g. voltage or neurotransmitter",
+      "Cotransporters use ion gradients to move other substances",
+      "Membrane fluidity allows endocytosis and exocytosis of large particles"
+     ],
+     "examiner": "",
+     "mistakes": [
+      "Describing structure without linking it to movement"
+     ]
+    }
+   ]
+  }
+ ],
+ "sheets": [
+  {
+   "level": "SL",
+   "title": "B2.1 Membranes and membrane transport revision sheet",
+   "desc": "Printable revision mat to complete after watching the video.",
+   "file": ""
+  }
+ ]
+};
+</script>
+<script src="topic.js"></script>
+<script src="helix.js"></script>
+</body>
+</html>

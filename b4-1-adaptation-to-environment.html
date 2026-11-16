@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AttwoodBiology B4.1 Adaptation to environment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-strand="B">
+<header class="hero">
+  <canvas class="helix" aria-hidden="true"></canvas>
+  <div class="wrap hero-inner">
+    <a class="brand" href="./"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M9 3c0 7 14 9 14 13S9 22 9 29M23 3c0 7-14 9-14 13s14 6 14 13" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M11 8h10M11 24h10M13 12h6M13 20h6" stroke="var(--glow)" stroke-width="2" stroke-linecap="round"/></svg>Attwood<span>Biology</span></a>
+    <div class="crumb"><a href="./">IB Biology</a><span>›</span><span id="theme-name"></span><span>›</span><b id="topic-code"></b></div>
+    <div class="hero-row">
+      <div class="hero-copy">
+        <h1 id="topic-title"></h1>
+        <p class="lede" id="topic-guiding"></p>
+      </div>
+      <div class="level-switch" role="group" aria-label="Choose your level">
+        <button type="button" id="btn-sl" aria-pressed="false">SL</button>
+        <button type="button" id="btn-hl" aria-pressed="true">HL (SL + AHL)</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="sections" aria-label="Page sections">
+  <div class="wrap">
+    <a href="#videos">Videos</a>
+    <a href="#ideas">Key ideas</a>
+    <a href="#quick-check">Quick check</a>
+    <a href="#exam">Exam questions</a>
+    <a href="#sheets">Revision sheets</a>
+    <span class="score-chip" id="score-chip">Quick check: 0 answered</span>
+  </div>
+</nav>
+
+<main class="wrap">
+  <section id="videos">
+    <div class="sec-head"><h2><span class="num">01</span>Watch</h2><p>Start here, then test yourself below.</p></div>
+    <div class="videos" id="video-list"></div>
+  </section>
+  <section id="ideas">
+    <div class="sec-head"><h2><span class="num">02</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
+    <div class="ideas" id="idea-list"></div>
+  </section>
+  <section id="quick-check">
+    <div class="sec-head">
+      <h2><span class="num">03</span>Quick check</h2>
+      <div class="toolbar"><span class="note" id="mcq-score"></span><button type="button" class="btn ghost" id="mcq-reset">Start again</button></div>
+    </div>
+    <div class="mcq-list" id="mcq-list"></div>
+  </section>
+  <section id="exam">
+    <div class="sec-head"><h2><span class="num">04</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
+    <div class="exam-list" id="exam-list"></div>
+  </section>
+  <section id="sheets">
+    <div class="sec-head"><h2><span class="num">05</span>Revision sheets</h2><p>Printable PDFs to go with the videos.</p></div>
+    <div class="sheets" id="sheet-list"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><b>AttwoodBiology</b> · IB Biology revision. All questions are original exam-style questions written for this page. They are not taken from IB past papers.</div>
+</footer>
+
+<script>
+/* ============================================================
+   TOPIC DATA: the only part that changes per topic.
+   Videos: paste the YouTube video ID (the part after v= in the URL).
+   Sheets: put the PDF in the revision-sheets folder and give its path.
+   ============================================================ */
+const TOPIC = {
+ "code": "B4.1",
+ "title": "Adaptation to environment",
+ "theme": "Theme B: Form and function",
+ "guiding": "How are organisms adapted to the abiotic conditions of their habitat, and what determines where biomes occur?",
+ "videos": [
+  {
+   "level": "SL",
+   "title": "Adaptation to environment",
+   "youtubeId": "",
+   "desc": "Habitats, abiotic factors, tolerance, coral reefs and biomes."
+  }
+ ],
+ "ideas": [
+  {
+   "level": "SL",
+   "h": "Habitat",
+   "p": "The place where a community, species, population or organism lives. Described by its location and physical conditions."
+  },
+  {
+   "level": "SL",
+   "h": "Sand dunes",
+   "p": "Marram grass has rolled leaves, sunken stomata, hairs and deep roots to reduce water loss and reach water in dry, shifting sand."
+  },
+  {
+   "level": "SL",
+   "h": "Mangrove swamps",
+   "p": "Mangroves tolerate salt water and waterlogged mud with aerial roots (pneumatophores) for oxygen, prop roots for support and salt excretion."
+  },
+  {
+   "level": "SL",
+   "h": "Abiotic factors",
+   "p": "Non-living factors such as temperature, light, water, pH, salinity and soil type that affect where species can live."
+  },
+  {
+   "level": "SL",
+   "h": "Range of tolerance",
+   "p": "Each species has an optimum range for each factor. Outside it there are zones of stress, then zones of intolerance where it cannot survive."
+  },
+  {
+   "level": "SL",
+   "h": "Coral reefs",
+   "p": "Need warm water (about 20–28 °C), shallow, clear water for light, normal salinity, and low nutrient levels."
+  },
+  {
+   "level": "SL",
+   "h": "Biomes",
+   "p": "Groups of ecosystems with similar communities, determined mainly by temperature and rainfall. A climograph shows where each biome occurs."
+  },
+  {
+   "level": "SL",
+   "h": "Hot deserts",
+   "p": "Very low rainfall, high daytime temperatures. Adaptations include CAM photosynthesis, water storage (succulents), and nocturnal animals that conserve water."
+  },
+  {
+   "level": "SL",
+   "h": "Tropical rainforest",
+   "p": "High rainfall and temperature all year. Tall trees with buttress roots, drip-tip leaves, and plants competing for light."
+  }
+ ],
+ "mcq": [
+  {
+   "level": "SL",
+   "stem": "What is a habitat?",
+   "opts": [
+    [
+     "All the organisms in an area",
+     "That is a community."
+    ],
+    [
+     "The place where an organism or species lives",
+     ""
+    ],
+    [
+     "The role of an organism in an ecosystem",
+     "That is a niche."
+    ],
+    [
+     "A group of the same species",
+     "That is a population."
+    ]
+   ],
+   "answer": 1,
+   "why": "A habitat describes location and conditions."
+  },
+  {
+   "level": "SL",
+   "stem": "Which adaptation helps marram grass reduce water loss?",
+   "opts": [
+    [
+     "Leaves that roll up, enclosing stomata",
+     ""
+    ],
+    [
+     "Large, flat leaves",
+     "These would increase water loss."
+    ],
+    [
+     "Shallow roots",
+     "Marram grass has deep roots."
+    ],
+    [
+     "Stomata on the upper surface only",
+     "Stomata are protected inside rolled leaves."
+    ]
+   ],
+   "answer": 0,
+   "why": "Rolling traps humid air around the stomata, reducing the water potential gradient."
+  },
+  {
+   "level": "SL",
+   "stem": "How are mangrove trees adapted to waterlogged mud?",
+   "opts": [
+    [
+     "Deep taproots",
+     "Waterlogged mud lacks oxygen."
+    ],
+    [
+     "Aerial roots (pneumatophores) that take in oxygen from the air",
+     ""
+    ],
+    [
+     "Waxy flowers",
+     "This is not relevant."
+    ],
+    [
+     "No roots",
+     "Mangroves have roots."
+    ]
+   ],
+   "answer": 1,
+   "why": "Mud has very little oxygen, so roots grow upwards into the air."
+  },
+  {
+   "level": "SL",
+   "stem": "Which is an abiotic factor?",
+   "opts": [
+    [
+     "Predation",
+     "This is biotic."
+    ],
+    [
+     "Competition",
+     "This is biotic."
+    ],
+    [
+     "Soil pH",
+     ""
+    ],
+    [
+     "Disease",
+     "This is biotic."
+    ]
+   ],
+   "answer": 2,
+   "why": "Abiotic factors are non-living physical or chemical conditions."
+  },
+  {
+   "level": "SL",
+   "stem": "What happens to a species outside its range of tolerance for a factor?",
+   "opts": [
+    [
+     "It grows best.",
+     "Growth is best in the optimum range."
+    ],
+    [
+     "It cannot survive.",
+     ""
+    ],
+    [
+     "It reproduces faster.",
+     "Reproduction falls."
+    ],
+    [
+     "Nothing changes.",
+     "Tolerance limits matter."
+    ]
+   ],
+   "answer": 1,
+   "why": "Beyond the zones of stress lie zones of intolerance, where the species is absent."
+  },
+  {
+   "level": "SL",
+   "stem": "Why do coral reefs only form in shallow water?",
+   "opts": [
+    [
+     "Corals cannot tolerate pressure.",
+     "This is not the main reason."
+    ],
+    [
+     "Their zooxanthellae need light for photosynthesis.",
+     ""
+    ],
+    [
+     "Deep water is too warm.",
+     "Deep water is colder."
+    ],
+    [
+     "Fish only live in shallow water.",
+     "This is not the reason."
+    ]
+   ],
+   "answer": 1,
+   "why": "Light decreases with depth, limiting photosynthesis by the symbiotic algae."
+  },
+  {
+   "level": "SL",
+   "stem": "Which two factors mainly determine the distribution of terrestrial biomes?",
+   "opts": [
+    [
+     "Soil and wind",
+     "These have smaller effects."
+    ],
+    [
+     "Temperature and rainfall",
+     ""
+    ],
+    [
+     "Altitude and latitude only",
+     "These act through temperature and rainfall."
+    ],
+    [
+     "Predators and prey",
+     "These are biotic."
+    ]
+   ],
+   "answer": 1,
+   "why": "A climograph plots temperature against rainfall to show where biomes occur."
+  },
+  {
+   "level": "SL",
+   "stem": "Which is an adaptation of desert plants?",
+   "opts": [
+    [
+     "Large, thin leaves",
+     "These lose much water."
+    ],
+    [
+     "Water storage in thick, fleshy stems",
+     ""
+    ],
+    [
+     "Drip-tip leaves",
+     "These are found in rainforests."
+    ],
+    [
+     "Buttress roots",
+     "These are rainforest adaptations."
+    ]
+   ],
+   "answer": 1,
+   "why": "Succulent tissues store water for long dry periods."
+  },
+  {
+   "level": "SL",
+   "stem": "What is the function of drip tips on rainforest leaves?",
+   "opts": [
+    [
+     "To shed rainwater quickly",
+     ""
+    ],
+    [
+     "To store water",
+     "They help water run off."
+    ],
+    [
+     "To catch insects",
+     "This is not their function."
+    ],
+    [
+     "To reduce photosynthesis",
+     "They do not."
+    ]
+   ],
+   "answer": 0,
+   "why": "Removing water prevents growth of fungi and algae on leaves."
+  },
+  {
+   "level": "SL",
+   "stem": "Why are many desert animals nocturnal?",
+   "opts": [
+    [
+     "To find water in the dark",
+     "This is not the main reason."
+    ],
+    [
+     "To avoid high daytime temperatures and reduce water loss",
+     ""
+    ],
+    [
+     "To avoid predators only",
+     "Heat and water loss are key."
+    ],
+    [
+     "Because there is no light",
+     "Deserts are very sunny."
+    ]
+   ],
+   "answer": 1,
+   "why": "Being active at night reduces heat gain and evaporative water loss."
+  }
+ ],
+ "exam": [
+  {
+   "level": "SL",
+   "title": "Plant adaptations",
+   "parts": [
+    {
+     "prompt": "Explain how marram grass is adapted to life on sand dunes.",
+     "marks": 4,
+     "points": [
+      "Leaves roll up when dry, enclosing stomata",
+      "Traps humid air, reducing transpiration",
+      "Sunken stomata and hairs trap moist air",
+      "Thick waxy cuticle reduces evaporation",
+      "Deep, extensive roots reach water and anchor the plant in shifting sand",
+      "Rapid growth allows it to survive burial by sand"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ]
+  },
+  {
+   "level": "SL",
+   "title": "Tolerance",
+   "parts": [
+    {
+     "prompt": "Describe what is meant by a range of tolerance, using a named abiotic factor.",
+     "marks": 3,
+     "points": [
+      "The range of values of a factor in which a species can survive",
+      "Optimum range where growth and reproduction are greatest",
+      "Zones of stress on either side where the population is low",
+      "Zones of intolerance beyond these where the species is absent",
+      "Example such as temperature for a fish species"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ]
+  },
+  {
+   "level": "SL",
+   "title": "Coral reefs",
+   "parts": [
+    {
+     "prompt": "Outline the conditions required for coral reef formation.",
+     "marks": 3,
+     "points": [
+      "Warm water, about 20–28 °C",
+      "Shallow, clear water, so light reaches zooxanthellae",
+      "Normal marine salinity",
+      "Low nutrient levels (prevents algae outcompeting corals)",
+      "Firm substrate for attachment",
+      "pH that allows calcium carbonate deposition"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ]
+  },
+  {
+   "level": "SL",
+   "title": "Biomes",
+   "parts": [
+    {
+     "prompt": "Using the data, explain why tropical rainforest and hot desert have very different communities despite similar temperatures.",
+     "marks": 2,
+     "points": [
+      "Temperatures are similar (26 °C vs 25 °C)",
+      "Rainforest has much higher rainfall (2500 vs 150 mm)",
+      "Water availability is the key limiting factor in deserts"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ],
+   "table": {
+    "head": [
+     "Biome",
+     "Mean annual temperature / °C",
+     "Annual rainfall / mm"
+    ],
+    "rows": [
+     [
+      "Tropical rainforest",
+      "26",
+      "2500"
+     ],
+     [
+      "Hot desert",
+      "25",
+      "150"
+     ],
+     [
+      "Tundra",
+      "−10",
+      "250"
+     ]
+    ]
+   }
+  },
+  {
+   "level": "SL",
+   "title": "Extended response: adaptation",
+   "parts": [
+    {
+     "prompt": "Compare the adaptations of organisms in hot deserts and tropical rainforests.",
+     "marks": 7,
+     "points": [
+      "Deserts: low rainfall and high temperatures; rainforests: high rainfall and high temperatures",
+      "Desert plants: thick cuticles, reduced leaves (spines), water storage",
+      "Desert plants use CAM, opening stomata at night",
+      "Deep or wide roots to collect water",
+      "Desert animals: nocturnal, concentrated urine, burrows",
+      "Rainforest plants: tall trees competing for light",
+      "Buttress roots support tall trees in shallow soil",
+      "Drip tips shed water",
+      "Epiphytes grow on branches to reach light",
+      "High biodiversity in rainforests; lower in deserts"
+     ],
+     "examiner": "Link each adaptation to the abiotic condition it addresses.",
+     "mistakes": []
+    }
+   ]
+  }
+ ],
+ "sheets": [
+  {
+   "level": "SL",
+   "title": "B4.1 Adaptation to environment revision sheet",
+   "desc": "Printable revision mat to complete after watching the video.",
+   "file": ""
+  }
+ ]
+};
+</script>
+<script src="topic.js"></script>
+<script src="helix.js"></script>
+</body>
+</html>

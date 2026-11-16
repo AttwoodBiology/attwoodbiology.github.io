@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AttwoodBiology B4.2 Ecological niches</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-strand="B">
+<header class="hero">
+  <canvas class="helix" aria-hidden="true"></canvas>
+  <div class="wrap hero-inner">
+    <a class="brand" href="./"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M9 3c0 7 14 9 14 13S9 22 9 29M23 3c0 7-14 9-14 13s14 6 14 13" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M11 8h10M11 24h10M13 12h6M13 20h6" stroke="var(--glow)" stroke-width="2" stroke-linecap="round"/></svg>Attwood<span>Biology</span></a>
+    <div class="crumb"><a href="./">IB Biology</a><span>›</span><span id="theme-name"></span><span>›</span><b id="topic-code"></b></div>
+    <div class="hero-row">
+      <div class="hero-copy">
+        <h1 id="topic-title"></h1>
+        <p class="lede" id="topic-guiding"></p>
+      </div>
+      <div class="level-switch" role="group" aria-label="Choose your level">
+        <button type="button" id="btn-sl" aria-pressed="false">SL</button>
+        <button type="button" id="btn-hl" aria-pressed="true">HL (SL + AHL)</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="sections" aria-label="Page sections">
+  <div class="wrap">
+    <a href="#videos">Videos</a>
+    <a href="#ideas">Key ideas</a>
+    <a href="#quick-check">Quick check</a>
+    <a href="#exam">Exam questions</a>
+    <a href="#sheets">Revision sheets</a>
+    <span class="score-chip" id="score-chip">Quick check: 0 answered</span>
+  </div>
+</nav>
+
+<main class="wrap">
+  <section id="videos">
+    <div class="sec-head"><h2><span class="num">01</span>Watch</h2><p>Start here, then test yourself below.</p></div>
+    <div class="videos" id="video-list"></div>
+  </section>
+  <section id="ideas">
+    <div class="sec-head"><h2><span class="num">02</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
+    <div class="ideas" id="idea-list"></div>
+  </section>
+  <section id="quick-check">
+    <div class="sec-head">
+      <h2><span class="num">03</span>Quick check</h2>
+      <div class="toolbar"><span class="note" id="mcq-score"></span><button type="button" class="btn ghost" id="mcq-reset">Start again</button></div>
+    </div>
+    <div class="mcq-list" id="mcq-list"></div>
+  </section>
+  <section id="exam">
+    <div class="sec-head"><h2><span class="num">04</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
+    <div class="exam-list" id="exam-list"></div>
+  </section>
+  <section id="sheets">
+    <div class="sec-head"><h2><span class="num">05</span>Revision sheets</h2><p>Printable PDFs to go with the videos.</p></div>
+    <div class="sheets" id="sheet-list"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><b>AttwoodBiology</b> · IB Biology revision. All questions are original exam-style questions written for this page. They are not taken from IB past papers.</div>
+</footer>
+
+<script>
+/* ============================================================
+   TOPIC DATA: the only part that changes per topic.
+   Videos: paste the YouTube video ID (the part after v= in the URL).
+   Sheets: put the PDF in the revision-sheets folder and give its path.
+   ============================================================ */
+const TOPIC = {
+ "code": "B4.2",
+ "title": "Ecological niches",
+ "theme": "Theme B: Form and function",
+ "guiding": "How do organisms obtain energy and nutrients, and how do niches affect the coexistence of species?",
+ "videos": [
+  {
+   "level": "SL",
+   "title": "Ecological niches",
+   "youtubeId": "",
+   "desc": "Modes of nutrition, adaptations for feeding and avoiding being eaten, and niches."
+  }
+ ],
+ "ideas": [
+  {
+   "level": "SL",
+   "h": "Niche",
+   "p": "The role of a species in an ecosystem: where it lives, what it feeds on, and how it interacts with other species and the environment."
+  },
+  {
+   "level": "SL",
+   "h": "Oxygen requirements",
+   "p": "Obligate aerobes need O₂. Facultative anaerobes can use O₂ or not. Obligate anaerobes are poisoned by O₂."
+  },
+  {
+   "level": "SL",
+   "h": "Photosynthesis",
+   "p": "Plants, algae and cyanobacteria are autotrophs: they make their own carbon compounds using light."
+  },
+  {
+   "level": "SL",
+   "h": "Holozoic nutrition",
+   "p": "Animals ingest food, digest it, absorb nutrients, assimilate them and egest waste."
+  },
+  {
+   "level": "SL",
+   "h": "Mixotrophic nutrition",
+   "p": "Some protists, such as Euglena, can photosynthesise and also feed heterotrophically."
+  },
+  {
+   "level": "SL",
+   "h": "Saprotrophic nutrition",
+   "p": "Some fungi and bacteria secrete enzymes onto dead matter and absorb the products. They are decomposers."
+  },
+  {
+   "level": "SL",
+   "h": "Archaea",
+   "p": "Diverse nutrition, including some that obtain energy by oxidising inorganic chemicals (chemoautotrophs)."
+  },
+  {
+   "level": "SL",
+   "h": "Hominid dentition",
+   "p": "Teeth reflect diet. Herbivorous hominids (e.g. Paranthropus) had large molars for grinding; omnivores (Homo sapiens) have smaller, varied teeth."
+  },
+  {
+   "level": "SL",
+   "h": "Herbivores and plants",
+   "p": "Herbivores have adaptations for eating plants (e.g. grinding teeth, gut microbes). Plants resist with thorns, toxins and tough leaves."
+  },
+  {
+   "level": "SL",
+   "h": "Predators and prey",
+   "p": "Predators have adaptations for finding and catching prey (sharp senses, speed). Prey have camouflage, warning colours, toxins and behaviour."
+  },
+  {
+   "level": "SL",
+   "h": "Harvesting light",
+   "p": "Plants grow tall, climb, have large leaves or grow as epiphytes to get light."
+  },
+  {
+   "level": "SL",
+   "h": "Fundamental and realised niche",
+   "p": "Fundamental niche: where a species could live with no competitors. Realised niche: where it actually lives, often reduced by competition."
+  },
+  {
+   "level": "SL",
+   "h": "Competitive exclusion",
+   "p": "Two species cannot occupy the same niche indefinitely: one will outcompete the other."
+  }
+ ],
+ "mcq": [
+  {
+   "level": "SL",
+   "stem": "What is an ecological niche?",
+   "opts": [
+    [
+     "The place where an organism lives",
+     "That is a habitat."
+    ],
+    [
+     "The role of a species, including its habitat, food and interactions",
+     ""
+    ],
+    [
+     "All the organisms in an area",
+     "That is a community."
+    ],
+    [
+     "A group of the same species",
+     "That is a population."
+    ]
+   ],
+   "answer": 1,
+   "why": "A niche covers how a species lives, not just where."
+  },
+  {
+   "level": "SL",
+   "stem": "Which organism is a facultative anaerobe?",
+   "opts": [
+    [
+     "Yeast",
+     ""
+    ],
+    [
+     "Humans",
+     "Humans are obligate aerobes."
+    ],
+    [
+     "Clostridium (killed by oxygen)",
+     "This is an obligate anaerobe."
+    ],
+    [
+     "Oak trees",
+     "Oak trees need oxygen."
+    ]
+   ],
+   "answer": 0,
+   "why": "Yeast can respire aerobically or anaerobically depending on oxygen availability."
+  },
+  {
+   "level": "SL",
+   "stem": "What type of nutrition does Euglena show?",
+   "opts": [
+    [
+     "Holozoic only",
+     "It can also photosynthesise."
+    ],
+    [
+     "Saprotrophic only",
+     "This is not how it feeds."
+    ],
+    [
+     "Mixotrophic",
+     ""
+    ],
+    [
+     "Chemoautotrophic",
+     "This is not the case."
+    ]
+   ],
+   "answer": 2,
+   "why": "Euglena photosynthesises in light and absorbs organic matter in darkness."
+  },
+  {
+   "level": "SL",
+   "stem": "How do saprotrophs obtain nutrients?",
+   "opts": [
+    [
+     "By photosynthesis",
+     "Saprotrophs are heterotrophs."
+    ],
+    [
+     "By ingesting food",
+     "That is holozoic nutrition."
+    ],
+    [
+     "By secreting digestive enzymes onto dead matter and absorbing the products",
+     ""
+    ],
+    [
+     "By living inside a host",
+     "That is parasitism."
+    ]
+   ],
+   "answer": 2,
+   "why": "Saprotrophs such as fungi decompose dead organic matter."
+  },
+  {
+   "level": "SL",
+   "stem": "What do large, flat molars in a hominid fossil suggest?",
+   "opts": [
+    [
+     "A diet of meat only",
+     "Meat-eaters need cutting teeth."
+    ],
+    [
+     "A diet including tough plant material",
+     ""
+    ],
+    [
+     "No diet at all",
+     "Teeth show diet."
+    ],
+    [
+     "Very soft food",
+     "Large molars suggest tough food."
+    ]
+   ],
+   "answer": 1,
+   "why": "Grinding surfaces break down fibrous plant material."
+  },
+  {
+   "level": "SL",
+   "stem": "Which is a plant adaptation to resist herbivory?",
+   "opts": [
+    [
+     "Bright flowers",
+     "These attract pollinators."
+    ],
+    [
+     "Production of toxic chemicals",
+     ""
+    ],
+    [
+     "Large seeds",
+     "Not a defence."
+    ],
+    [
+     "Shallow roots",
+     "Not a defence."
+    ]
+   ],
+   "answer": 1,
+   "why": "Toxins, thorns and tough leaves deter herbivores."
+  },
+  {
+   "level": "SL",
+   "stem": "Which is an adaptation of prey to avoid predation?",
+   "opts": [
+    [
+     "Sharp claws",
+     "This is a predator adaptation."
+    ],
+    [
+     "Forward-facing eyes",
+     "This is typical of predators."
+    ],
+    [
+     "Camouflage",
+     ""
+    ],
+    [
+     "Venom used to catch food",
+     "This is a predator adaptation."
+    ]
+   ],
+   "answer": 2,
+   "why": "Camouflage reduces the chance of being seen."
+  },
+  {
+   "level": "SL",
+   "stem": "Why is a species' realised niche usually smaller than its fundamental niche?",
+   "opts": [
+    [
+     "Competition with other species restricts where it can live.",
+     ""
+    ],
+    [
+     "It always has unlimited resources.",
+     "Resources are limited."
+    ],
+    [
+     "Its fundamental niche is where it lives.",
+     "The fundamental niche is potential."
+    ],
+    [
+     "It has no predators.",
+     "This would not reduce its niche."
+    ]
+   ],
+   "answer": 0,
+   "why": "Interactions with competitors (and predators) limit the conditions actually used."
+  },
+  {
+   "level": "SL",
+   "stem": "What does the competitive exclusion principle state?",
+   "opts": [
+    [
+     "Two species can always share the same niche.",
+     "They cannot indefinitely."
+    ],
+    [
+     "Two species cannot coexist indefinitely in the same niche.",
+     ""
+    ],
+    [
+     "Competition always leads to new species.",
+     "Not necessarily."
+    ],
+    [
+     "Predators exclude prey.",
+     "This is not the principle."
+    ]
+   ],
+   "answer": 1,
+   "why": "One species will be more efficient and outcompete the other."
+  },
+  {
+   "level": "SL",
+   "stem": "What is the energy source for chemoautotrophic archaea?",
+   "opts": [
+    [
+     "Light",
+     "That is photoautotrophy."
+    ],
+    [
+     "Dead organic matter",
+     "That is saprotrophy."
+    ],
+    [
+     "Oxidation of inorganic chemicals",
+     ""
+    ],
+    [
+     "Other organisms",
+     "That is heterotrophy."
+    ]
+   ],
+   "answer": 2,
+   "why": "Some archaea near hydrothermal vents oxidise compounds such as hydrogen sulfide."
+  }
+ ],
+ "exam": [
+  {
+   "level": "SL",
+   "title": "Modes of nutrition",
+   "parts": [
+    {
+     "prompt": "Distinguish between autotrophic, holozoic, saprotrophic and mixotrophic nutrition, with an example of each.",
+     "marks": 4,
+     "points": [
+      "Autotrophic: makes carbon compounds from inorganic sources, e.g. plants by photosynthesis",
+      "Holozoic: ingests and internally digests food, e.g. humans",
+      "Saprotrophic: external digestion of dead matter and absorption, e.g. fungi",
+      "Mixotrophic: both autotrophic and heterotrophic, e.g. Euglena"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ]
+  },
+  {
+   "level": "SL",
+   "title": "Niches",
+   "parts": [
+    {
+     "prompt": "Distinguish between fundamental and realised niches.",
+     "marks": 3,
+     "points": [
+      "Fundamental niche: the full range of conditions and resources a species could use",
+      "Realised niche: the conditions and resources it actually uses",
+      "The realised niche is smaller because of competition (and other interactions)"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ]
+  },
+  {
+   "level": "SL",
+   "title": "Competitive exclusion",
+   "parts": [
+    {
+     "prompt": "Explain the principle of competitive exclusion using an example.",
+     "marks": 3,
+     "points": [
+      "Two species with the same niche cannot coexist indefinitely",
+      "One species will use resources more efficiently",
+      "The other will decline or be excluded locally",
+      "Example: Paramecium aurelia outcompeting P. caudatum in lab cultures"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ]
+  },
+  {
+   "level": "SL",
+   "title": "Predator and prey adaptations",
+   "parts": [
+    {
+     "prompt": "Outline adaptations of predators for catching prey and of prey for avoiding predators.",
+     "marks": 4,
+     "points": [
+      "Predators: speed, sharp teeth or claws, keen senses",
+      "Predators: camouflage for ambush, cooperative hunting",
+      "Prey: camouflage, warning coloration, mimicry",
+      "Prey: speed, spines, toxins, group living (vigilance)"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ]
+  },
+  {
+   "level": "SL",
+   "title": "Extended response: niches",
+   "parts": [
+    {
+     "prompt": "Explain how organisms are adapted to their ecological niches, using examples of different modes of nutrition.",
+     "marks": 7,
+     "points": [
+      "A niche includes habitat, nutrition and interactions",
+      "Plants are autotrophs, with leaves adapted to harvest light",
+      "Tall growth, climbing or epiphytic growth helps gain light",
+      "Animals are holozoic, with teeth suited to diet",
+      "Herbivores grind plant material; plants defend with toxins and thorns",
+      "Predators have adaptations for capture; prey for escape",
+      "Saprotrophs secrete enzymes onto dead matter",
+      "Mixotrophs such as Euglena switch nutrition",
+      "Different oxygen needs allow organisms to occupy different habitats",
+      "Competition restricts species to their realised niche",
+      "Competitive exclusion leads to niche separation"
+     ],
+     "examiner": "Use named examples throughout.",
+     "mistakes": []
+    }
+   ]
+  }
+ ],
+ "sheets": [
+  {
+   "level": "SL",
+   "title": "B4.2 Ecological niches revision sheet",
+   "desc": "Printable revision mat to complete after watching the video.",
+   "file": ""
+  }
+ ]
+};
+</script>
+<script src="topic.js"></script>
+<script src="helix.js"></script>
+</body>
+</html>
