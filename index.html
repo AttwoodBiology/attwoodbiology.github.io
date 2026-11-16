@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AttwoodBiology IB Biology Revision</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: home page listing all 40 topics by theme; live topics are links, the rest are marked coming soon. */
+:root{
+  --paper:#f4f7f6; --card:#ffffff; --ink:#13201e; --muted:#566865;
+  --accent:#0d7566; --accent-soft:#dcefeb; --ahl:#9a5200; --ahl-soft:#fbeedd; --line:#d6e0dd;
+  --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible","Segoe UI",system-ui,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0e1514; --card:#162120; --ink:#e4eeeb; --muted:#9bb0ab;
+    --accent:#3fc4ae; --accent-soft:#163a35; --ahl:#f0a54c; --ahl-soft:#3a2a14; --line:#2a3836;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0e1514; --card:#162120; --ink:#e4eeeb; --muted:#9bb0ab;
+  --accent:#3fc4ae; --accent-soft:#163a35; --ahl:#f0a54c; --ahl-soft:#3a2a14; --line:#2a3836;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 var(--body)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:var(--display);line-height:1.15;text-wrap:balance;margin:0}
+header{padding:40px 0 28px;border-bottom:1px solid var(--line)}
+.brand{font:800 1.35rem var(--display);color:var(--ink);text-decoration:none}
+.brand span{color:var(--accent)}
+h1{font-size:clamp(2rem,5vw,3rem);font-weight:800;margin-top:22px}
+.lede{color:var(--muted);max-width:60ch;margin:10px 0 0}
+main{padding:12px 0 40px}
+section{padding:28px 0;border-bottom:1px solid var(--line)}
+.theme-head{display:flex;gap:12px;align-items:baseline;margin-bottom:14px;flex-wrap:wrap}
+.theme-letter{font:800 1rem var(--display);color:var(--paper);background:var(--accent);border-radius:8px;width:32px;height:32px;display:grid;place-items:center;flex:none}
+h2{font-size:1.4rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.topic{display:flex;gap:10px;align-items:center;background:var(--card);border:1.5px solid var(--line);border-radius:10px;padding:12px 14px;color:var(--ink);text-decoration:none;min-height:58px}
+a.topic:hover{border-color:var(--accent)}
+a.topic:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.code{font:800 .95rem var(--display);color:var(--accent);min-width:2.6em;font-variant-numeric:tabular-nums}
+.name{flex:1;line-height:1.3}
+.soon{opacity:.55}
+.soon .code{color:var(--muted)}
+.pill{font:700 .68rem/1 var(--body);text-transform:uppercase;letter-spacing:.05em;padding:4px 7px;border-radius:6px;white-space:nowrap}
+.pill.live{background:var(--accent-soft);color:var(--accent)}
+.pill.ahl{background:var(--ahl-soft);color:var(--ahl)}
+.key{display:flex;gap:16px;flex-wrap:wrap;margin-top:16px;font-size:.9rem;color:var(--muted);align-items:center}
+footer{padding:28px 0 48px;color:var(--muted);font-size:.88rem}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="brand" href="./">Attwood<span>Biology</span></a>
+    <h1>IB Biology revision</h1>
+    <p class="lede">An all-in-one IB Biology revision resource: videos, quick-check questions, exam-style questions with full mark schemes, and printable revision sheets for every topic.</p>
+    <div class="key"><span><span class="pill live">Ready</span> topic page is live</span><span><span class="pill ahl">AHL</span> HL-only topic</span></div>
+  </div>
+</header>
+<main class="wrap" id="themes"></main>
+<footer><div class="wrap"><b>AttwoodBiology</b> · Follows the IB Biology guide (first assessment 2025).</div></footer>
+
+<script>
+/* To make a topic live: add its file name after the topic name. */
+const THEMES = [
+  { letter:"A", name:"Unity and diversity", topics:[
+    ["A1.1","Water"],["A1.2","Nucleic acids"],["A2.1","Origins of cells","",true],["A2.2","Cell structure"],
+    ["A2.3","Viruses","",true],["A3.1","Diversity of organisms"],["A3.2","Classification and cladistics","",true],
+    ["A4.1","Evolution and speciation"],["A4.2","Conservation of biodiversity"]]},
+  { letter:"B", name:"Form and function", topics:[
+    ["B1.1","Carbohydrates and lipids"],["B1.2","Proteins"],["B2.1","Membranes and membrane transport"],
+    ["B2.2","Organelles and compartmentalization"],["B2.3","Cell specialization"],["B3.1","Gas exchange"],
+    ["B3.2","Transport"],["B3.3","Muscle and motility","",true],["B4.1","Adaptation to environment"],["B4.2","Ecological niches"]]},
+  { letter:"C", name:"Interaction and interdependence", topics:[
+    ["C1.1","Enzymes and metabolism"],["C1.2","Cell respiration","c1-2-cell-respiration.html"],["C1.3","Photosynthesis"],
+    ["C2.1","Chemical signalling","",true],["C2.2","Neural signalling"],["C3.1","Integration of body systems"],
+    ["C3.2","Defence against disease"],["C4.1","Populations and communities"],["C4.2","Transfers of energy and matter"]]},
+  { letter:"D", name:"Continuity and change", topics:[
+    ["D1.1","DNA replication"],["D1.2","Protein synthesis"],["D1.3","Mutations and gene editing"],
+    ["D2.1","Cell and nuclear division"],["D2.2","Gene expression","",true],["D2.3","Water potential"],
+    ["D3.1","Reproduction"],["D3.2","Inheritance"],["D3.3","Homeostasis"],
+    ["D4.1","Natural selection"],["D4.2","Stability and change"],["D4.3","Climate change"]]}
+];
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+document.getElementById("themes").innerHTML = THEMES.map(t => `
+  <section>
+    <div class="theme-head"><span class="theme-letter">${t.letter}</span><h2>${esc(t.name)}</h2></div>
+    <div class="grid">${t.topics.map(([code, name, file, ahl]) => {
+      const pills = (ahl ? '<span class="pill ahl">AHL</span>' : '') + (file ? '<span class="pill live">Ready</span>' : '');
+      const inner = `<span class="code">${code}</span><span class="name">${esc(name)}</span>${pills}`;
+      return file ? `<a class="topic" href="${esc(file)}">${inner}</a>`
+                  : `<div class="topic soon" title="Coming soon">${inner}</div>`;
+    }).join("")}</div>
+  </section>`).join("");
+</script>
+</body>
+</html>
