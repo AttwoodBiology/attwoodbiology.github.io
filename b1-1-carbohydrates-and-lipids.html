@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AttwoodBiology B1.1 Carbohydrates and Lipids</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-strand="B">
+<header class="hero">
+  <canvas class="helix" aria-hidden="true"></canvas>
+  <div class="wrap hero-inner">
+    <a class="brand" href="./"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M9 3c0 7 14 9 14 13S9 22 9 29M23 3c0 7-14 9-14 13s14 6 14 13" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M11 8h10M11 24h10M13 12h6M13 20h6" stroke="var(--glow)" stroke-width="2" stroke-linecap="round"/></svg>Attwood<span>Biology</span></a>
+    <div class="crumb"><a href="./">IB Biology</a><span>›</span><span id="theme-name"></span><span>›</span><b id="topic-code"></b></div>
+    <div class="hero-row">
+      <div class="hero-copy">
+        <h1 id="topic-title"></h1>
+        <p class="lede" id="topic-guiding"></p>
+      </div>
+      <div class="level-switch" role="group" aria-label="Choose your level">
+        <button type="button" id="btn-sl" aria-pressed="false">SL</button>
+        <button type="button" id="btn-hl" aria-pressed="true">HL (SL + AHL)</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="sections" aria-label="Page sections">
+  <div class="wrap">
+    <a href="#videos">Videos</a>
+    <a href="#ideas">Key ideas</a>
+    <a href="#quick-check">Quick check</a>
+    <a href="#exam">Exam questions</a>
+    <a href="#sheets">Revision sheets</a>
+    <span class="score-chip" id="score-chip">Quick check: 0 answered</span>
+  </div>
+</nav>
+
+<main class="wrap">
+  <section id="videos">
+    <div class="sec-head"><h2><span class="num">01</span>Watch</h2><p>Start here, then test yourself below.</p></div>
+    <div class="videos" id="video-list"></div>
+  </section>
+  <section id="ideas">
+    <div class="sec-head"><h2><span class="num">02</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
+    <div class="ideas" id="idea-list"></div>
+  </section>
+  <section id="quick-check">
+    <div class="sec-head">
+      <h2><span class="num">03</span>Quick check</h2>
+      <div class="toolbar"><span class="note" id="mcq-score"></span><button type="button" class="btn ghost" id="mcq-reset">Start again</button></div>
+    </div>
+    <div class="mcq-list" id="mcq-list"></div>
+  </section>
+  <section id="exam">
+    <div class="sec-head"><h2><span class="num">04</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
+    <div class="exam-list" id="exam-list"></div>
+  </section>
+  <section id="sheets">
+    <div class="sec-head"><h2><span class="num">05</span>Revision sheets</h2><p>Printable PDFs to go with the videos.</p></div>
+    <div class="sheets" id="sheet-list"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><b>AttwoodBiology</b> · IB Biology revision. All questions are original exam-style questions written for this page. They are not taken from IB past papers.</div>
+</footer>
+
+<script>
+/* ============================================================
+   TOPIC DATA: the only part that changes per topic.
+   Videos: paste the YouTube video ID (the part after v= in the URL).
+   Sheets: put the PDF in the revision-sheets folder and give its path.
+   ============================================================ */
+const TOPIC = {
+  code: "B1.1",
+  title: "Carbohydrates and lipids",
+  theme: "Theme B: Form and function",
+  guiding: "How do the structures of carbohydrates and lipids relate to their roles in living organisms?",
+
+  videos: [
+    { level:"SL", title:"Carbohydrates and lipids", youtubeId:"Xa6iAp25C6w", desc:"Watch this first, then try the quick check below." }
+  ],
+
+  ideas: [
+    { level:"SL", h:"Why carbon?", p:"Carbon forms four covalent bonds, so it can build chains, branches and rings. This gives a huge variety of stable compounds." },
+    { level:"SL", h:"Condensation reactions", p:"Monomers are joined into polymers and water is released, forming glycosidic bonds (sugars) or ester bonds (lipids). Energy comes from ATP." },
+    { level:"SL", h:"Hydrolysis", p:"Water is used to break bonds and split polymers into monomers, as in digestion." },
+    { level:"SL", h:"Glucose", p:"Soluble, so it is easily transported. Chemically stable. Releases energy when it is oxidised in respiration." },
+    { level:"SL", h:"Alpha and beta glucose", p:"In α-glucose the –OH on carbon 1 is below the ring. In β-glucose it is above." },
+    { level:"SL", h:"Starch and glycogen", p:"Energy stores made of α-glucose. Amylose is an unbranched helix. Amylopectin and glycogen are branched, and glycogen is more branched." },
+    { level:"SL", h:"Why they make good stores", p:"Compact, so a lot fits in a small space. Insoluble, so they have no osmotic effect. Branches give many ends for rapid hydrolysis." },
+    { level:"SL", h:"Cellulose", p:"β-glucose, with every other monomer inverted, forms straight chains. Hydrogen bonds link parallel chains into microfibrils with high tensile strength." },
+    { level:"SL", h:"Glycoproteins", p:"Proteins with carbohydrate chains on the cell surface, used for cell–cell recognition. ABO blood group antigens are an example." },
+    { level:"SL", h:"Lipids are hydrophobic", p:"Lipids are non-polar, so they are insoluble in water but dissolve in non-polar solvents." },
+    { level:"SL", h:"Triglycerides", p:"One glycerol and three fatty acids join by condensation, forming three ester bonds and releasing three water molecules." },
+    { level:"SL", h:"Saturated and unsaturated", p:"Saturated fatty acids have no C=C bonds. Monounsaturated have one, polyunsaturated more than one. Cis double bonds kink the chain and lower the melting point." },
+    { level:"SL", h:"Adipose tissue", p:"Triglycerides store about twice as much energy per gram as carbohydrates, and provide thermal insulation." },
+    { level:"SL", h:"Phospholipid bilayers", p:"A hydrophilic phosphate head and two hydrophobic tails. In water they form a bilayer, with heads facing out and tails inside." },
+    { level:"SL", h:"Steroids", p:"Non-polar ring-shaped lipids such as oestradiol and testosterone. They can diffuse through the phospholipid bilayer." }
+  ],
+
+  mcq: [
+    { level:"SL", stem:"Why can carbon form such a wide variety of stable compounds?",
+      opts:[["It forms four covalent bonds.", ""],["It forms ionic bonds easily.", "Carbon compounds in living things are held together by covalent bonds."],["It is the most common element in the universe.", "How common it is does not explain its bonding."],["It is highly reactive.", "Carbon compounds are stable because carbon forms strong covalent bonds."]],
+      answer:0, why:"Four covalent bonds let carbon form chains, branches and rings with many other atoms." },
+
+    { level:"SL", stem:"Two glucose molecules join to form maltose. Which statement is correct?",
+      opts:[["Water is used, and a peptide bond forms.", "Peptide bonds join amino acids, and water is released, not used."],["Water is released, and a glycosidic bond forms.", ""],["Water is used, and a glycosidic bond forms.", "Using water is hydrolysis, which breaks bonds."],["Water is released, and an ester bond forms.", "Ester bonds form in lipids."]],
+      answer:1, why:"This is a condensation reaction. –OH groups react, releasing water and forming a glycosidic bond." },
+
+    { level:"SL", stem:"What happens during the hydrolysis of a polysaccharide?",
+      opts:[["Water is used to break glycosidic bonds, releasing monosaccharides.", ""],["Water is released as monosaccharides join.", "That is condensation."],["Ester bonds are broken.", "Polysaccharides have glycosidic bonds."],["Glucose is oxidised to release energy.", "That is respiration, not hydrolysis."]],
+      answer:0, why:"Hydrolysis means splitting using water. It is how polymers are digested into monomers." },
+
+    { level:"SL", stem:"Which property of glucose makes it suitable for transport in blood plasma?",
+      opts:[["It is soluble in water.", ""],["It is insoluble.", "Insoluble substances cannot be carried dissolved in plasma."],["It is a polymer.", "Glucose is a monomer."],["It is non-polar.", "Glucose is polar, which is why it dissolves."]],
+      answer:0, why:"Glucose is polar and forms hydrogen bonds with water, so it dissolves and is carried in plasma." },
+
+    { level:"SL", stem:"Why is starch, rather than glucose, used to store energy in plant cells?",
+      opts:[
+        ["Starch is insoluble, so it has no effect on the water potential of the cell.", ""],
+        ["Starch releases more energy per gram than glucose.", "Both are made of glucose, so energy per gram is similar."],
+        ["Starch can easily leave the cell.", "Its large size keeps it inside the cell."],
+        ["Starch is made of β-glucose.", "Starch is made of α-glucose."]],
+      answer:0, why:"Dissolved glucose would draw water in by osmosis. Insoluble, compact starch avoids this." },
+
+    { level:"SL", stem:"Why is glycogen highly branched?",
+      opts:[
+        ["To give many ends for enzymes to hydrolyse, releasing glucose rapidly", ""],
+        ["To make it soluble in water", "Glycogen is insoluble."],
+        ["To give it high tensile strength", "That describes cellulose."],
+        ["To allow it to cross the cell membrane", "Glycogen is far too large to cross membranes."]],
+      answer:0, why:"Many branch ends allow many enzymes to work at once, which is useful for animals that need energy quickly." },
+
+    { level:"SL", stem:"Which feature of cellulose gives it high tensile strength?",
+      opts:[
+        ["Straight chains of β-glucose held together by hydrogen bonds into microfibrils", ""],
+        ["Helical chains of α-glucose", "This describes amylose, which is used for storage."],
+        ["Many branches with 1,6 links", "This describes glycogen and amylopectin."],
+        ["Ester bonds between chains", "Cellulose chains are linked by hydrogen bonds."]],
+      answer:0, why:"Alternate β-glucose units are inverted, giving straight chains that lie side by side and hydrogen bond into strong microfibrils." },
+
+    { level:"SL", stem:"What is the main role of glycoproteins on the cell surface?",
+      opts:[["Cell–cell recognition", ""],["Energy storage", "Energy is stored as starch, glycogen and triglycerides."],["Making the membrane more rigid", "Cholesterol affects membrane fluidity."],["Active transport of glucose", "Transport is done by carrier proteins, not by the carbohydrate chains."]],
+      answer:0, why:"The carbohydrate chains act as markers, for example the ABO blood group antigens on red blood cells." },
+
+    { level:"SL", stem:"How many water molecules are released when one triglyceride is formed?",
+      opts:[["1", "Three fatty acids are attached, each by its own condensation reaction."],["2", "This would make a diglyceride."],["3", ""],["4", "Glycerol has only three –OH groups."]],
+      answer:2, why:"Each of the three fatty acids forms an ester bond with glycerol, and each reaction releases one water molecule." },
+
+    { level:"SL", stem:"Why are many plant oils liquid at room temperature?",
+      opts:[
+        ["Their unsaturated fatty acids have cis double bonds that kink the chains, so they pack less closely.", ""],
+        ["They are polar.", "Lipids are non-polar."],
+        ["They have more carbon atoms than solid fats.", "Chain length is not the main reason here."],
+        ["They contain no fatty acids.", "Oils are triglycerides made with fatty acids."]],
+      answer:0, why:"Kinked chains cannot pack tightly. Weaker attractions between them mean a lower melting point." },
+
+    { level:"SL", stem:"A fatty acid has two C=C double bonds. How is it described?",
+      opts:[["Saturated", "Saturated fatty acids have no C=C bonds."],["Monounsaturated", "Monounsaturated fatty acids have one C=C bond."],["Polyunsaturated", ""],["A steroid", "Steroids have a ring structure, not a single chain."]],
+      answer:2, why:"Polyunsaturated means more than one C=C double bond." },
+
+    { level:"SL", stem:"Why do phospholipids form a bilayer in water?",
+      opts:[
+        ["The hydrophilic heads face the water, and the hydrophobic tails face inwards, away from it.", ""],
+        ["The hydrophobic heads face the water.", "The phosphate heads are hydrophilic."],
+        ["The tails are attracted to water.", "The tails are hydrophobic."],
+        ["Phospholipids are fully soluble in water.", "If they dissolved completely, no bilayer would form."]],
+      answer:0, why:"Phospholipids have a polar and a non-polar region, so they arrange themselves with tails shielded from water." },
+
+    { level:"SL", stem:"Why can testosterone diffuse straight through the plasma membrane?",
+      opts:[["It is a non-polar steroid that can pass through the hydrophobic core.", ""],["It is a small polar molecule.", "Polar molecules are repelled by the hydrophobic core."],["It is carried by a channel protein.", "Steroids do not need a channel."],["It is pumped by active transport.", "Steroids enter by simple diffusion."]],
+      answer:0, why:"Steroids are lipids, so they dissolve in the hydrophobic interior of the bilayer and diffuse across." }
+  ],
+
+  exam: [
+    { level:"SL", title:"Polysaccharides", parts:[
+      { prompt:"Compare and contrast the structures of starch, glycogen and cellulose.", marks:4,
+        points:[
+          "All are polymers of glucose joined by glycosidic bonds",
+          "Starch and glycogen are made of α-glucose; cellulose of β-glucose",
+          "Amylose is unbranched and helical; amylopectin and glycogen are branched (1,6 links)",
+          "Glycogen is more highly branched than amylopectin",
+          "Cellulose has straight, unbranched chains with alternate glucose units inverted",
+          "Cellulose chains are linked by hydrogen bonds into microfibrils"],
+        examiner:"Include at least one similarity. A comparison table is an efficient way to answer.",
+        mistakes:["Saying cellulose is branched","Saying glycogen is found in plants"] }
+    ]},
+
+    { level:"SL", title:"Glycogen as an energy store", parts:[
+      { prompt:"Explain how the structure of glycogen suits its role as an energy store.", marks:3,
+        points:[
+          "Insoluble, so it has no osmotic effect on the cell",
+          "Compact, so a lot of energy is stored in a small space",
+          "Highly branched, giving many ends for rapid hydrolysis to glucose",
+          "Large molecule, so it cannot diffuse out of the cell"],
+        examiner:"“Explain” needs each feature linked to why it helps.",
+        mistakes:["Saying glycogen is soluble"] }
+    ]},
+
+    { level:"SL", title:"Triglycerides", parts:[
+      { prompt:"Outline how a triglyceride is formed.", marks:3,
+        points:[
+          "One glycerol and three fatty acids",
+          "Joined by condensation reactions",
+          "Ester bonds form between the –OH of glycerol and the –COOH of each fatty acid",
+          "Three molecules of water are released"],
+        examiner:"A labelled diagram of one ester bond forming can earn marks.",
+        mistakes:["Saying triglycerides are polymers"] }
+    ]},
+
+    { level:"SL", title:"Fatty acids and melting point", intro:"The table shows the melting points of four 18-carbon fatty acids.",
+      table:{ head:["Fatty acid","Number of C=C double bonds","Melting point / °C"], rows:[["Stearic acid","0","69"],["Oleic acid","1","13"],["Linoleic acid","2","−5"],["Linolenic acid","3","−11"]] },
+      parts:[
+      { prompt:"(a) Describe the relationship between the number of double bonds and melting point.", marks:1,
+        points:["As the number of double bonds increases, the melting point decreases"],
+        examiner:"", mistakes:[] },
+      { prompt:"(b) Explain this relationship.", marks:2,
+        points:["Cis double bonds cause kinks/bends in the hydrocarbon chain","Kinked chains cannot pack closely together","Weaker attractions between chains, so less energy is needed to melt them"],
+        examiner:"", mistakes:["Saying double bonds are weaker, so they break when the fat melts"] },
+      { prompt:"(c) State which type of fatty acid oleic acid is.", marks:1,
+        points:["Monounsaturated"],
+        examiner:"", mistakes:["Writing “unsaturated” without “mono”"] }
+    ]},
+
+    { level:"SL", title:"Phospholipid bilayers", parts:[
+      { prompt:"Explain why phospholipids form bilayers in water.", marks:3,
+        points:[
+          "The phosphate head is hydrophilic/polar",
+          "The fatty acid tails are hydrophobic/non-polar",
+          "Phospholipids are amphipathic",
+          "The heads face the water on both sides",
+          "The tails point inwards, away from water"],
+        examiner:"Name both regions and say how each one interacts with water.",
+        mistakes:["Saying the tails are “afraid of water”"] }
+    ]},
+
+    { level:"SL", title:"Steroids and membranes", parts:[
+      { prompt:"Explain why oestradiol can diffuse through the plasma membrane but glucose cannot.", marks:2,
+        points:["Oestradiol is a non-polar steroid/lipid","It dissolves in the hydrophobic core of the bilayer","Glucose is polar and is repelled by the hydrophobic core","Glucose needs a channel or carrier protein"],
+        examiner:"Contrast the two molecules directly.", mistakes:["Saying glucose is too large, when polarity is the key reason"] }
+    ]}
+  ],
+
+  sheets: [
+    { level:"SL", title:"B1.1 Summary sheet", desc:"Carbohydrates, lipids, condensation and hydrolysis on one page.", file:"" },
+    { level:"SL", title:"Molecule diagrams to label", desc:"α- and β-glucose, triglyceride and phospholipid.", file:"" }
+  ]
+};
+</script>
+<script src="topic.js"></script>
+<script src="helix.js"></script>
+</body>
+</html>
