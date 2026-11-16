@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AttwoodBiology A4.1 Evolution and speciation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-strand="A">
+<header class="hero">
+  <canvas class="helix" aria-hidden="true"></canvas>
+  <div class="wrap hero-inner">
+    <a class="brand" href="./"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M9 3c0 7 14 9 14 13S9 22 9 29M23 3c0 7-14 9-14 13s14 6 14 13" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M11 8h10M11 24h10M13 12h6M13 20h6" stroke="var(--glow)" stroke-width="2" stroke-linecap="round"/></svg>Attwood<span>Biology</span></a>
+    <div class="crumb"><a href="./">IB Biology</a><span>›</span><span id="theme-name"></span><span>›</span><b id="topic-code"></b></div>
+    <div class="hero-row">
+      <div class="hero-copy">
+        <h1 id="topic-title"></h1>
+        <p class="lede" id="topic-guiding"></p>
+      </div>
+      <div class="level-switch" role="group" aria-label="Choose your level">
+        <button type="button" id="btn-sl" aria-pressed="false">SL</button>
+        <button type="button" id="btn-hl" aria-pressed="true">HL (SL + AHL)</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="sections" aria-label="Page sections">
+  <div class="wrap">
+    <a href="#videos">Videos</a>
+    <a href="#ideas">Key ideas</a>
+    <a href="#quick-check">Quick check</a>
+    <a href="#exam">Exam questions</a>
+    <a href="#sheets">Revision sheets</a>
+    <span class="score-chip" id="score-chip">Quick check: 0 answered</span>
+  </div>
+</nav>
+
+<main class="wrap">
+  <section id="videos">
+    <div class="sec-head"><h2><span class="num">01</span>Watch</h2><p>Start here, then test yourself below.</p></div>
+    <div class="videos" id="video-list"></div>
+  </section>
+  <section id="ideas">
+    <div class="sec-head"><h2><span class="num">02</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
+    <div class="ideas" id="idea-list"></div>
+  </section>
+  <section id="quick-check">
+    <div class="sec-head">
+      <h2><span class="num">03</span>Quick check</h2>
+      <div class="toolbar"><span class="note" id="mcq-score"></span><button type="button" class="btn ghost" id="mcq-reset">Start again</button></div>
+    </div>
+    <div class="mcq-list" id="mcq-list"></div>
+  </section>
+  <section id="exam">
+    <div class="sec-head"><h2><span class="num">04</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
+    <div class="exam-list" id="exam-list"></div>
+  </section>
+  <section id="sheets">
+    <div class="sec-head"><h2><span class="num">05</span>Revision sheets</h2><p>Printable PDFs to go with the videos.</p></div>
+    <div class="sheets" id="sheet-list"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><b>AttwoodBiology</b> · IB Biology revision. All questions are original exam-style questions written for this page. They are not taken from IB past papers.</div>
+</footer>
+
+<script>
+/* ============================================================
+   TOPIC DATA: the only part that changes per topic.
+   Videos: paste the YouTube video ID (the part after v= in the URL).
+   Sheets: put the PDF in the revision-sheets folder and give its path.
+   ============================================================ */
+const TOPIC = {
+ "code": "A4.1",
+ "title": "Evolution and speciation",
+ "theme": "Theme A: Unity and diversity",
+ "guiding": "What is the evidence for evolution, and how do new species arise?",
+ "videos": [
+  {
+   "level": "SL",
+   "title": "Evolution and speciation",
+   "youtubeId": "",
+   "desc": "Evidence for evolution, homologous and analogous structures, and speciation."
+  },
+  {
+   "level": "AHL",
+   "title": "Speciation in more depth",
+   "youtubeId": "",
+   "desc": "Polyploidy, adaptive radiation, hybrid sterility and sympatric speciation."
+  }
+ ],
+ "ideas": [
+  {
+   "level": "SL",
+   "h": "What is evolution?",
+   "p": "Evolution is a change in the heritable characteristics of a population over time."
+  },
+  {
+   "level": "SL",
+   "h": "Molecular evidence",
+   "p": "Similarities in DNA, RNA and protein sequences show common ancestry. The more similar the sequences, the more closely related the species."
+  },
+  {
+   "level": "SL",
+   "h": "Selective breeding",
+   "p": "Humans have produced large changes in domesticated animals and crops in a short time, showing that species can change."
+  },
+  {
+   "level": "SL",
+   "h": "Homologous structures",
+   "p": "Same basic structure, different functions, due to common ancestry. Example: the pentadactyl limb of vertebrates."
+  },
+  {
+   "level": "SL",
+   "h": "Analogous structures",
+   "p": "Similar function but different structure and origin, due to convergent evolution. Example: wings of birds and insects."
+  },
+  {
+   "level": "SL",
+   "h": "Speciation",
+   "p": "New species form by splitting of an existing species. Speciation increases the total number of species."
+  },
+  {
+   "level": "SL",
+   "h": "Reproductive isolation",
+   "p": "Populations must be prevented from interbreeding, then differential selection causes them to diverge."
+  },
+  {
+   "level": "SL",
+   "h": "Allopatric speciation",
+   "p": "Populations are separated geographically. Example: bonobos and chimpanzees, separated by the Congo River."
+  },
+  {
+   "level": "AHL",
+   "h": "Sympatric speciation",
+   "p": "Speciation without geographical separation, through behavioural or temporal isolation."
+  },
+  {
+   "level": "AHL",
+   "h": "Polyploidy",
+   "p": "Abrupt speciation in plants when chromosome number doubles, often after hybridisation. Polyploids cannot breed with the parent species."
+  },
+  {
+   "level": "AHL",
+   "h": "Adaptive radiation",
+   "p": "Rapid evolution of many species from one ancestor to fill different niches, e.g. Darwin's finches on the Galápagos."
+  },
+  {
+   "level": "AHL",
+   "h": "Hybrid sterility",
+   "p": "Barriers to hybridisation keep species separate. Interspecific hybrids such as mules are usually sterile."
+  }
+ ],
+ "mcq": [
+  {
+   "level": "SL",
+   "stem": "Which best defines evolution?",
+   "opts": [
+    [
+     "Changes in an individual during its lifetime",
+     "Individuals do not evolve."
+    ],
+    [
+     "Change in the heritable characteristics of a population over time",
+     ""
+    ],
+    [
+     "The formation of the Earth",
+     "This is not evolution."
+    ],
+    [
+     "Changes caused only by the environment",
+     "These are not heritable."
+    ]
+   ],
+   "answer": 1,
+   "why": "Evolution acts on populations through changes in allele frequencies."
+  },
+  {
+   "level": "SL",
+   "stem": "The forelimbs of humans, bats and whales have the same bone arrangement. What are they?",
+   "opts": [
+    [
+     "Homologous structures",
+     ""
+    ],
+    [
+     "Analogous structures",
+     "Analogous structures have different origins."
+    ],
+    [
+     "Vestigial structures",
+     "They are all functional."
+    ],
+    [
+     "Convergent structures",
+     "Convergence produces analogous structures."
+    ]
+   ],
+   "answer": 0,
+   "why": "The shared pentadactyl structure is inherited from a common ancestor, even though functions differ."
+  },
+  {
+   "level": "SL",
+   "stem": "The wings of birds and butterflies both allow flight but have different structures. What does this show?",
+   "opts": [
+    [
+     "Common ancestry",
+     "Their wings evolved independently."
+    ],
+    [
+     "Selective breeding",
+     "This is natural, not artificial."
+    ],
+    [
+     "Convergent evolution",
+     ""
+    ],
+    [
+     "Speciation",
+     "This is not speciation."
+    ]
+   ],
+   "answer": 2,
+   "why": "Similar selection pressures led to similar functions in unrelated groups."
+  },
+  {
+   "level": "SL",
+   "stem": "Why is selective breeding evidence for evolution?",
+   "opts": [
+    [
+     "It produces new species in one generation.",
+     "This is not usually the case."
+    ],
+    [
+     "It shows that heritable characteristics can change greatly over many generations.",
+     ""
+    ],
+    [
+     "It only works on plants.",
+     "It works on animals too."
+    ],
+    [
+     "It proves natural selection is false.",
+     "It supports the idea of selection."
+    ]
+   ],
+   "answer": 1,
+   "why": "If artificial selection can change species, natural selection could do the same over longer time."
+  },
+  {
+   "level": "SL",
+   "stem": "What is required for speciation?",
+   "opts": [
+    [
+     "All individuals to be identical",
+     "Variation is needed."
+    ],
+    [
+     "Reproductive isolation followed by divergence",
+     ""
+    ],
+    [
+     "A mass extinction",
+     "Speciation happens without mass extinctions."
+    ],
+    [
+     "The same selection pressures on both populations",
+     "Different pressures cause divergence."
+    ]
+   ],
+   "answer": 1,
+   "why": "Isolated populations cannot share alleles, so they diverge under different selection pressures."
+  },
+  {
+   "level": "SL",
+   "stem": "Bonobos and chimpanzees became separate species after being separated by the Congo River. What type of speciation is this?",
+   "opts": [
+    [
+     "Sympatric",
+     "Sympatric speciation happens in the same area."
+    ],
+    [
+     "Allopatric",
+     ""
+    ],
+    [
+     "Polyploid",
+     "This is not polyploidy."
+    ],
+    [
+     "Artificial",
+     "This was natural."
+    ]
+   ],
+   "answer": 1,
+   "why": "Allopatric speciation involves geographical separation."
+  },
+  {
+   "level": "SL",
+   "stem": "Which molecular evidence best shows that two species are closely related?",
+   "opts": [
+    [
+     "They have the same number of chromosomes.",
+     "Unrelated species can share numbers."
+    ],
+    [
+     "They both have DNA.",
+     "All living organisms have DNA."
+    ],
+    [
+     "Their protein sequences differ by very few amino acids.",
+     ""
+    ],
+    [
+     "They live in the same habitat.",
+     "Location does not show relatedness."
+    ]
+   ],
+   "answer": 2,
+   "why": "Few differences mean little time has passed since the common ancestor."
+  },
+  {
+   "level": "AHL",
+   "stem": "How can polyploidy lead to a new plant species in a single generation?",
+   "opts": [
+    [
+     "The polyploid cannot produce fertile offspring with the parent species.",
+     ""
+    ],
+    [
+     "It makes the plant smaller.",
+     "Size is not the reason."
+    ],
+    [
+     "It removes all mutations.",
+     "It does not."
+    ],
+    [
+     "It happens only in animals.",
+     "It is common in plants."
+    ]
+   ],
+   "answer": 0,
+   "why": "Different chromosome numbers stop normal meiosis in hybrids, so the polyploid is reproductively isolated."
+  },
+  {
+   "level": "AHL",
+   "stem": "What is adaptive radiation?",
+   "opts": [
+    [
+     "The spread of a species to new continents only",
+     "It also involves divergence."
+    ],
+    [
+     "Rapid evolution of many species from a common ancestor to fill different niches",
+     ""
+    ],
+    [
+     "Evolution caused by radiation",
+     "This is not the meaning."
+    ],
+    [
+     "A single species becoming extinct",
+     "This is not adaptive radiation."
+    ]
+   ],
+   "answer": 1,
+   "why": "Darwin's finches diversified into species with different beak shapes suited to different foods."
+  },
+  {
+   "level": "AHL",
+   "stem": "Two populations of insects live in the same area but breed at different times of year. What could result?",
+   "opts": [
+    [
+     "Allopatric speciation",
+     "There is no geographical barrier."
+    ],
+    [
+     "Sympatric speciation by temporal isolation",
+     ""
+    ],
+    [
+     "Hybrid vigour",
+     "This is not the outcome."
+    ],
+    [
+     "Convergent evolution",
+     "This is not convergence."
+    ]
+   ],
+   "answer": 1,
+   "why": "Breeding at different times prevents gene flow, so the populations can diverge."
+  },
+  {
+   "level": "AHL",
+   "stem": "Why is a mule usually sterile?",
+   "opts": [
+    [
+     "It has too many chromosomes.",
+     "It has an odd number, not too many."
+    ],
+    [
+     "It has no reproductive organs.",
+     "Mules have reproductive organs."
+    ],
+    [
+     "Its chromosomes cannot pair properly in meiosis.",
+     ""
+    ],
+    [
+     "It is a polyploid.",
+     "Mules are not polyploid."
+    ]
+   ],
+   "answer": 2,
+   "why": "With 63 chromosomes from two parent species, homologous pairs cannot form, so gametes fail."
+  }
+ ],
+ "exam": [
+  {
+   "level": "SL",
+   "title": "Evidence for evolution",
+   "parts": [
+    {
+     "prompt": "Outline the evidence for evolution from homologous structures and molecular sequences.",
+     "marks": 4,
+     "points": [
+      "Homologous structures have the same basic structure but different functions",
+      "Example: the pentadactyl limb in mammals, birds, reptiles and amphibians",
+      "Shows they share a common ancestor",
+      "Base sequences of DNA and amino acid sequences of proteins can be compared",
+      "More closely related species have fewer differences",
+      "Differences accumulate over time, so they can estimate time since divergence"
+     ],
+     "examiner": "",
+     "mistakes": [
+      "Confusing homologous and analogous structures"
+     ]
+    }
+   ]
+  },
+  {
+   "level": "SL",
+   "title": "Speciation",
+   "parts": [
+    {
+     "prompt": "Explain how allopatric speciation occurs.",
+     "marks": 4,
+     "points": [
+      "A population is split by a geographical barrier, such as a river or mountains",
+      "The two populations cannot interbreed, so there is no gene flow",
+      "Different environments create different selection pressures",
+      "Natural selection changes allele frequencies differently in each population",
+      "Mutations also arise independently",
+      "Eventually they can no longer interbreed to produce fertile offspring",
+      "Example: bonobos and chimpanzees, separated by the Congo River"
+     ],
+     "examiner": "",
+     "mistakes": [
+      "Saying the barrier causes mutations"
+     ]
+    }
+   ]
+  },
+  {
+   "level": "SL",
+   "title": "Selective breeding",
+   "parts": [
+    {
+     "prompt": "Explain how selective breeding provides evidence for evolution.",
+     "marks": 3,
+     "points": [
+      "Humans choose individuals with desired traits to breed",
+      "Over many generations, characteristics change greatly",
+      "Example: crop plants such as maize from teosinte, or dog breeds from wolves",
+      "Shows that species can change when selection acts on heritable variation"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ]
+  },
+  {
+   "level": "SL",
+   "title": "Extended response: speciation",
+   "parts": [
+    {
+     "prompt": "Describe how new species can arise, including the role of reproductive isolation.",
+     "marks": 7,
+     "points": [
+      "Speciation is the splitting of one species into two or more",
+      "Reproductive isolation prevents gene flow between populations",
+      "Geographical isolation leads to allopatric speciation",
+      "Behavioural isolation (different courtship) can cause sympatric speciation",
+      "Temporal isolation (different breeding times) can also prevent interbreeding",
+      "Isolated populations face different selection pressures",
+      "Natural selection changes allele frequencies differently",
+      "Mutations arise independently in each population",
+      "Eventually the populations cannot interbreed to produce fertile offspring",
+      "Polyploidy can give abrupt speciation in plants",
+      "Example such as bonobos and chimpanzees, or Darwin's finches"
+     ],
+     "examiner": "",
+     "mistakes": [
+      "Describing natural selection without speciation"
+     ]
+    }
+   ]
+  },
+  {
+   "level": "AHL",
+   "title": "Polyploidy",
+   "parts": [
+    {
+     "prompt": "Outline how polyploidy can cause abrupt speciation in plants.",
+     "marks": 3,
+     "points": [
+      "Polyploidy is having more than two sets of chromosomes",
+      "It can follow hybridisation between species, then doubling of chromosomes",
+      "The polyploid can undergo meiosis because chromosomes have pairs",
+      "It cannot produce fertile offspring with the parent species",
+      "So it is a new species, formed in a single generation"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ]
+  }
+ ],
+ "sheets": [
+  {
+   "level": "SL",
+   "title": "A4.1 Evolution and speciation revision sheet",
+   "desc": "Printable revision mat to complete after watching the video.",
+   "file": ""
+  }
+ ]
+};
+</script>
+<script src="topic.js"></script>
+<script src="helix.js"></script>
+</body>
+</html>

@@ -18,14 +18,20 @@ $("#topic-guiding").textContent = TOPIC.guiding;
 
 /* Level switch */
 function setLevel(l){
+  if (TOPIC.hlOnly) l = "HL";
   document.body.classList.toggle("sl-only", l === "SL");
+  if (TOPIC.hlOnly) { updateScore(); return; }
   $("#btn-sl").setAttribute("aria-pressed", l === "SL");
   $("#btn-hl").setAttribute("aria-pressed", l !== "SL");
   store.set("ibbio-level", l);
   updateScore();
 }
-$("#btn-sl").onclick = () => setLevel("SL");
-$("#btn-hl").onclick = () => setLevel("HL");
+if (TOPIC.hlOnly) {
+  $(".level-switch").outerHTML = '<span class="hl-only-badge">HL only topic</span>';
+} else {
+  $("#btn-sl").onclick = () => setLevel("SL");
+  $("#btn-hl").onclick = () => setLevel("HL");
+}
 
 /* Videos */
 const playIcon = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';

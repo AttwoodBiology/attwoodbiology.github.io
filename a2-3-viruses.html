@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AttwoodBiology A2.3 Viruses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-strand="A">
+<header class="hero">
+  <canvas class="helix" aria-hidden="true"></canvas>
+  <div class="wrap hero-inner">
+    <a class="brand" href="./"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M9 3c0 7 14 9 14 13S9 22 9 29M23 3c0 7-14 9-14 13s14 6 14 13" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M11 8h10M11 24h10M13 12h6M13 20h6" stroke="var(--glow)" stroke-width="2" stroke-linecap="round"/></svg>Attwood<span>Biology</span></a>
+    <div class="crumb"><a href="./">IB Biology</a><span>›</span><span id="theme-name"></span><span>›</span><b id="topic-code"></b></div>
+    <div class="hero-row">
+      <div class="hero-copy">
+        <h1 id="topic-title"></h1>
+        <p class="lede" id="topic-guiding"></p>
+      </div>
+      <div class="level-switch" role="group" aria-label="Choose your level">
+        <button type="button" id="btn-sl" aria-pressed="false">SL</button>
+        <button type="button" id="btn-hl" aria-pressed="true">HL (SL + AHL)</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="sections" aria-label="Page sections">
+  <div class="wrap">
+    <a href="#videos">Videos</a>
+    <a href="#ideas">Key ideas</a>
+    <a href="#quick-check">Quick check</a>
+    <a href="#exam">Exam questions</a>
+    <a href="#sheets">Revision sheets</a>
+    <span class="score-chip" id="score-chip">Quick check: 0 answered</span>
+  </div>
+</nav>
+
+<main class="wrap">
+  <section id="videos">
+    <div class="sec-head"><h2><span class="num">01</span>Watch</h2><p>Start here, then test yourself below.</p></div>
+    <div class="videos" id="video-list"></div>
+  </section>
+  <section id="ideas">
+    <div class="sec-head"><h2><span class="num">02</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
+    <div class="ideas" id="idea-list"></div>
+  </section>
+  <section id="quick-check">
+    <div class="sec-head">
+      <h2><span class="num">03</span>Quick check</h2>
+      <div class="toolbar"><span class="note" id="mcq-score"></span><button type="button" class="btn ghost" id="mcq-reset">Start again</button></div>
+    </div>
+    <div class="mcq-list" id="mcq-list"></div>
+  </section>
+  <section id="exam">
+    <div class="sec-head"><h2><span class="num">04</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
+    <div class="exam-list" id="exam-list"></div>
+  </section>
+  <section id="sheets">
+    <div class="sec-head"><h2><span class="num">05</span>Revision sheets</h2><p>Printable PDFs to go with the videos.</p></div>
+    <div class="sheets" id="sheet-list"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><b>AttwoodBiology</b> · IB Biology revision. All questions are original exam-style questions written for this page. They are not taken from IB past papers.</div>
+</footer>
+
+<script>
+/* ============================================================
+   TOPIC DATA: the only part that changes per topic.
+   Videos: paste the YouTube video ID (the part after v= in the URL).
+   Sheets: put the PDF in the revision-sheets folder and give its path.
+   ============================================================ */
+const TOPIC = {
+ "code": "A2.3",
+ "title": "Viruses",
+ "theme": "Theme A: Unity and diversity",
+ "guiding": "How can viruses exist with so few genes, and why do they evolve so quickly?",
+ "hlOnly": true,
+ "videos": [
+  {
+   "level": "AHL",
+   "title": "Viruses",
+   "youtubeId": "",
+   "desc": "Structure, lytic and lysogenic cycles, origins and rapid evolution."
+  }
+ ],
+ "ideas": [
+  {
+   "level": "AHL",
+   "h": "Structural features",
+   "p": "Small with a fixed size, nucleic acid (DNA or RNA) inside a protein capsid. No cytoplasm and few or no enzymes."
+  },
+  {
+   "level": "AHL",
+   "h": "Diversity of viruses",
+   "p": "Genetic material may be DNA or RNA, single- or double-stranded. Some have a lipid envelope taken from the host membrane."
+  },
+  {
+   "level": "AHL",
+   "h": "Obligate parasites",
+   "p": "Viruses can only reproduce inside a host cell, using its ribosomes, enzymes and ATP."
+  },
+  {
+   "level": "AHL",
+   "h": "Lytic cycle",
+   "p": "Attachment, injection of nucleic acid, replication and protein synthesis, assembly, then lysis of the host cell to release new viruses."
+  },
+  {
+   "level": "AHL",
+   "h": "Lysogenic cycle",
+   "p": "Viral DNA integrates into the host chromosome as a prophage and is copied when the cell divides. Later it can switch to the lytic cycle."
+  },
+  {
+   "level": "AHL",
+   "h": "Bacteriophage lambda",
+   "p": "A virus of E. coli that can follow either the lytic or the lysogenic cycle."
+  },
+  {
+   "level": "AHL",
+   "h": "Several origins",
+   "p": "Viruses are so diverse that they probably evolved more than once (convergent evolution). They may come from escaped genes or reduced cells."
+  },
+  {
+   "level": "AHL",
+   "h": "Rapid evolution",
+   "p": "Short generation times, huge numbers and high mutation rates, especially in RNA viruses, mean viruses evolve quickly."
+  },
+  {
+   "level": "AHL",
+   "h": "Influenza and HIV",
+   "p": "Influenza changes its surface antigens, so vaccines need updating each year. HIV mutates quickly, so drug resistance develops easily."
+  }
+ ],
+ "mcq": [
+  {
+   "level": "AHL",
+   "stem": "Which feature is shared by all viruses?",
+   "opts": [
+    [
+     "A lipid envelope",
+     "Only some viruses have an envelope."
+    ],
+    [
+     "A protein capsid surrounding nucleic acid",
+     ""
+    ],
+    [
+     "DNA as genetic material",
+     "Some viruses use RNA."
+    ],
+    [
+     "Ribosomes",
+     "Viruses have no ribosomes."
+    ]
+   ],
+   "answer": 1,
+   "why": "All viruses have nucleic acid enclosed in a protein coat called a capsid."
+  },
+  {
+   "level": "AHL",
+   "stem": "Why are viruses described as obligate parasites?",
+   "opts": [
+    [
+     "They kill all cells they enter.",
+     "Not all infections kill the host cell."
+    ],
+    [
+     "They are always harmful to humans.",
+     "Many viruses infect bacteria or plants."
+    ],
+    [
+     "They can only reproduce inside a host cell.",
+     ""
+    ],
+    [
+     "They contain no nucleic acid.",
+     "All viruses contain nucleic acid."
+    ]
+   ],
+   "answer": 2,
+   "why": "Viruses lack the machinery for metabolism and protein synthesis, so they must use the host's."
+  },
+  {
+   "level": "AHL",
+   "stem": "Where does the lipid envelope of an enveloped virus come from?",
+   "opts": [
+    [
+     "The plasma membrane of the host cell",
+     ""
+    ],
+    [
+     "It is made by viral enzymes.",
+     "The envelope is taken from the host."
+    ],
+    [
+     "The capsid",
+     "The capsid is protein."
+    ],
+    [
+     "The nucleus of the virus",
+     "Viruses do not have a nucleus."
+    ]
+   ],
+   "answer": 0,
+   "why": "As new virus particles bud out of the host cell, they take some of its membrane with them."
+  },
+  {
+   "level": "AHL",
+   "stem": "What happens at the end of the lytic cycle?",
+   "opts": [
+    [
+     "The viral DNA joins the host chromosome.",
+     "That is the lysogenic cycle."
+    ],
+    [
+     "The virus stays dormant.",
+     "That is the lysogenic cycle."
+    ],
+    [
+     "The host cell bursts, releasing new viruses.",
+     ""
+    ],
+    [
+     "The host cell divides normally.",
+     "The host cell is destroyed."
+    ]
+   ],
+   "answer": 2,
+   "why": "Lysis releases many new virus particles, which can infect other cells."
+  },
+  {
+   "level": "AHL",
+   "stem": "What is a prophage?",
+   "opts": [
+    [
+     "A virus outside a host cell",
+     "A prophage is inside the host."
+    ],
+    [
+     "Viral DNA integrated into the host chromosome",
+     ""
+    ],
+    [
+     "The protein coat of a virus",
+     "That is the capsid."
+    ],
+    [
+     "A newly assembled virus",
+     "A prophage is not assembled."
+    ]
+   ],
+   "answer": 1,
+   "why": "In the lysogenic cycle, the prophage is copied every time the host cell divides."
+  },
+  {
+   "level": "AHL",
+   "stem": "Why do RNA viruses evolve especially quickly?",
+   "opts": [
+    [
+     "RNA is more stable than DNA.",
+     "RNA is less stable."
+    ],
+    [
+     "They have long generation times.",
+     "Their generation times are short."
+    ],
+    [
+     "They have proofreading enzymes.",
+     "RNA replication has little or no proofreading."
+    ],
+    [
+     "Their replication enzymes make many errors, giving a high mutation rate.",
+     ""
+    ]
+   ],
+   "answer": 3,
+   "why": "Lots of mutations, short generation times and huge population sizes allow rapid natural selection."
+  },
+  {
+   "level": "AHL",
+   "stem": "Why does the influenza vaccine need to be updated each year?",
+   "opts": [
+    [
+     "The virus's surface antigens change over time.",
+     ""
+    ],
+    [
+     "People lose their immune system each year.",
+     "Immune memory lasts longer than this."
+    ],
+    [
+     "The vaccine stops working after a year in storage.",
+     "This is not the main reason."
+    ],
+    [
+     "Influenza becomes a bacterium.",
+     "Viruses do not become bacteria."
+    ]
+   ],
+   "answer": 0,
+   "why": "Mutations change the antigens, so antibodies from earlier vaccines no longer recognise the new strain."
+  },
+  {
+   "level": "AHL",
+   "stem": "What evidence suggests viruses have several different origins?",
+   "opts": [
+    [
+     "They all share the same capsid proteins.",
+     "They are very diverse."
+    ],
+    [
+     "They are extremely diverse in structure and genetic material.",
+     ""
+    ],
+    [
+     "They all infect bacteria.",
+     "They infect organisms in all domains."
+    ],
+    [
+     "They have no genes.",
+     "All viruses have genes."
+    ]
+   ],
+   "answer": 1,
+   "why": "Their diversity suggests they evolved independently several times, by convergent evolution."
+  },
+  {
+   "level": "AHL",
+   "stem": "In the lytic cycle, what does the virus use to make new capsid proteins?",
+   "opts": [
+    [
+     "Its own ribosomes",
+     "Viruses do not have ribosomes."
+    ],
+    [
+     "Its own ATP",
+     "Viruses do not make ATP."
+    ],
+    [
+     "The host cell's ribosomes, enzymes and ATP",
+     ""
+    ],
+    [
+     "Proteins stored in the capsid",
+     "The capsid does not store spare proteins."
+    ]
+   ],
+   "answer": 2,
+   "why": "The viral genes are expressed using the host's protein synthesis machinery."
+  },
+  {
+   "level": "AHL",
+   "stem": "Why is it difficult to develop a vaccine against HIV?",
+   "opts": [
+    [
+     "HIV is a bacterium.",
+     "HIV is a virus."
+    ],
+    [
+     "HIV has no antigens.",
+     "It has surface antigens."
+    ],
+    [
+     "HIV infects only red blood cells.",
+     "It infects helper T cells."
+    ],
+    [
+     "HIV mutates rapidly, so its antigens keep changing.",
+     ""
+    ]
+   ],
+   "answer": 3,
+   "why": "Rapid evolution means antibodies produced in response to a vaccine may not recognise new variants."
+  }
+ ],
+ "exam": [
+  {
+   "level": "AHL",
+   "title": "Virus structure",
+   "parts": [
+    {
+     "prompt": "Outline the structural features that are common to all viruses.",
+     "marks": 3,
+     "points": [
+      "Very small, of fixed size",
+      "Genetic material is DNA or RNA",
+      "Enclosed in a capsid made of protein",
+      "No cytoplasm",
+      "Few or no enzymes"
+     ],
+     "examiner": "",
+     "mistakes": [
+      "Saying all viruses have an envelope"
+     ]
+    }
+   ]
+  },
+  {
+   "level": "AHL",
+   "title": "The lytic cycle",
+   "parts": [
+    {
+     "prompt": "Describe the lytic cycle of a bacteriophage.",
+     "marks": 4,
+     "points": [
+      "The virus attaches to receptors on the host cell",
+      "Viral nucleic acid is injected into the host cell",
+      "Viral genes are expressed using the host's ribosomes, enzymes and ATP",
+      "Viral nucleic acid is replicated",
+      "New viruses are assembled from capsid proteins and nucleic acid",
+      "An enzyme breaks down the cell wall and the cell bursts (lysis), releasing new viruses"
+     ],
+     "examiner": "",
+     "mistakes": [
+      "Saying the virus divides by binary fission"
+     ]
+    }
+   ]
+  },
+  {
+   "level": "AHL",
+   "title": "Lytic and lysogenic",
+   "parts": [
+    {
+     "prompt": "Distinguish between the lytic and lysogenic cycles of bacteriophage lambda.",
+     "marks": 3,
+     "points": [
+      "Lytic: viral DNA is replicated straight away and new viruses are made",
+      "Lytic: the host cell bursts and is destroyed",
+      "Lysogenic: viral DNA is integrated into the host chromosome as a prophage",
+      "Lysogenic: the prophage is copied when the host divides; the host is not destroyed",
+      "Lysogenic infection can later switch to the lytic cycle"
+     ],
+     "examiner": "",
+     "mistakes": [
+      "Mixing up the two cycles"
+     ]
+    }
+   ]
+  },
+  {
+   "level": "AHL",
+   "title": "Rapid evolution",
+   "parts": [
+    {
+     "prompt": "Explain why viruses evolve rapidly, and outline the consequences for treating viral diseases.",
+     "marks": 4,
+     "points": [
+      "Very short generation times",
+      "Huge numbers of viruses are produced",
+      "High mutation rates, especially in RNA viruses with error-prone replication",
+      "So natural selection acts quickly",
+      "Influenza changes antigens, so new vaccines are needed each year",
+      "HIV develops drug resistance, so combinations of drugs are used"
+     ],
+     "examiner": "",
+     "mistakes": [
+      "Saying viruses mutate on purpose to avoid drugs"
+     ]
+    }
+   ]
+  },
+  {
+   "level": "AHL",
+   "title": "Extended response: viruses",
+   "parts": [
+    {
+     "prompt": "Discuss whether viruses should be considered living organisms.",
+     "marks": 7,
+     "points": [
+      "Viruses are not cells, and cells are the smallest units of self-sustaining life",
+      "They have no cytoplasm and no metabolism of their own",
+      "They cannot reproduce outside a host cell (obligate parasites)",
+      "They do not carry out most functions of life, such as nutrition or excretion",
+      "They do contain genetic material (DNA or RNA)",
+      "They reproduce and pass on genes, though only inside host cells",
+      "They evolve by natural selection",
+      "Their genetic code is the same as that of living organisms",
+      "Some, such as giant viruses, have many genes, blurring the boundary",
+      "Conclusion: most biologists do not consider viruses to be living, but they show some features of life"
+     ],
+     "examiner": "“Discuss” needs arguments on both sides and a conclusion.",
+     "mistakes": [
+      "Giving only one side"
+     ]
+    }
+   ]
+  }
+ ],
+ "sheets": [
+  {
+   "level": "AHL",
+   "title": "A2.3 Viruses revision sheet",
+   "desc": "Printable revision mat to complete after watching the video.",
+   "file": ""
+  }
+ ]
+};
+</script>
+<script src="topic.js"></script>
+<script src="helix.js"></script>
+</body>
+</html>

@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AttwoodBiology A2.2 Cell structure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-strand="A">
+<header class="hero">
+  <canvas class="helix" aria-hidden="true"></canvas>
+  <div class="wrap hero-inner">
+    <a class="brand" href="./"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M9 3c0 7 14 9 14 13S9 22 9 29M23 3c0 7-14 9-14 13s14 6 14 13" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M11 8h10M11 24h10M13 12h6M13 20h6" stroke="var(--glow)" stroke-width="2" stroke-linecap="round"/></svg>Attwood<span>Biology</span></a>
+    <div class="crumb"><a href="./">IB Biology</a><span>›</span><span id="theme-name"></span><span>›</span><b id="topic-code"></b></div>
+    <div class="hero-row">
+      <div class="hero-copy">
+        <h1 id="topic-title"></h1>
+        <p class="lede" id="topic-guiding"></p>
+      </div>
+      <div class="level-switch" role="group" aria-label="Choose your level">
+        <button type="button" id="btn-sl" aria-pressed="false">SL</button>
+        <button type="button" id="btn-hl" aria-pressed="true">HL (SL + AHL)</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="sections" aria-label="Page sections">
+  <div class="wrap">
+    <a href="#videos">Videos</a>
+    <a href="#ideas">Key ideas</a>
+    <a href="#quick-check">Quick check</a>
+    <a href="#exam">Exam questions</a>
+    <a href="#sheets">Revision sheets</a>
+    <span class="score-chip" id="score-chip">Quick check: 0 answered</span>
+  </div>
+</nav>
+
+<main class="wrap">
+  <section id="videos">
+    <div class="sec-head"><h2><span class="num">01</span>Watch</h2><p>Start here, then test yourself below.</p></div>
+    <div class="videos" id="video-list"></div>
+  </section>
+  <section id="ideas">
+    <div class="sec-head"><h2><span class="num">02</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
+    <div class="ideas" id="idea-list"></div>
+  </section>
+  <section id="quick-check">
+    <div class="sec-head">
+      <h2><span class="num">03</span>Quick check</h2>
+      <div class="toolbar"><span class="note" id="mcq-score"></span><button type="button" class="btn ghost" id="mcq-reset">Start again</button></div>
+    </div>
+    <div class="mcq-list" id="mcq-list"></div>
+  </section>
+  <section id="exam">
+    <div class="sec-head"><h2><span class="num">04</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
+    <div class="exam-list" id="exam-list"></div>
+  </section>
+  <section id="sheets">
+    <div class="sec-head"><h2><span class="num">05</span>Revision sheets</h2><p>Printable PDFs to go with the videos.</p></div>
+    <div class="sheets" id="sheet-list"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><b>AttwoodBiology</b> · IB Biology revision. All questions are original exam-style questions written for this page. They are not taken from IB past papers.</div>
+</footer>
+
+<script>
+/* ============================================================
+   TOPIC DATA: the only part that changes per topic.
+   Videos: paste the YouTube video ID (the part after v= in the URL).
+   Sheets: put the PDF in the revision-sheets folder and give its path.
+   ============================================================ */
+const TOPIC = {
+ "code": "A2.2",
+ "title": "Cell structure",
+ "theme": "Theme A: Unity and diversity",
+ "guiding": "What are the features common to all cells, and how do prokaryotic and eukaryotic cells differ?",
+ "videos": [
+  {
+   "level": "SL",
+   "title": "Cell structure",
+   "youtubeId": "",
+   "desc": "Microscopy, prokaryotes and eukaryotes, and atypical cells."
+  },
+  {
+   "level": "AHL",
+   "title": "Endosymbiosis and multicellularity",
+   "youtubeId": "",
+   "desc": "The origin of eukaryotic cells, differentiation and the evolution of multicellularity."
+  }
+ ],
+ "ideas": [
+  {
+   "level": "SL",
+   "h": "Cells are the basic unit",
+   "p": "All living organisms are made of one or more cells, and cells only arise from pre-existing cells."
+  },
+  {
+   "level": "SL",
+   "h": "Magnification",
+   "p": "Magnification = image size ÷ actual size. Convert to the same units first: 1 mm = 1000 µm."
+  },
+  {
+   "level": "SL",
+   "h": "Developments in microscopy",
+   "p": "Electron microscopes give much higher resolution. Freeze fracture, cryogenic electron microscopy, fluorescent stains and immunofluorescence reveal more detail."
+  },
+  {
+   "level": "SL",
+   "h": "Common to all cells",
+   "p": "DNA as genetic material, cytoplasm in water, and a plasma membrane enclosing the cell."
+  },
+  {
+   "level": "SL",
+   "h": "Prokaryotic cells",
+   "p": "Cell wall, plasma membrane, cytoplasm, 70S ribosomes and a naked, circular DNA loop in a nucleoid region. No nucleus."
+  },
+  {
+   "level": "SL",
+   "h": "Eukaryotic cells",
+   "p": "Compartmentalised: a nucleus with a double membrane, membrane-bound organelles, 80S ribosomes and a cytoskeleton."
+  },
+  {
+   "level": "SL",
+   "h": "Life processes",
+   "p": "Unicellular organisms carry out all functions of life: homeostasis, metabolism, nutrition, movement, excretion, growth, response to stimuli and reproduction."
+  },
+  {
+   "level": "SL",
+   "h": "Plant, animal and fungal cells",
+   "p": "Plants: cellulose walls, large permanent vacuole, plastids. Fungi: chitin walls. Animals: no wall, centrioles, cilia or flagella in some cells."
+  },
+  {
+   "level": "SL",
+   "h": "Atypical cells",
+   "p": "Red blood cells lack a nucleus. Skeletal muscle fibres and aseptate fungal hyphae are multinucleate. Phloem sieve tubes lack a nucleus."
+  },
+  {
+   "level": "AHL",
+   "h": "Endosymbiosis",
+   "p": "Mitochondria and chloroplasts came from engulfed prokaryotes. Evidence: double membranes, 70S ribosomes, circular DNA and division by binary fission."
+  },
+  {
+   "level": "AHL",
+   "h": "Differentiation",
+   "p": "Cells in a multicellular organism become specialised by expressing different genes, even though all have the same genome."
+  },
+  {
+   "level": "AHL",
+   "h": "Multicellularity",
+   "p": "Evolved many times. It allows larger size and cell specialisation, with division of labour between tissues."
+  }
+ ],
+ "mcq": [
+  {
+   "level": "SL",
+   "stem": "An image of a cell is 30 mm long. The actual cell is 60 µm long. What is the magnification?",
+   "opts": [
+    [
+     "×0.5",
+     "Divide image size by actual size, in the same units."
+    ],
+    [
+     "×2",
+     "Convert 30 mm to 30 000 µm first."
+    ],
+    [
+     "×500",
+     ""
+    ],
+    [
+     "×5000",
+     "Check the conversion: 30 mm = 30 000 µm."
+    ]
+   ],
+   "answer": 2,
+   "why": "30 mm = 30 000 µm. Magnification = 30 000 ÷ 60 = ×500."
+  },
+  {
+   "level": "SL",
+   "stem": "Which structure is found in prokaryotic cells but not in animal cells?",
+   "opts": [
+    [
+     "Cell wall",
+     ""
+    ],
+    [
+     "Plasma membrane",
+     "All cells have a plasma membrane."
+    ],
+    [
+     "Ribosomes",
+     "Both have ribosomes."
+    ],
+    [
+     "Cytoplasm",
+     "All cells have cytoplasm."
+    ]
+   ],
+   "answer": 0,
+   "why": "Prokaryotes have a cell wall (made of peptidoglycan in bacteria). Animal cells have no cell wall."
+  },
+  {
+   "level": "SL",
+   "stem": "What type of ribosomes are found in the cytoplasm of eukaryotic cells?",
+   "opts": [
+    [
+     "70S",
+     "70S ribosomes are found in prokaryotes, mitochondria and chloroplasts."
+    ],
+    [
+     "80S",
+     ""
+    ],
+    [
+     "60S",
+     "This is not the right size."
+    ],
+    [
+     "50S",
+     "50S is a subunit of the prokaryotic ribosome."
+    ]
+   ],
+   "answer": 1,
+   "why": "Eukaryotic cytoplasmic ribosomes are larger (80S) than prokaryotic ones (70S)."
+  },
+  {
+   "level": "SL",
+   "stem": "Which feature is shared by all cells?",
+   "opts": [
+    [
+     "A nucleus",
+     "Prokaryotes have no nucleus."
+    ],
+    [
+     "Mitochondria",
+     "Prokaryotes have no mitochondria."
+    ],
+    [
+     "A cell wall",
+     "Animal cells have no cell wall."
+    ],
+    [
+     "A plasma membrane",
+     ""
+    ]
+   ],
+   "answer": 3,
+   "why": "All cells have a plasma membrane, cytoplasm and DNA."
+  },
+  {
+   "level": "SL",
+   "stem": "What is the main advantage of electron microscopes over light microscopes?",
+   "opts": [
+    [
+     "They show living cells in colour.",
+     "Electron microscopes cannot image living cells and give black-and-white images."
+    ],
+    [
+     "They have much higher resolution.",
+     ""
+    ],
+    [
+     "They are cheaper.",
+     "They are much more expensive."
+    ],
+    [
+     "They need no sample preparation.",
+     "Preparation is extensive."
+    ]
+   ],
+   "answer": 1,
+   "why": "Electrons have a much shorter wavelength than light, so much finer detail can be distinguished."
+  },
+  {
+   "level": "SL",
+   "stem": "Which material makes up fungal cell walls?",
+   "opts": [
+    [
+     "Cellulose",
+     "Cellulose is found in plant cell walls."
+    ],
+    [
+     "Peptidoglycan",
+     "Peptidoglycan is found in bacterial cell walls."
+    ],
+    [
+     "Chitin",
+     ""
+    ],
+    [
+     "Glycogen",
+     "Glycogen is an energy store."
+    ]
+   ],
+   "answer": 2,
+   "why": "Fungal walls are made of chitin, a polysaccharide also found in insect exoskeletons."
+  },
+  {
+   "level": "SL",
+   "stem": "Why are mature red blood cells described as atypical?",
+   "opts": [
+    [
+     "They have two nuclei.",
+     "They have no nucleus."
+    ],
+    [
+     "They have no nucleus.",
+     ""
+    ],
+    [
+     "They have a cell wall.",
+     "Animal cells lack walls."
+    ],
+    [
+     "They contain chloroplasts.",
+     "Animal cells lack chloroplasts."
+    ]
+   ],
+   "answer": 1,
+   "why": "Losing the nucleus makes room for more haemoglobin, but the cells cannot divide or repair themselves."
+  },
+  {
+   "level": "SL",
+   "stem": "Which structure would you see in a plant cell but not an animal cell?",
+   "opts": [
+    [
+     "Mitochondria",
+     "Both have mitochondria."
+    ],
+    [
+     "Golgi apparatus",
+     "Both have Golgi apparatus."
+    ],
+    [
+     "Ribosomes",
+     "Both have ribosomes."
+    ],
+    [
+     "Large permanent vacuole",
+     ""
+    ]
+   ],
+   "answer": 3,
+   "why": "Plant cells have a large vacuole containing cell sap, which keeps the cell turgid."
+  },
+  {
+   "level": "SL",
+   "stem": "What is immunofluorescence used for?",
+   "opts": [
+    [
+     "To show where specific proteins are located in a cell",
+     ""
+    ],
+    [
+     "To increase magnification",
+     "It labels molecules; it does not magnify."
+    ],
+    [
+     "To count chromosomes",
+     "This is not its main use."
+    ],
+    [
+     "To freeze cells",
+     "That is cryo-EM or freeze fracture."
+    ]
+   ],
+   "answer": 0,
+   "why": "Fluorescent antibodies bind to a specific protein, so its location glows under a fluorescence microscope."
+  },
+  {
+   "level": "AHL",
+   "stem": "Which is evidence that mitochondria evolved from engulfed prokaryotes?",
+   "opts": [
+    [
+     "They contain 80S ribosomes.",
+     "Mitochondria have 70S ribosomes."
+    ],
+    [
+     "They are found in all cells.",
+     "Prokaryotes lack mitochondria."
+    ],
+    [
+     "They have their own circular DNA.",
+     ""
+    ],
+    [
+     "They have a single membrane.",
+     "They have a double membrane."
+    ]
+   ],
+   "answer": 2,
+   "why": "Like bacteria, mitochondria have naked circular DNA, 70S ribosomes, and divide by binary fission."
+  },
+  {
+   "level": "AHL",
+   "stem": "All cells in a multicellular organism have the same genes. How do they become specialised?",
+   "opts": [
+    [
+     "They lose the genes they do not need.",
+     "Most differentiated cells keep the full genome."
+    ],
+    [
+     "Different genes are expressed in different cell types.",
+     ""
+    ],
+    [
+     "They gain new genes by mutation.",
+     "Mutation is not how differentiation happens."
+    ],
+    [
+     "They divide by meiosis.",
+     "Body cells divide by mitosis."
+    ]
+   ],
+   "answer": 1,
+   "why": "Differentiation happens by switching specific genes on or off."
+  },
+  {
+   "level": "AHL",
+   "stem": "Which is an advantage of multicellularity?",
+   "opts": [
+    [
+     "Each cell carries out all functions.",
+     "That is true of unicellular organisms."
+    ],
+    [
+     "Cells can specialise, allowing a division of labour.",
+     ""
+    ],
+    [
+     "Organisms need less energy.",
+     "Larger organisms need more energy overall."
+    ],
+    [
+     "It removes the need for transport systems.",
+     "Larger organisms often need transport systems."
+    ]
+   ],
+   "answer": 1,
+   "why": "Specialised tissues can each perform a function efficiently, and the organism can grow larger."
+  }
+ ],
+ "exam": [
+  {
+   "level": "SL",
+   "title": "Prokaryotes and eukaryotes",
+   "parts": [
+    {
+     "prompt": "Distinguish between the structure of prokaryotic and eukaryotic cells.",
+     "marks": 4,
+     "points": [
+      "Prokaryotes have no nucleus; eukaryotes have a nucleus with a double membrane",
+      "Prokaryotic DNA is naked and circular; eukaryotic DNA is linear and associated with histones",
+      "Prokaryotes have 70S ribosomes; eukaryotes have 80S in the cytoplasm",
+      "Prokaryotes lack membrane-bound organelles; eukaryotes have them (mitochondria, ER, Golgi)",
+      "Prokaryotes are generally much smaller",
+      "Prokaryotes may have plasmids"
+     ],
+     "examiner": "A table is a clear way to show differences.",
+     "mistakes": [
+      "Saying prokaryotes have no DNA"
+     ]
+    }
+   ]
+  },
+  {
+   "level": "SL",
+   "title": "Magnification",
+   "parts": [
+    {
+     "prompt": "Calculate the actual length of the mitochondrion in µm.",
+     "marks": 2,
+     "points": [
+      "Magnification = 30 mm ÷ 1 µm = 30 000 µm ÷ 1 µm = ×30 000",
+      "Actual size = 45 000 µm ÷ 30 000 = 1.5 µm"
+     ],
+     "examiner": "Show your working and convert units.",
+     "mistakes": [
+      "Forgetting to convert mm to µm"
+     ]
+    }
+   ],
+   "table": {
+    "head": [
+     "Structure",
+     "Image length / mm",
+     "Scale bar"
+    ],
+    "rows": [
+     [
+      "Mitochondrion",
+      "45",
+      "scale bar of 30 mm represents 1 µm"
+     ]
+    ]
+   }
+  },
+  {
+   "level": "SL",
+   "title": "Atypical cells",
+   "parts": [
+    {
+     "prompt": "Outline why some cells are described as atypical, using two named examples.",
+     "marks": 3,
+     "points": [
+      "Atypical cells do not fit the standard cell theory idea of one nucleus per cell",
+      "Red blood cells have no nucleus, giving more space for haemoglobin",
+      "Skeletal muscle fibres are multinucleate, formed by fusion of cells",
+      "Aseptate fungal hyphae have many nuclei in a continuous cytoplasm",
+      "Phloem sieve tube elements have no nucleus and rely on companion cells"
+     ],
+     "examiner": "",
+     "mistakes": [
+      "Giving examples without saying what makes them unusual"
+     ]
+    }
+   ]
+  },
+  {
+   "level": "SL",
+   "title": "Extended response: cell structure",
+   "parts": [
+    {
+     "prompt": "Compare and contrast the structure of plant, animal and fungal cells.",
+     "marks": 7,
+     "points": [
+      "All are eukaryotic, with a nucleus and membrane-bound organelles",
+      "All have 80S ribosomes, mitochondria, ER and Golgi apparatus",
+      "All have a plasma membrane",
+      "Plant cell walls are made of cellulose",
+      "Fungal cell walls are made of chitin",
+      "Animal cells have no cell wall",
+      "Plant cells have chloroplasts (plastids); animal and fungal cells do not",
+      "Plant cells have a large permanent vacuole; animal cells have small, temporary vacuoles",
+      "Animal cells have centrioles; most plant cells do not",
+      "Some animal cells have cilia or flagella",
+      "Fungi may have multinucleate (aseptate) hyphae",
+      "Plants store starch, animals and fungi store glycogen"
+     ],
+     "examiner": "Include similarities as well as differences.",
+     "mistakes": [
+      "Saying plant cells have no mitochondria"
+     ]
+    }
+   ]
+  },
+  {
+   "level": "AHL",
+   "title": "Endosymbiosis",
+   "parts": [
+    {
+     "prompt": "Outline the evidence for the endosymbiotic theory.",
+     "marks": 4,
+     "points": [
+      "Mitochondria and chloroplasts have a double membrane, from engulfment",
+      "They have their own naked, circular DNA",
+      "They have 70S ribosomes, like prokaryotes",
+      "They divide by binary fission",
+      "They are similar in size to bacteria",
+      "Their DNA is similar to that of free-living bacteria"
+     ],
+     "examiner": "",
+     "mistakes": [
+      "Saying the theory explains the origin of the nucleus"
+     ]
+    }
+   ]
+  }
+ ],
+ "sheets": [
+  {
+   "level": "SL",
+   "title": "A2.2 Cell structure revision sheet",
+   "desc": "Printable revision mat to complete after watching the video.",
+   "file": ""
+  }
+ ]
+};
+</script>
+<script src="topic.js"></script>
+<script src="helix.js"></script>
+</body>
+</html>

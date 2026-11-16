@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AttwoodBiology A4.2 Conservation of biodiversity</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-strand="A">
+<header class="hero">
+  <canvas class="helix" aria-hidden="true"></canvas>
+  <div class="wrap hero-inner">
+    <a class="brand" href="./"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M9 3c0 7 14 9 14 13S9 22 9 29M23 3c0 7-14 9-14 13s14 6 14 13" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M11 8h10M11 24h10M13 12h6M13 20h6" stroke="var(--glow)" stroke-width="2" stroke-linecap="round"/></svg>Attwood<span>Biology</span></a>
+    <div class="crumb"><a href="./">IB Biology</a><span>›</span><span id="theme-name"></span><span>›</span><b id="topic-code"></b></div>
+    <div class="hero-row">
+      <div class="hero-copy">
+        <h1 id="topic-title"></h1>
+        <p class="lede" id="topic-guiding"></p>
+      </div>
+      <div class="level-switch" role="group" aria-label="Choose your level">
+        <button type="button" id="btn-sl" aria-pressed="false">SL</button>
+        <button type="button" id="btn-hl" aria-pressed="true">HL (SL + AHL)</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="sections" aria-label="Page sections">
+  <div class="wrap">
+    <a href="#videos">Videos</a>
+    <a href="#ideas">Key ideas</a>
+    <a href="#quick-check">Quick check</a>
+    <a href="#exam">Exam questions</a>
+    <a href="#sheets">Revision sheets</a>
+    <span class="score-chip" id="score-chip">Quick check: 0 answered</span>
+  </div>
+</nav>
+
+<main class="wrap">
+  <section id="videos">
+    <div class="sec-head"><h2><span class="num">01</span>Watch</h2><p>Start here, then test yourself below.</p></div>
+    <div class="videos" id="video-list"></div>
+  </section>
+  <section id="ideas">
+    <div class="sec-head"><h2><span class="num">02</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
+    <div class="ideas" id="idea-list"></div>
+  </section>
+  <section id="quick-check">
+    <div class="sec-head">
+      <h2><span class="num">03</span>Quick check</h2>
+      <div class="toolbar"><span class="note" id="mcq-score"></span><button type="button" class="btn ghost" id="mcq-reset">Start again</button></div>
+    </div>
+    <div class="mcq-list" id="mcq-list"></div>
+  </section>
+  <section id="exam">
+    <div class="sec-head"><h2><span class="num">04</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
+    <div class="exam-list" id="exam-list"></div>
+  </section>
+  <section id="sheets">
+    <div class="sec-head"><h2><span class="num">05</span>Revision sheets</h2><p>Printable PDFs to go with the videos.</p></div>
+    <div class="sheets" id="sheet-list"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><b>AttwoodBiology</b> · IB Biology revision. All questions are original exam-style questions written for this page. They are not taken from IB past papers.</div>
+</footer>
+
+<script>
+/* ============================================================
+   TOPIC DATA: the only part that changes per topic.
+   Videos: paste the YouTube video ID (the part after v= in the URL).
+   Sheets: put the PDF in the revision-sheets folder and give its path.
+   ============================================================ */
+const TOPIC = {
+ "code": "A4.2",
+ "title": "Conservation of biodiversity",
+ "theme": "Theme A: Unity and diversity",
+ "guiding": "What are the causes of the biodiversity crisis, and how can biodiversity be conserved?",
+ "videos": [
+  {
+   "level": "SL",
+   "title": "Conservation of biodiversity",
+   "youtubeId": "",
+   "desc": "Levels of biodiversity, the causes of the biodiversity crisis, and conservation approaches."
+  }
+ ],
+ "ideas": [
+  {
+   "level": "SL",
+   "h": "Levels of biodiversity",
+   "p": "Biodiversity exists at three levels: ecosystem diversity, species diversity and genetic diversity within species."
+  },
+  {
+   "level": "SL",
+   "h": "Past and present",
+   "p": "There are more species alive now than at most times in the past, but there have been five mass extinctions."
+  },
+  {
+   "level": "SL",
+   "h": "Anthropogenic extinctions",
+   "p": "Humans have caused extinctions, e.g. the North Island giant moa by hunting and the Caribbean monk seal by overexploitation."
+  },
+  {
+   "level": "SL",
+   "h": "Ecosystem loss",
+   "p": "Whole ecosystems are being lost, e.g. mixed dipterocarp forests in Southeast Asia cleared for palm oil plantations."
+  },
+  {
+   "level": "SL",
+   "h": "Evidence for a crisis",
+   "p": "Reports from scientists and organisations, plus citizen science surveys, show species and populations declining rapidly."
+  },
+  {
+   "level": "SL",
+   "h": "Causes of the crisis",
+   "p": "Human population growth drives habitat destruction, overexploitation, pollution, invasive species and climate change."
+  },
+  {
+   "level": "SL",
+   "h": "In situ conservation",
+   "p": "Protecting species in their natural habitat: nature reserves, rewilding and restoring damaged habitats."
+  },
+  {
+   "level": "SL",
+   "h": "Ex situ conservation",
+   "p": "Protecting species outside their habitat: zoos, botanic gardens, captive breeding and seed banks."
+  },
+  {
+   "level": "SL",
+   "h": "Prioritising species",
+   "p": "The EDGE of Existence programme prioritises species that are Evolutionarily Distinct and Globally Endangered."
+  }
+ ],
+ "mcq": [
+  {
+   "level": "SL",
+   "stem": "Which are the three levels of biodiversity?",
+   "opts": [
+    [
+     "Ecosystem, species and genetic diversity",
+     ""
+    ],
+    [
+     "Plants, animals and fungi",
+     "These are kingdoms, not levels."
+    ],
+    [
+     "Producers, consumers and decomposers",
+     "These are trophic roles."
+    ],
+    [
+     "Land, sea and air",
+     "These are habitats."
+    ]
+   ],
+   "answer": 0,
+   "why": "Biodiversity includes variety of ecosystems, species and alleles within species."
+  },
+  {
+   "level": "SL",
+   "stem": "Why is genetic diversity within a species important?",
+   "opts": [
+    [
+     "It makes all individuals identical.",
+     "It does the opposite."
+    ],
+    [
+     "It allows the population to adapt to changes such as new diseases.",
+     ""
+    ],
+    [
+     "It prevents reproduction.",
+     "It does not."
+    ],
+    [
+     "It reduces the number of species.",
+     "It does not."
+    ]
+   ],
+   "answer": 1,
+   "why": "Low genetic diversity leaves populations vulnerable, since few individuals may have alleles that help them survive change."
+  },
+  {
+   "level": "SL",
+   "stem": "What caused the extinction of the North Island giant moa?",
+   "opts": [
+    [
+     "Climate change",
+     "Hunting by humans was the main cause."
+    ],
+    [
+     "Disease from bacteria",
+     "Not the main cause."
+    ],
+    [
+     "Hunting by humans after they arrived in New Zealand",
+     ""
+    ],
+    [
+     "Competition with other birds",
+     "Not the main cause."
+    ]
+   ],
+   "answer": 2,
+   "why": "Large, flightless birds that had evolved without predators were easily hunted."
+  },
+  {
+   "level": "SL",
+   "stem": "Why are mixed dipterocarp forests in Southeast Asia being lost?",
+   "opts": [
+    [
+     "Volcanic eruptions",
+     "Not the main cause."
+    ],
+    [
+     "Clearing for logging and palm oil plantations",
+     ""
+    ],
+    [
+     "Natural fires only",
+     "Human clearing is the main cause."
+    ],
+    [
+     "Rising sea levels",
+     "Not the main cause."
+    ]
+   ],
+   "answer": 1,
+   "why": "Large areas of these highly biodiverse forests have been cleared for agriculture and timber."
+  },
+  {
+   "level": "SL",
+   "stem": "Which is an example of ex situ conservation?",
+   "opts": [
+    [
+     "Creating a national park",
+     "That is in situ."
+    ],
+    [
+     "Rewilding farmland",
+     "That is in situ."
+    ],
+    [
+     "Storing seeds in a seed bank",
+     ""
+    ],
+    [
+     "Removing invasive species from an island",
+     "That is in situ."
+    ]
+   ],
+   "answer": 2,
+   "why": "Ex situ means outside the natural habitat."
+  },
+  {
+   "level": "SL",
+   "stem": "What is an advantage of in situ conservation?",
+   "opts": [
+    [
+     "Species stay in their natural habitat with their natural interactions.",
+     ""
+    ],
+    [
+     "Animals can be kept under constant observation.",
+     "That is easier ex situ."
+    ],
+    [
+     "It protects against all threats.",
+     "Habitats can still be damaged."
+    ],
+    [
+     "It needs no land.",
+     "It needs large areas."
+    ]
+   ],
+   "answer": 0,
+   "why": "Species keep their natural behaviour and interactions, and whole ecosystems are protected."
+  },
+  {
+   "level": "SL",
+   "stem": "What does the EDGE of Existence programme prioritise?",
+   "opts": [
+    [
+     "The most common species",
+     "It focuses on rare species."
+    ],
+    [
+     "Species that are useful to humans",
+     "This is not the criterion."
+    ],
+    [
+     "Species that are evolutionarily distinct and globally endangered",
+     ""
+    ],
+    [
+     "Only mammals",
+     "It includes many groups."
+    ]
+   ],
+   "answer": 2,
+   "why": "Losing an evolutionarily distinct species loses a large amount of unique evolutionary history."
+  },
+  {
+   "level": "SL",
+   "stem": "Which is NOT a major cause of the current biodiversity crisis?",
+   "opts": [
+    [
+     "Habitat destruction",
+     "This is a major cause."
+    ],
+    [
+     "Invasive species",
+     "This is a major cause."
+    ],
+    [
+     "Overexploitation",
+     "This is a major cause."
+    ],
+    [
+     "Increasing genetic diversity",
+     ""
+    ]
+   ],
+   "answer": 3,
+   "why": "Main causes include habitat loss, overexploitation, pollution, invasive species and climate change."
+  },
+  {
+   "level": "SL",
+   "stem": "How does citizen science help assess biodiversity?",
+   "opts": [
+    [
+     "It replaces scientists entirely.",
+     "It supports scientists."
+    ],
+    [
+     "Many volunteers collect large amounts of data over wide areas.",
+     ""
+    ],
+    [
+     "It is always more accurate than professional surveys.",
+     "Not necessarily."
+    ],
+    [
+     "It only counts plants.",
+     "It covers many groups."
+    ]
+   ],
+   "answer": 1,
+   "why": "Projects such as bird counts give data over many years and places."
+  },
+  {
+   "level": "SL",
+   "stem": "What is rewilding?",
+   "opts": [
+    [
+     "Moving animals into zoos",
+     "That is ex situ."
+    ],
+    [
+     "Building cities in natural areas",
+     "This destroys habitat."
+    ],
+    [
+     "Restoring natural processes and reintroducing species to an area",
+     ""
+    ],
+    [
+     "Hunting invasive species to extinction",
+     "Only part of some programmes."
+    ]
+   ],
+   "answer": 2,
+   "why": "Rewilding can include reintroducing keystone species such as wolves or beavers."
+  }
+ ],
+ "exam": [
+  {
+   "level": "SL",
+   "title": "Levels of biodiversity",
+   "parts": [
+    {
+     "prompt": "Outline the three levels of biodiversity.",
+     "marks": 3,
+     "points": [
+      "Ecosystem diversity: the variety of habitats and ecosystems in an area",
+      "Species diversity: the number and relative abundance of species",
+      "Genetic diversity: the variety of alleles within a species"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ]
+  },
+  {
+   "level": "SL",
+   "title": "Causes of the crisis",
+   "parts": [
+    {
+     "prompt": "Explain how human activities are causing a biodiversity crisis.",
+     "marks": 4,
+     "points": [
+      "Growing human population increases demand for land and resources",
+      "Habitat destruction, e.g. deforestation for agriculture",
+      "Overexploitation, e.g. overfishing and hunting",
+      "Pollution, e.g. pesticides and plastics",
+      "Invasive species outcompete or prey on native species",
+      "Climate change shifts habitats faster than species can adapt"
+     ],
+     "examiner": "",
+     "mistakes": [
+      "Listing causes without explaining their effects"
+     ]
+    }
+   ]
+  },
+  {
+   "level": "SL",
+   "title": "Conservation approaches",
+   "parts": [
+    {
+     "prompt": "Compare in situ and ex situ conservation.",
+     "marks": 4,
+     "points": [
+      "In situ protects species in their natural habitat; ex situ outside it",
+      "In situ examples: nature reserves, rewilding; ex situ: zoos, botanic gardens, seed banks",
+      "In situ protects whole ecosystems and natural behaviour",
+      "Ex situ allows close monitoring, captive breeding and protection from threats",
+      "Ex situ can preserve genetic diversity (seed banks)",
+      "Ex situ animals may lose natural behaviours and be hard to reintroduce"
+     ],
+     "examiner": "",
+     "mistakes": []
+    }
+   ]
+  },
+  {
+   "level": "SL",
+   "title": "Extended response: the biodiversity crisis",
+   "parts": [
+    {
+     "prompt": "Discuss the evidence for a biodiversity crisis and the approaches used to conserve biodiversity.",
+     "marks": 7,
+     "points": [
+      "Five mass extinctions in the past; current rates of extinction are much higher than background rates",
+      "Reports from scientific bodies show declining populations and species",
+      "Citizen science surveys add large data sets",
+      "Examples of extinctions such as the North Island giant moa",
+      "Loss of ecosystems such as mixed dipterocarp forest",
+      "Causes: habitat loss, overexploitation, pollution, invasive species, climate change",
+      "In situ conservation: nature reserves, rewilding, habitat restoration",
+      "Ex situ conservation: zoos, botanic gardens, seed banks",
+      "Several approaches are needed together",
+      "EDGE prioritises evolutionarily distinct, endangered species",
+      "Limited resources mean choices must be made about which species to protect"
+     ],
+     "examiner": "",
+     "mistakes": [
+      "Describing conservation without discussing evidence"
+     ]
+    }
+   ]
+  }
+ ],
+ "sheets": [
+  {
+   "level": "SL",
+   "title": "A4.2 Conservation of biodiversity revision sheet",
+   "desc": "Printable revision mat to complete after watching the video.",
+   "file": ""
+  }
+ ]
+};
+</script>
+<script src="topic.js"></script>
+<script src="helix.js"></script>
+</body>
+</html>
