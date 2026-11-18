@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
 </head>
 <body data-strand="C">
 <header class="hero">
@@ -36,6 +36,7 @@
     <a href="#ideas">Key ideas</a>
     <a href="#quick-check">Quick check</a>
     <a href="#exam">Exam questions</a>
+    <a href="#checklist">Checklist</a>
         <span class="score-chip" id="score-chip">Quick check: 0 answered</span>
   </div>
 </nav>
@@ -67,6 +68,10 @@
   <section id="exam">
     <div class="sec-head"><h2><span class="num">06</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
     <div class="exam-list" id="exam-list"></div>
+  </section>
+  <section id="checklist">
+    <div class="sec-head"><h2><span class="num">07</span>Revision checklist</h2><p>Rate how confident you feel about each statement. Your ratings are saved on this device.</p></div>
+    <div class="checklist" id="checklist-box"></div>
   </section>
 </main>
 
@@ -167,6 +172,68 @@ const TOPIC = {
   {
    "term": "Calvin cycle",
    "def": "The light-independent reactions in the stroma that fix carbon."
+  }
+ ],
+ "checklist": [
+  {
+   "level": "SL",
+   "text": "Explain photosynthesis as the transformation of light energy to chemical energy."
+  },
+  {
+   "level": "SL",
+   "text": "Outline how CO₂ is converted to glucose using hydrogen from water, with oxygen as a by-product."
+  },
+  {
+   "level": "SL",
+   "text": "Separate and identify photosynthetic pigments by chromatography, calculating Rf values."
+  },
+  {
+   "level": "SL",
+   "text": "Explain why pigments absorb specific wavelengths of light."
+  },
+  {
+   "level": "SL",
+   "text": "Compare absorption and action spectra."
+  },
+  {
+   "level": "SL",
+   "text": "Describe experiments that vary light intensity, CO₂ concentration and temperature."
+  },
+  {
+   "level": "SL",
+   "text": "Explain the concept of limiting factors."
+  },
+  {
+   "level": "SL",
+   "text": "Outline how CO₂ enrichment experiments predict future rates of photosynthesis."
+  },
+  {
+   "level": "AHL",
+   "text": "Describe photosystems as arrays of pigments."
+  },
+  {
+   "level": "AHL",
+   "text": "Explain the production of oxygen by photolysis in photosystem II."
+  },
+  {
+   "level": "AHL",
+   "text": "Explain ATP production by chemiosmosis in thylakoids."
+  },
+  {
+   "level": "AHL",
+   "text": "Explain the reduction of NADP by photosystem I."
+  },
+  {
+   "level": "AHL",
+   "text": "Describe carbon fixation by Rubisco."
+  },
+  {
+   "level": "AHL",
+   "text": "Describe the Calvin cycle, including regeneration of RuBP."
+  },
+  {
+   "level": "AHL",
+   "text": "Explain the interdependence of the light-dependent and light-independent reactions."
   }
  ],
  "videos": [
@@ -696,7 +763,7 @@ const TOPIC = {
  ]
 };
 </script>
-<script src="topic.js?v=3"></script>
+<script src="topic.js?v=4"></script>
 <script src="helix.js"></script>
 <script data-goatcounter="https://attwoodbiology.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>

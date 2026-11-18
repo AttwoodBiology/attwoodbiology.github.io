@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
 <header class="hero">
@@ -26,6 +26,7 @@
   <span class="feature-text"><b>Internal Assessment</b><span>Videos and step-by-step guidance for your scientific investigation</span></span>
   <span class="feature-arrow" aria-hidden="true">→</span>
 </a></div>
+<div class="wrap"><section class="progress-card" id="progress-card" aria-live="polite"></section></div>
 <main class="wrap" id="themes"></main>
 <footer><div class="wrap"><b>AttwoodBiology</b> · Follows the IB Biology guide (first assessment 2025).</div></footer>
 
@@ -51,19 +52,39 @@ const THEMES = [
     ["D4.1","Natural selection","d4-1-natural-selection.html"],["D4.2","Stability and change","d4-2-stability-and-change.html"],["D4.3","Climate change","d4-3-climate-change.html"]]}
 ];
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+/* Progress saved on this device by each topic page */
+function prog(code){ try { return JSON.parse(localStorage.getItem("ibbio-progress-" + code)); } catch(e){ return null; } }
+function dots(p){
+  const dot = (v, letter, name) => (v === null || v === undefined) ? "" :
+    `<span class="pdot ${v >= 1 ? "full" : v > 0 ? "half" : ""}" title="${name}: ${v >= 1 ? "done" : v > 0 ? "started" : "not started"}">${letter}</span>`;
+  return dot(p.terms, "K", "Key terms") + dot(p.mcq, "M", "Multiple choice") + dot(p.exam, "E", "Exam questions") + dot(p.check, "C", "Checklist");
+}
+let done = 0, started = 0, total = 0;
 document.getElementById("themes").innerHTML = THEMES.map(t => {
-  const live = t.topics.filter(x => x[2]).length;
+  let tDone = 0;
+  const tiles = t.topics.map(([code, name, file, ahl]) => {
+    total++;
+    const p = prog(code);
+    const any = p && [p.terms, p.mcq, p.exam, p.check].some(v => v > 0);
+    if (p && p.complete) { done++; tDone++; } else if (any) started++;
+    const status = p && p.complete ? '<span class="tp-done">Done ✓</span>' : "";
+    const progressRow = p && any ? `<span class="tp-dots">${dots(p)}</span>` : "";
+    const inner = `<span class="code">${code}</span><span class="name">${esc(name)}${progressRow}</span>${ahl ? '<span class="tag ahl">AHL</span>' : ""}${status}`;
+    return file ? `<a class="topic${p && p.complete ? " complete" : ""}" href="${esc(file)}">${inner}</a>`
+                : `<div class="topic soon" title="Coming soon">${inner}</div>`;
+  }).join("");
   return `<section class="theme-band" data-strand="${t.letter}">
     <div class="theme-head"><span class="theme-letter">${t.letter}</span>
-      <div><h2>${esc(t.name)}</h2><small>${t.topics.length} topics · ${live} ready</small></div></div>
-    <div class="topic-grid">${t.topics.map(([code, name, file, ahl]) => {
-      const pills = (ahl ? '<span class="tag ahl">AHL</span>' : '') + (file ? '<span class="pill-live">Ready</span>' : '');
-      const inner = `<span class="code">${code}</span><span class="name">${esc(name)}</span>${pills}`;
-      return file ? `<a class="topic" href="${esc(file)}">${inner}</a>`
-                  : `<div class="topic soon" title="Coming soon">${inner}</div>`;
-    }).join("")}</div>
+      <div><h2>${esc(t.name)}</h2><small>${t.topics.length} topics · ${tDone} complete</small></div></div>
+    <div class="topic-grid">${tiles}</div>
   </section>`;
 }).join("");
+document.getElementById("progress-card").innerHTML = `
+  <h2>Your progress</h2>
+  <div class="overall-bar" aria-hidden="true"><i style="width:${100 * done / total}%"></i></div>
+  <p><b>${done} of ${total}</b> topics complete · ${started} started. A topic is complete when you have done the key terms, tried every exam question and rated every checklist statement.</p>
+  <p class="legend"><span class="pdot full">K</span> Key terms <span class="pdot full">M</span> Multiple choice <span class="pdot full">E</span> Exam questions <span class="pdot full">C</span> Checklist · <span class="pdot half"> </span> started <span class="pdot"> </span> not started</p>
+  <p class="note">Progress is saved in this browser on this device. It will not appear on a different device or browser.</p>`;
 </script>
 <script src="helix.js"></script>
 <script data-goatcounter="https://attwoodbiology.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>

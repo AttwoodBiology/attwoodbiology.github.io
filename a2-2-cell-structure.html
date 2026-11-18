@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
 </head>
 <body data-strand="A">
 <header class="hero">
@@ -36,6 +36,7 @@
     <a href="#ideas">Key ideas</a>
     <a href="#quick-check">Quick check</a>
     <a href="#exam">Exam questions</a>
+    <a href="#checklist">Checklist</a>
         <span class="score-chip" id="score-chip">Quick check: 0 answered</span>
   </div>
 </nav>
@@ -67,6 +68,10 @@
   <section id="exam">
     <div class="sec-head"><h2><span class="num">06</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
     <div class="exam-list" id="exam-list"></div>
+  </section>
+  <section id="checklist">
+    <div class="sec-head"><h2><span class="num">07</span>Revision checklist</h2><p>Rate how confident you feel about each statement. Your ratings are saved on this device.</p></div>
+    <div class="checklist" id="checklist-box"></div>
   </section>
 </main>
 
@@ -167,6 +172,60 @@ const TOPIC = {
   {
    "term": "Tissue",
    "def": "A group of similar cells working together to perform a function."
+  }
+ ],
+ "checklist": [
+  {
+   "level": "SL",
+   "text": "State the principles of cell theory."
+  },
+  {
+   "level": "SL",
+   "text": "Calculate magnification and actual size using scale bars."
+  },
+  {
+   "level": "SL",
+   "text": "Outline developments in microscopy, including electron microscopy and immunofluorescence."
+  },
+  {
+   "level": "SL",
+   "text": "List the structures common to all cells."
+  },
+  {
+   "level": "SL",
+   "text": "Draw and label a prokaryotic cell."
+  },
+  {
+   "level": "SL",
+   "text": "Draw and label eukaryotic plant and animal cells."
+  },
+  {
+   "level": "SL",
+   "text": "Outline the processes of life in unicellular organisms."
+  },
+  {
+   "level": "SL",
+   "text": "Compare plant, animal and fungal cells."
+  },
+  {
+   "level": "SL",
+   "text": "Explain why some cells are atypical, with named examples."
+  },
+  {
+   "level": "SL",
+   "text": "Identify cell structures in electron micrographs."
+  },
+  {
+   "level": "AHL",
+   "text": "Outline the evidence for the endosymbiotic origin of mitochondria and chloroplasts."
+  },
+  {
+   "level": "AHL",
+   "text": "Explain how cells differentiate by gene expression."
+  },
+  {
+   "level": "AHL",
+   "text": "Outline the advantages of multicellularity."
   }
  ],
  "videos": [
@@ -666,7 +725,7 @@ const TOPIC = {
  ]
 };
 </script>
-<script src="topic.js?v=3"></script>
+<script src="topic.js?v=4"></script>
 <script src="helix.js"></script>
 <script data-goatcounter="https://attwoodbiology.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>

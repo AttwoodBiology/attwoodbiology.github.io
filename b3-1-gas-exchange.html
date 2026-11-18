@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
 </head>
 <body data-strand="B">
 <header class="hero">
@@ -36,6 +36,7 @@
     <a href="#ideas">Key ideas</a>
     <a href="#quick-check">Quick check</a>
     <a href="#exam">Exam questions</a>
+    <a href="#checklist">Checklist</a>
         <span class="score-chip" id="score-chip">Quick check: 0 answered</span>
   </div>
 </nav>
@@ -67,6 +68,10 @@
   <section id="exam">
     <div class="sec-head"><h2><span class="num">06</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
     <div class="exam-list" id="exam-list"></div>
+  </section>
+  <section id="checklist">
+    <div class="sec-head"><h2><span class="num">07</span>Revision checklist</h2><p>Rate how confident you feel about each statement. Your ratings are saved on this device.</p></div>
+    <div class="checklist" id="checklist-box"></div>
   </section>
 </main>
 
@@ -167,6 +172,56 @@ const TOPIC = {
   {
    "term": "Allosteric site",
    "def": "A site on haemoglobin where CO₂ binds, changing its shape."
+  }
+ ],
+ "checklist": [
+  {
+   "level": "SL",
+   "text": "Describe the properties of gas exchange surfaces."
+  },
+  {
+   "level": "SL",
+   "text": "Explain how concentration gradients are maintained at exchange surfaces."
+  },
+  {
+   "level": "SL",
+   "text": "Explain the adaptations of the mammalian lung for gas exchange."
+  },
+  {
+   "level": "SL",
+   "text": "Explain the mechanism of ventilation in humans."
+  },
+  {
+   "level": "SL",
+   "text": "Describe and measure lung volumes, including tidal volume and vital capacity."
+  },
+  {
+   "level": "SL",
+   "text": "Explain the adaptations of leaves for gas exchange."
+  },
+  {
+   "level": "SL",
+   "text": "Describe the distribution of tissues in a leaf."
+  },
+  {
+   "level": "SL",
+   "text": "Explain why transpiration is a consequence of gas exchange."
+  },
+  {
+   "level": "SL",
+   "text": "Measure stomatal density."
+  },
+  {
+   "level": "AHL",
+   "text": "Explain the adaptations of foetal and adult haemoglobin."
+  },
+  {
+   "level": "AHL",
+   "text": "Explain cooperative binding and the shape of the oxygen dissociation curve."
+  },
+  {
+   "level": "AHL",
+   "text": "Explain the Bohr shift and its importance."
   }
  ],
  "videos": [
@@ -624,7 +679,7 @@ const TOPIC = {
  ]
 };
 </script>
-<script src="topic.js?v=3"></script>
+<script src="topic.js?v=4"></script>
 <script src="helix.js"></script>
 <script data-goatcounter="https://attwoodbiology.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>

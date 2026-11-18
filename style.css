@@ -220,3 +220,48 @@ footer{padding:28px 0 48px;color:var(--muted);font-size:.88rem}
 @media (max-width:560px){.kt-row{grid-template-columns:1fr;gap:8px}.kt-bank{top:52px}}
 .kt-sub{display:flex;align-items:center;gap:10px;margin:6px 0 12px;font-size:1.15rem}
 .kt-hl{margin-top:34px;padding-top:26px;border-top:1px dashed var(--line)}
+
+/* ---------- Revision checklist ---------- */
+.ck-summary{margin-bottom:14px}
+.ck-bar{display:flex;height:12px;border-radius:999px;overflow:hidden;background:var(--line)}
+.ck-bar i{display:block;height:100%}
+.ck-bar .g,.dot.g{background:#2f9e55}.ck-bar .a,.dot.a{background:#e0a400}.ck-bar .r,.dot.r{background:#d14a3c}.dot.n{background:var(--line)}
+.ck-counts{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;margin-top:8px;font-size:.9rem;color:var(--muted)}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:-8px}
+.ck-list{list-style:none;margin:0 0 16px;padding:0;display:grid;gap:8px}
+.ck-row{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.ck-text{flex:1 1 320px;font-size:.96rem}
+.ck-rag{display:flex;gap:6px;flex-wrap:wrap}
+.ck-btn{font:700 .82rem var(--body);padding:7px 11px;border-radius:8px;border:1.5px solid var(--line);background:var(--paper);color:var(--muted);cursor:pointer}
+.ck-btn:hover{color:var(--ink)}
+.ck-r[aria-pressed="true"]{background:#d14a3c;border-color:#d14a3c;color:#fff}
+.ck-a[aria-pressed="true"]{background:#e0a400;border-color:#e0a400;color:#1b1400}
+.ck-g[aria-pressed="true"]{background:#2f9e55;border-color:#2f9e55;color:#fff}
+
+/* ---------- Home page progress ---------- */
+.progress-card{margin-top:16px;padding:16px 20px;border-radius:16px;background:var(--card);border:1px solid var(--line)}
+.progress-card h2{font-size:1.2rem;margin-bottom:6px}
+.progress-card p{color:var(--muted);font-size:.92rem}
+.overall-bar{height:10px;border-radius:999px;background:var(--line);overflow:hidden;margin:10px 0 8px}
+.overall-bar i{display:block;height:100%;background:linear-gradient(90deg,#2f9e55,#5fd08a)}
+.tp-bar{position:absolute;left:0;right:0;bottom:0;height:4px;background:transparent}
+.tp-bar i{display:block;height:100%;background:var(--accent)}
+.tp-pct{font:700 .72rem var(--body);color:var(--muted);font-variant-numeric:tabular-nums}
+.tp-done{font:700 .66rem/1 var(--body);text-transform:uppercase;letter-spacing:.06em;padding:4px 7px;border-radius:6px;background:#2f9e55;color:#fff;white-space:nowrap}
+
+/* ---------- Progress dots (topic menu bar and home page) ---------- */
+.pdot{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;margin-left:4px;font:700 .62rem var(--body);
+  border:1.5px solid var(--line);color:var(--muted);background:var(--card);vertical-align:middle}
+.pdot.half{border-color:#2f9e55;color:#2f9e55;background:linear-gradient(90deg,color-mix(in srgb,#2f9e55 30%,var(--card)) 50%,var(--card) 50%)}
+.pdot.full{border-color:#2f9e55;background:#2f9e55;color:#fff}
+.chip-done{color:#2f9e55;margin-left:6px}
+.score-chip{display:flex;align-items:center;gap:2px}
+.tp-dots{display:flex;gap:0;margin-top:5px;margin-left:-4px}
+.topic .name{display:flex;flex-direction:column}
+.topic.complete{border-color:#2f9e55}
+.topic.complete::before{background:#2f9e55}
+.legend{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;margin-top:8px}
+.legend .pdot{margin-left:0}
+.pdot{display:inline-flex;align-items:center;justify-content:center;flex:none;line-height:1;padding:0;box-sizing:border-box}
+.topic{flex-wrap:wrap}
+.topic .tp-done{margin-left:auto}

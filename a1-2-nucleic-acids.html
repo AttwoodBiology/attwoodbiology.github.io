@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
 </head>
 <body data-strand="A">
 <header class="hero">
@@ -36,6 +36,7 @@
     <a href="#ideas">Key ideas</a>
     <a href="#quick-check">Quick check</a>
     <a href="#exam">Exam questions</a>
+    <a href="#checklist">Checklist</a>
         <span class="score-chip" id="score-chip">Quick check: 0 answered</span>
   </div>
 </nav>
@@ -67,6 +68,10 @@
   <section id="exam">
     <div class="sec-head"><h2><span class="num">06</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
     <div class="exam-list" id="exam-list"></div>
+  </section>
+  <section id="checklist">
+    <div class="sec-head"><h2><span class="num">07</span>Revision checklist</h2><p>Rate how confident you feel about each statement. Your ratings are saved on this device.</p></div>
+    <div class="checklist" id="checklist-box"></div>
   </section>
 </main>
 
@@ -358,8 +363,66 @@ TOPIC.termsHL = [
   "def": "The falsified idea that DNA is a simple repeating unit of all four bases in equal amounts."
  }
 ];
+TOPIC.checklist = [
+ {
+  "level": "SL",
+  "text": "State that DNA is the genetic material of all living organisms."
+ },
+ {
+  "level": "SL",
+  "text": "Draw and label a nucleotide."
+ },
+ {
+  "level": "SL",
+  "text": "Describe how nucleotides are joined to form a sugar–phosphate backbone."
+ },
+ {
+  "level": "SL",
+  "text": "Name the bases in DNA and RNA."
+ },
+ {
+  "level": "SL",
+  "text": "Describe the structure of the DNA double helix, including antiparallel strands and complementary base pairing."
+ },
+ {
+  "level": "SL",
+  "text": "Distinguish between DNA and RNA."
+ },
+ {
+  "level": "SL",
+  "text": "Explain how complementary base pairing allows DNA to be replicated and expressed."
+ },
+ {
+  "level": "SL",
+  "text": "Explain why DNA can store an almost limitless amount of information."
+ },
+ {
+  "level": "SL",
+  "text": "Explain how the universal genetic code is evidence for common ancestry."
+ },
+ {
+  "level": "AHL",
+  "text": "Describe the 5′ to 3′ directionality of nucleic acids."
+ },
+ {
+  "level": "AHL",
+  "text": "Explain how purine–pyrimidine pairing keeps the double helix stable."
+ },
+ {
+  "level": "AHL",
+  "text": "Describe the structure of a nucleosome."
+ },
+ {
+  "level": "AHL",
+  "text": "Outline the Hershey–Chase experiment and what it showed."
+ },
+ {
+  "level": "AHL",
+  "text": "Explain how Chargaff's data falsified the tetranucleotide hypothesis."
+ }
+];
 </script>
-<script src="topic.js?v=3"></script>
+<script src="topic.js?v=4"></script>
 <script src="helix.js"></script>
 <script data-goatcounter="https://attwoodbiology.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>

@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
 </head>
 <body data-strand="D">
 <header class="hero">
@@ -36,6 +36,7 @@
     <a href="#ideas">Key ideas</a>
     <a href="#quick-check">Quick check</a>
     <a href="#exam">Exam questions</a>
+    <a href="#checklist">Checklist</a>
         <span class="score-chip" id="score-chip">Quick check: 0 answered</span>
   </div>
 </nav>
@@ -67,6 +68,10 @@
   <section id="exam">
     <div class="sec-head"><h2><span class="num">06</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
     <div class="exam-list" id="exam-list"></div>
+  </section>
+  <section id="checklist">
+    <div class="sec-head"><h2><span class="num">07</span>Revision checklist</h2><p>Rate how confident you feel about each statement. Your ratings are saved on this device.</p></div>
+    <div class="checklist" id="checklist-box"></div>
   </section>
 </main>
 
@@ -167,6 +172,60 @@ const TOPIC = {
   {
    "term": "Non-coding DNA",
    "def": "DNA that does not code for polypeptides, such as introns and telomeres."
+  }
+ ],
+ "checklist": [
+  {
+   "level": "SL",
+   "text": "Describe transcription."
+  },
+  {
+   "level": "SL",
+   "text": "Explain the role of complementary base pairing in transcription."
+  },
+  {
+   "level": "SL",
+   "text": "Describe translation, including the roles of mRNA, tRNA and ribosomes."
+  },
+  {
+   "level": "SL",
+   "text": "Outline the features of the genetic code."
+  },
+  {
+   "level": "SL",
+   "text": "Use a genetic code table to deduce amino acid sequences."
+  },
+  {
+   "level": "SL",
+   "text": "Explain how a base substitution can change protein structure, using sickle cell as an example."
+  },
+  {
+   "level": "AHL",
+   "text": "Explain the directionality of transcription and translation."
+  },
+  {
+   "level": "AHL",
+   "text": "Outline the initiation of transcription at the promoter."
+  },
+  {
+   "level": "AHL",
+   "text": "Outline the types of non-coding DNA."
+  },
+  {
+   "level": "AHL",
+   "text": "Describe post-transcriptional modification of mRNA in eukaryotes."
+  },
+  {
+   "level": "AHL",
+   "text": "Explain alternative splicing."
+  },
+  {
+   "level": "AHL",
+   "text": "Describe the initiation of translation."
+  },
+  {
+   "level": "AHL",
+   "text": "Outline the modification of polypeptides and the recycling of amino acids."
   }
  ],
  "videos": [
@@ -670,7 +729,7 @@ const TOPIC = {
  ]
 };
 </script>
-<script src="topic.js?v=3"></script>
+<script src="topic.js?v=4"></script>
 <script src="helix.js"></script>
 <script data-goatcounter="https://attwoodbiology.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>

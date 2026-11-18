@@ -95,7 +95,7 @@ function updateScore(){
   const right = done.filter(x => answers[x.i] === x.q.answer).length;
   const txt = `${right} / ${done.length} correct · ${pool.length - done.length} left`;
   $("#mcq-score").textContent = txt;
-  $("#score-chip").textContent = "Quick check: " + txt;
+  if (window.ibbioSaveProgress) window.ibbioSaveProgress();
 }
 
 /* Exam-style questions */
@@ -127,10 +127,39 @@ $("#exam-list").addEventListener("click", e => {
   const ms = document.getElementById(b.getAttribute("aria-controls"));
   const open = ms.classList.toggle("show");
   b.setAttribute("aria-expanded", open);
+  if (open) {
+    const seen = store.get(KEY + "-exam") || {};
+    seen[b.closest(".part").id] = true;
+    store.set(KEY + "-exam", seen);
+    if (window.ibbioSaveProgress) window.ibbioSaveProgress();
+  }
   b.textContent = open ? "Hide mark scheme" : "Show mark scheme";
+});
+/* Save typed answers and ticked marking points so students can pick up where they left off */
+const examText = store.get(KEY + "-exam-text") || {}, examTicks = store.get(KEY + "-exam-ticks") || {};
+function scorePart(part){
+  const max = +part.dataset.max, n = part.querySelectorAll("input:checked").length;
+  part.querySelector(".selfscore").textContent = `Your score: ${Math.min(n, max)} / ${max}` + (n > max ? " (maximum reached)" : "");
+}
+document.querySelectorAll("#exam-list .part").forEach(part => {
+  const ta = part.querySelector("textarea");
+  if (examText[part.id]) ta.value = examText[part.id];
+  (examTicks[part.id] || []).forEach(k => { const c = document.getElementById(part.id + "-c" + k); if (c) c.checked = true; });
+  scorePart(part);
+});
+let typingTimer = null;
+$("#exam-list").addEventListener("input", e => {
+  if (e.target.tagName !== "TEXTAREA") return;
+  const part = e.target.closest(".part");
+  examText[part.id] = e.target.value;
+  clearTimeout(typingTimer);
+  typingTimer = setTimeout(() => { store.set(KEY + "-exam-text", examText); if (window.ibbioSaveProgress) window.ibbioSaveProgress(); }, 400);
 });
 $("#exam-list").addEventListener("change", e => {
   const part = e.target.closest(".part"); if (!part) return;
+  examTicks[part.id] = [...part.querySelectorAll("input[type=checkbox]")].map((c, k) => c.checked ? k : -1).filter(k => k >= 0);
+  store.set(KEY + "-exam-ticks", examTicks);
+  if (window.ibbioSaveProgress) window.ibbioSaveProgress();
   const max = +part.dataset.max, n = part.querySelectorAll("input:checked").length;
   part.querySelector(".selfscore").textContent = `Your score: ${Math.min(n, max)} / ${max}` + (n > max ? " (maximum reached)" : "");
 });
@@ -165,13 +194,13 @@ renderMCQ();
     slBox.insertAdjacentHTML("beforebegin", '<h3 class="kt-sub">SL key terms <span class="tag sl">SL</span></h3>');
     section.insertAdjacentHTML("beforeend",
       '<div data-level="AHL" class="kt-hl"><h3 class="kt-sub">HL key terms <span class="tag ahl">AHL</span></h3><div class="key-terms" id="key-terms-hl-box"></div></div>');
-    keyTerms(document.getElementById("key-terms-hl-box"), TOPIC.termsHL);
+    keyTerms(document.getElementById("key-terms-hl-box"), TOPIC.termsHL, "hl");
   }
-  keyTerms(slBox, TOPIC.terms);
+  keyTerms(slBox, TOPIC.terms, "sl");
 
   function shuffle(a){ for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
 
-  function keyTerms(box, terms){
+  function keyTerms(box, terms, setId){
     let selected = null, drag = null, suppressClick = false;
     const bank = () => box.querySelector(".kt-bank");
     const chip = i => `<button type="button" class="kt-chip" data-i="${i}">${esc(terms[i].term)}</button>`;
@@ -225,7 +254,7 @@ renderMCQ();
       if (selected) select(selected);
       tidy();
     }
-    function check(){
+    function check(fromShow){
       let right = 0;
       box.querySelectorAll(".kt-slot").forEach(s => {
         const c = s.querySelector(".kt-chip");
@@ -236,17 +265,21 @@ renderMCQ();
         if (ok) right++;
       });
       const placed = box.querySelectorAll(".kt-slot .kt-chip").length;
+      if (!fromShow && right === terms.length) {
+        try { localStorage.setItem("ibbio-" + TOPIC.code + "-terms-" + setId, "true"); } catch(e){}
+        if (window.ibbioSaveProgress) window.ibbioSaveProgress();
+      }
       box.querySelector(".kt-score").textContent = right === terms.length
         ? `All ${terms.length} correct!`
         : `${right} / ${terms.length} correct` + (placed < terms.length ? ` · ${terms.length - placed} still to place` : " · move the red ones and check again");
     }
     function showAnswers(){
       box.querySelectorAll(".kt-slot").forEach(s => s.appendChild(box.querySelector(`.kt-chip[data-i="${s.dataset.i}"]`)));
-      tidy(); check();
+      tidy(); check(true);
     }
 
     box.addEventListener("click", e => {
-      if (e.target.closest(".kt-check")) return check();
+      if (e.target.closest(".kt-check")) return check(false);
       if (e.target.closest(".kt-show")) return showAnswers();
       if (e.target.closest(".kt-reset")) return render();
       const c = e.target.closest(".kt-chip");
@@ -306,4 +339,96 @@ renderMCQ();
 
     render();
   }
+})();
+
+/* ============================================================
+   REVISION CHECKLIST and PAGE PROGRESS
+   Ratings and progress are saved in this browser only.
+   Progress is shown in the menu bar and on the home page.
+   ============================================================ */
+(function(){
+  const KEY = "ibbio-" + TOPIC.code;
+  const get = k => { try { return JSON.parse(localStorage.getItem(k)); } catch(e){ return null; } };
+  const set = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} };
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const slOnly = () => document.body.classList.contains("sl-only");
+  const inLevel = l => !slOnly() || l !== "AHL";
+
+  /* Checklist */
+  const box = document.getElementById("checklist-box");
+  const items = TOPIC.checklist || [];
+  let ck = get(KEY + "-check") || {};
+  const OPTS = [["r", "Not yet"], ["a", "Nearly"], ["g", "Confident"]];
+  function summary(){
+    if (!box) return;
+    const vis = items.map((c, i) => ({c, i})).filter(x => inLevel(x.c.level));
+    const n = {r: 0, a: 0, g: 0};
+    vis.forEach(x => { if (ck[x.i]) n[ck[x.i]]++; });
+    const none = vis.length - n.r - n.a - n.g, w = k => (100 * k / (vis.length || 1)) + "%";
+    box.querySelector(".ck-summary").innerHTML = `
+      <div class="ck-bar" aria-hidden="true"><i class="g" style="width:${w(n.g)}"></i><i class="a" style="width:${w(n.a)}"></i><i class="r" style="width:${w(n.r)}"></i></div>
+      <p class="ck-counts"><span class="dot g"></span>Confident ${n.g}<span class="dot a"></span>Nearly ${n.a}<span class="dot r"></span>Not yet ${n.r}<span class="dot n"></span>Not rated ${none}</p>`;
+  }
+  if (box && items.length) {
+    box.innerHTML = `<div class="ck-summary" aria-live="polite"></div>
+      <ul class="ck-list">${items.map((c, i) => `
+        <li class="ck-row" data-level="${c.level}" data-i="${i}">
+          <p class="ck-text">${c.level === "AHL" ? '<span class="tag ahl">AHL</span> ' : ""}${esc(c.text)}</p>
+          <div class="ck-rag" role="group" aria-label="How confident are you?">${OPTS.map(([v, l]) =>
+            `<button type="button" class="ck-btn ck-${v}" data-v="${v}" aria-pressed="${ck[i] === v}">${l}</button>`).join("")}</div>
+        </li>`).join("")}</ul>
+      <div class="toolbar"><button type="button" class="btn ghost ck-clear">Clear my ratings</button></div>`;
+    box.addEventListener("click", e => {
+      const b = e.target.closest(".ck-btn");
+      if (b) {
+        const row = b.closest(".ck-row"), i = row.dataset.i;
+        if (ck[i] === b.dataset.v) delete ck[i]; else ck[i] = b.dataset.v;
+        row.querySelectorAll(".ck-btn").forEach(x => x.setAttribute("aria-pressed", ck[i] === x.dataset.v));
+        set(KEY + "-check", ck);
+        window.ibbioSaveProgress();
+      }
+      if (e.target.closest(".ck-clear")) {
+        ck = {}; set(KEY + "-check", ck);
+        box.querySelectorAll(".ck-btn").forEach(x => x.setAttribute("aria-pressed", "false"));
+        window.ibbioSaveProgress();
+      }
+    });
+  }
+
+  /* Page progress.
+     A page is complete when the key terms are done (all correct), every exam
+     question has been attempted (answer typed or mark scheme opened) and every
+     checklist statement has been rated. Multiple choice progress is shown too. */
+  window.ibbioSaveProgress = function(){
+    const answers = get(KEY + "-mcq") || {};
+    const pool = TOPIC.mcq.map((q, i) => ({q, i})).filter(x => inLevel(x.q.level));
+    const mcq = pool.length ? pool.filter(x => x.i in answers).length / pool.length : null;
+
+    const sets = [];
+    if (TOPIC.terms && TOPIC.terms.length) sets.push(get(KEY + "-terms-sl") ? 1 : 0);
+    if (!slOnly() && TOPIC.termsHL && TOPIC.termsHL.length) sets.push(get(KEY + "-terms-hl") ? 1 : 0);
+    const terms = sets.length ? sets.reduce((a, b) => a + b, 0) / sets.length : null;
+
+    const seen = get(KEY + "-exam") || {}, typed = get(KEY + "-exam-text") || {};
+    const ex = [...document.querySelectorAll("#exam-list .part")].filter(p => inLevel(p.closest(".exam").dataset.level));
+    const exam = ex.length ? ex.filter(p => seen[p.id] || (typed[p.id] || "").trim()).length / ex.length : null;
+
+    const vis = items.map((c, i) => ({c, i})).filter(x => inLevel(x.c.level));
+    const check = vis.length ? vis.filter(x => ck[x.i]).length / vis.length : null;
+
+    const needed = [terms, exam, check].filter(v => v !== null);
+    const complete = needed.length > 0 && needed.every(v => v === 1);
+    const prog = {terms, mcq, exam, check, complete, level: slOnly() ? "SL" : "HL", updated: Date.now()};
+    set("ibbio-progress-" + TOPIC.code, prog);
+
+    const chip = document.getElementById("score-chip");
+    if (chip) chip.innerHTML = progressDots(prog) + (complete ? ' <b class="chip-done">Page complete ✓</b>' : "");
+    summary();
+  };
+  function progressDots(p){
+    const dot = (v, letter, name) => v === null ? "" :
+      `<span class="pdot ${v >= 1 ? "full" : v > 0 ? "half" : ""}" title="${name}: ${v >= 1 ? "done" : v > 0 ? "started" : "not started"}">${letter}</span>`;
+    return dot(p.terms, "K", "Key terms") + dot(p.mcq, "M", "Multiple choice") + dot(p.exam, "E", "Exam questions") + dot(p.check, "C", "Checklist");
+  }
+  window.ibbioSaveProgress();
 })();

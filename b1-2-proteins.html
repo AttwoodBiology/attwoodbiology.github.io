@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
 </head>
 <body data-strand="B">
 <header class="hero">
@@ -36,6 +36,7 @@
     <a href="#ideas">Key ideas</a>
     <a href="#quick-check">Quick check</a>
     <a href="#exam">Exam questions</a>
+    <a href="#checklist">Checklist</a>
         <span class="score-chip" id="score-chip">Quick check: 0 answered</span>
   </div>
 </nav>
@@ -67,6 +68,10 @@
   <section id="exam">
     <div class="sec-head"><h2><span class="num">06</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
     <div class="exam-list" id="exam-list"></div>
+  </section>
+  <section id="checklist">
+    <div class="sec-head"><h2><span class="num">07</span>Revision checklist</h2><p>Rate how confident you feel about each statement. Your ratings are saved on this device.</p></div>
+    <div class="checklist" id="checklist-box"></div>
   </section>
 </main>
 
@@ -167,6 +172,56 @@ const TOPIC = {
   {
    "term": "Fibrous protein",
    "def": "A long, insoluble, strong protein, such as collagen."
+  }
+ ],
+ "checklist": [
+  {
+   "level": "SL",
+   "text": "Draw and label the general structure of an amino acid."
+  },
+  {
+   "level": "SL",
+   "text": "Describe how amino acids are joined by condensation to form polypeptides."
+  },
+  {
+   "level": "SL",
+   "text": "Explain why some amino acids are essential in the diet."
+  },
+  {
+   "level": "SL",
+   "text": "Calculate the number of possible polypeptide sequences."
+  },
+  {
+   "level": "SL",
+   "text": "Explain the effects of temperature and pH on protein structure."
+  },
+  {
+   "level": "AHL",
+   "text": "Outline the chemical diversity of R groups."
+  },
+  {
+   "level": "AHL",
+   "text": "Explain how primary structure determines the shape of a protein."
+  },
+  {
+   "level": "AHL",
+   "text": "Describe the secondary structure of proteins."
+  },
+  {
+   "level": "AHL",
+   "text": "Describe the bonds and interactions that hold tertiary structure."
+  },
+  {
+   "level": "AHL",
+   "text": "Explain how polar and non-polar R groups affect protein structure."
+  },
+  {
+   "level": "AHL",
+   "text": "Describe quaternary structure in conjugated and non-conjugated proteins."
+  },
+  {
+   "level": "AHL",
+   "text": "Compare the structure and function of globular and fibrous proteins."
   }
  ],
  "videos": [
@@ -604,7 +659,7 @@ const TOPIC = {
  ]
 };
 </script>
-<script src="topic.js?v=3"></script>
+<script src="topic.js?v=4"></script>
 <script src="helix.js"></script>
 <script data-goatcounter="https://attwoodbiology.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>

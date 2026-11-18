@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
 </head>
 <body data-strand="D">
 <header class="hero">
@@ -36,6 +36,7 @@
     <a href="#ideas">Key ideas</a>
     <a href="#quick-check">Quick check</a>
     <a href="#exam">Exam questions</a>
+    <a href="#checklist">Checklist</a>
         <span class="score-chip" id="score-chip">Quick check: 0 answered</span>
   </div>
 </nav>
@@ -67,6 +68,10 @@
   <section id="exam">
     <div class="sec-head"><h2><span class="num">06</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
     <div class="exam-list" id="exam-list"></div>
+  </section>
+  <section id="checklist">
+    <div class="sec-head"><h2><span class="num">07</span>Revision checklist</h2><p>Rate how confident you feel about each statement. Your ratings are saved on this device.</p></div>
+    <div class="checklist" id="checklist-box"></div>
   </section>
 </main>
 
@@ -167,6 +172,60 @@ const TOPIC = {
   {
    "term": "Artificial selection",
    "def": "Humans deliberately choosing which individuals breed."
+  }
+ ],
+ "checklist": [
+  {
+   "level": "SL",
+   "text": "Explain natural selection as the main mechanism of evolution."
+  },
+  {
+   "level": "SL",
+   "text": "Explain the roles of mutation and sexual reproduction in generating variation."
+  },
+  {
+   "level": "SL",
+   "text": "Explain overproduction of offspring and competition."
+  },
+  {
+   "level": "SL",
+   "text": "Explain how abiotic factors act as selection pressures."
+  },
+  {
+   "level": "SL",
+   "text": "Explain how differences in adaptation lead to differences in survival and reproduction."
+  },
+  {
+   "level": "SL",
+   "text": "Explain why only heritable traits are affected by natural selection."
+  },
+  {
+   "level": "SL",
+   "text": "Explain sexual selection, using Endler's guppies."
+  },
+  {
+   "level": "AHL",
+   "text": "Define gene pool and allele frequency."
+  },
+  {
+   "level": "AHL",
+   "text": "Explain how natural selection changes allele frequencies."
+  },
+  {
+   "level": "AHL",
+   "text": "Distinguish between directional, disruptive and stabilising selection."
+  },
+  {
+   "level": "AHL",
+   "text": "Use the Hardy–Weinberg equation to calculate allele and genotype frequencies."
+  },
+  {
+   "level": "AHL",
+   "text": "State the conditions for Hardy–Weinberg equilibrium."
+  },
+  {
+   "level": "AHL",
+   "text": "Explain artificial selection."
   }
  ],
  "videos": [
@@ -630,7 +689,7 @@ const TOPIC = {
  ]
 };
 </script>
-<script src="topic.js?v=3"></script>
+<script src="topic.js?v=4"></script>
 <script src="helix.js"></script>
 <script data-goatcounter="https://attwoodbiology.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>

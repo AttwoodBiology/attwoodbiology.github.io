@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
 </head>
 <body data-strand="B">
 <header class="hero">
@@ -36,6 +36,7 @@
     <a href="#ideas">Key ideas</a>
     <a href="#quick-check">Quick check</a>
     <a href="#exam">Exam questions</a>
+    <a href="#checklist">Checklist</a>
         <span class="score-chip" id="score-chip">Quick check: 0 answered</span>
   </div>
 </nav>
@@ -67,6 +68,10 @@
   <section id="exam">
     <div class="sec-head"><h2><span class="num">06</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
     <div class="exam-list" id="exam-list"></div>
+  </section>
+  <section id="checklist">
+    <div class="sec-head"><h2><span class="num">07</span>Revision checklist</h2><p>Rate how confident you feel about each statement. Your ratings are saved on this device.</p></div>
+    <div class="checklist" id="checklist-box"></div>
   </section>
 </main>
 
@@ -167,6 +172,68 @@ const TOPIC = {
   {
    "term": "Cell adhesion molecule",
    "def": "A membrane protein that binds cells together to form tissues."
+  }
+ ],
+ "checklist": [
+  {
+   "level": "SL",
+   "text": "Describe the phospholipid bilayer as the basis of membranes."
+  },
+  {
+   "level": "SL",
+   "text": "Explain why membranes are barriers to large and hydrophilic particles."
+  },
+  {
+   "level": "SL",
+   "text": "Describe simple diffusion across membranes."
+  },
+  {
+   "level": "SL",
+   "text": "Distinguish between integral and peripheral proteins."
+  },
+  {
+   "level": "SL",
+   "text": "Explain osmosis and the role of aquaporins."
+  },
+  {
+   "level": "SL",
+   "text": "Describe facilitated diffusion through channel proteins."
+  },
+  {
+   "level": "SL",
+   "text": "Describe active transport by pump proteins."
+  },
+  {
+   "level": "SL",
+   "text": "Outline the structure and function of glycoproteins and glycolipids."
+  },
+  {
+   "level": "SL",
+   "text": "Draw and explain the fluid mosaic model."
+  },
+  {
+   "level": "AHL",
+   "text": "Explain how fatty acid composition and cholesterol affect membrane fluidity."
+  },
+  {
+   "level": "AHL",
+   "text": "Explain how membrane fluidity allows endocytosis and exocytosis."
+  },
+  {
+   "level": "AHL",
+   "text": "Describe gated ion channels, including neurotransmitter- and voltage-gated channels."
+  },
+  {
+   "level": "AHL",
+   "text": "Describe the action of the sodium–potassium pump."
+  },
+  {
+   "level": "AHL",
+   "text": "Explain indirect active transport by sodium-dependent glucose cotransporters."
+  },
+  {
+   "level": "AHL",
+   "text": "Outline the role of cell adhesion molecules."
   }
  ],
  "videos": [
@@ -651,7 +718,7 @@ const TOPIC = {
  ]
 };
 </script>
-<script src="topic.js?v=3"></script>
+<script src="topic.js?v=4"></script>
 <script src="helix.js"></script>
 <script data-goatcounter="https://attwoodbiology.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>

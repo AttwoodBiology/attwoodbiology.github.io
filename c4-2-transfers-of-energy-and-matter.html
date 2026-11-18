@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
 </head>
 <body data-strand="C">
 <header class="hero">
@@ -36,6 +36,7 @@
     <a href="#ideas">Key ideas</a>
     <a href="#quick-check">Quick check</a>
     <a href="#exam">Exam questions</a>
+    <a href="#checklist">Checklist</a>
         <span class="score-chip" id="score-chip">Quick check: 0 answered</span>
   </div>
 </nav>
@@ -67,6 +68,10 @@
   <section id="exam">
     <div class="sec-head"><h2><span class="num">06</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
     <div class="exam-list" id="exam-list"></div>
+  </section>
+  <section id="checklist">
+    <div class="sec-head"><h2><span class="num">07</span>Revision checklist</h2><p>Rate how confident you feel about each statement. Your ratings are saved on this device.</p></div>
+    <div class="checklist" id="checklist-box"></div>
   </section>
 </main>
 
@@ -125,6 +130,56 @@ const TOPIC = {
   {
    "term": "Open system",
    "def": "A system that exchanges energy and matter with its surroundings."
+  }
+ ],
+ "checklist": [
+  {
+   "level": "SL",
+   "text": "Explain why ecosystems are open systems."
+  },
+  {
+   "level": "SL",
+   "text": "Explain the flow of energy through food chains and food webs."
+  },
+  {
+   "level": "SL",
+   "text": "Distinguish between autotrophs and heterotrophs, including chemoautotrophs."
+  },
+  {
+   "level": "SL",
+   "text": "Explain why energy is lost between trophic levels."
+  },
+  {
+   "level": "SL",
+   "text": "Construct and interpret pyramids of energy."
+  },
+  {
+   "level": "SL",
+   "text": "Explain why food chains have a limited number of trophic levels."
+  },
+  {
+   "level": "SL",
+   "text": "Compare primary production in different biomes."
+  },
+  {
+   "level": "SL",
+   "text": "Distinguish between primary and secondary production."
+  },
+  {
+   "level": "SL",
+   "text": "Construct and interpret a carbon cycle diagram."
+  },
+  {
+   "level": "SL",
+   "text": "Explain carbon sinks and sources."
+  },
+  {
+   "level": "SL",
+   "text": "Analyse the Keeling curve."
+  },
+  {
+   "level": "SL",
+   "text": "Explain the interdependence of photosynthesis and respiration."
   }
  ],
  "videos": [
@@ -608,7 +663,7 @@ const TOPIC = {
  ]
 };
 </script>
-<script src="topic.js?v=3"></script>
+<script src="topic.js?v=4"></script>
 <script src="helix.js"></script>
 <script data-goatcounter="https://attwoodbiology.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
