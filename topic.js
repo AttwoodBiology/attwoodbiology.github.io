@@ -147,3 +147,148 @@ $("#sheet-list").innerHTML = TOPIC.sheets.map(s => `
 setLevel(store.get("ibbio-level") === "SL" ? "SL" : "HL");
 renderMCQ();
 })();
+
+/* ============================================================
+   KEY TERMS: drag each term onto its definition.
+   Works with a mouse, touch (drag, or tap a term then tap a box)
+   and keyboard (Enter on a term, then Enter on a box).
+   Only runs on pages that have TOPIC.terms and a #key-terms-box.
+   ============================================================ */
+(function(){
+  const box = document.getElementById("key-terms-box");
+  if (!box || !TOPIC.terms || !TOPIC.terms.length) return;
+  const terms = TOPIC.terms;
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  let selected = null, drag = null, suppressClick = false;
+
+  function shuffle(a){ for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+  const bank = () => box.querySelector(".kt-bank");
+  const chip = i => `<button type="button" class="kt-chip" data-i="${i}">${esc(terms[i].term)}</button>`;
+
+  function render(){
+    const order = shuffle(terms.map((_, i) => i));
+    box.innerHTML = `
+      <div class="kt-bank" aria-label="Key terms to place">${order.map(chip).join("")}</div>
+      <ol class="kt-list">${terms.map((t, i) => `
+        <li class="kt-row">
+          <div class="kt-slot" data-i="${i}" tabindex="0" role="button" aria-label="Place the selected term on definition ${i + 1}"><span class="kt-placeholder">Drop term here</span></div>
+          <p class="kt-def">${esc(t.def)}</p>
+        </li>`).join("")}</ol>
+      <div class="toolbar">
+        <button type="button" class="btn" id="kt-check">Check answers</button>
+        <button type="button" class="btn ghost" id="kt-show">Show answers</button>
+        <button type="button" class="btn ghost" id="kt-reset">Start again</button>
+        <span class="selfscore" id="kt-score" aria-live="polite"></span>
+      </div>`;
+    selected = null;
+  }
+  function tidy(){
+    box.querySelectorAll(".kt-slot").forEach(s => {
+      const filled = !!s.querySelector(".kt-chip");
+      s.querySelector(".kt-placeholder").hidden = filled;
+      s.classList.toggle("filled", filled);
+      s.classList.remove("right", "wrong");
+    });
+    box.querySelector("#kt-score").textContent = "";
+  }
+  function select(c){
+    if (selected) selected.classList.remove("selected");
+    selected = (selected === c) ? null : c;
+    if (selected) selected.classList.add("selected");
+    box.classList.toggle("placing", !!selected);
+  }
+  function place(c, target){
+    if (target.classList.contains("kt-slot")) {
+      const existing = target.querySelector(".kt-chip");
+      if (existing && existing !== c) bank().appendChild(existing);
+      target.appendChild(c);
+    } else {
+      bank().appendChild(c);
+    }
+    if (selected) select(selected);
+    tidy();
+  }
+  function check(){
+    let right = 0;
+    box.querySelectorAll(".kt-slot").forEach(s => {
+      const c = s.querySelector(".kt-chip");
+      s.classList.remove("right", "wrong");
+      if (!c) return;
+      const ok = c.dataset.i === s.dataset.i;
+      s.classList.add(ok ? "right" : "wrong");
+      if (ok) right++;
+    });
+    const placed = box.querySelectorAll(".kt-slot .kt-chip").length;
+    box.querySelector("#kt-score").textContent = right === terms.length
+      ? `All ${terms.length} correct!`
+      : `${right} / ${terms.length} correct` + (placed < terms.length ? ` · ${terms.length - placed} still to place` : " · move the red ones and check again");
+  }
+  function showAnswers(){
+    box.querySelectorAll(".kt-slot").forEach(s => {
+      const c = box.querySelector(`.kt-chip[data-i="${s.dataset.i}"]`);
+      s.appendChild(c);
+    });
+    tidy(); check();
+  }
+
+  box.addEventListener("click", e => {
+    if (e.target.id === "kt-check") return check();
+    if (e.target.id === "kt-show") return showAnswers();
+    if (e.target.id === "kt-reset") return render();
+    const c = e.target.closest(".kt-chip");
+    if (c) {
+      if (suppressClick) { suppressClick = false; return; }
+      const slot = c.parentElement.classList.contains("kt-slot") ? c.parentElement : null;
+      if (selected && selected !== c && slot) return place(selected, slot);
+      return select(c);
+    }
+    const target = e.target.closest(".kt-slot") || e.target.closest(".kt-bank");
+    if (target && selected) place(selected, target);
+  });
+  box.addEventListener("keydown", e => {
+    const s = e.target.closest(".kt-slot");
+    if (s && e.target === s && (e.key === "Enter" || e.key === " ") && selected) { e.preventDefault(); place(selected, s); }
+  });
+
+  /* Dragging with mouse or finger */
+  box.addEventListener("pointerdown", e => {
+    const c = e.target.closest(".kt-chip"); if (!c || e.button > 0) return;
+    drag = { chip: c, x: e.clientX, y: e.clientY, moved: false };
+  });
+  window.addEventListener("pointermove", e => {
+    if (!drag) return;
+    if (!drag.moved) {
+      if (Math.hypot(e.clientX - drag.x, e.clientY - drag.y) < 6) return;
+      const r = drag.chip.getBoundingClientRect();
+      drag.ox = drag.x - r.left; drag.oy = drag.y - r.top;
+      drag.ghost = drag.chip.cloneNode(true);
+      drag.ghost.className = "kt-chip kt-ghost";
+      drag.ghost.style.width = r.width + "px";
+      document.body.appendChild(drag.ghost);
+      drag.chip.classList.add("dragging");
+      drag.moved = true;
+    }
+    drag.ghost.style.left = (e.clientX - drag.ox) + "px";
+    drag.ghost.style.top = (e.clientY - drag.oy) + "px";
+    box.querySelectorAll(".kt-slot.over").forEach(s => s.classList.remove("over"));
+    const under = document.elementFromPoint(e.clientX, e.clientY);
+    const s = under && under.closest(".kt-slot");
+    if (s) s.classList.add("over");
+  });
+  function endDrag(e, drop){
+    if (!drag) return;
+    const d = drag; drag = null;
+    if (!d.moved) return;
+    suppressClick = true; setTimeout(() => { suppressClick = false; }, 0);
+    d.ghost.remove(); d.chip.classList.remove("dragging");
+    box.querySelectorAll(".kt-slot.over").forEach(s => s.classList.remove("over"));
+    if (!drop) return;
+    const under = document.elementFromPoint(e.clientX, e.clientY);
+    const target = under && (under.closest(".kt-slot") || under.closest(".kt-bank"));
+    if (target && box.contains(target)) place(d.chip, target);
+  }
+  window.addEventListener("pointerup", e => endDrag(e, true));
+  window.addEventListener("pointercancel", e => endDrag(e, false));
+
+  render();
+})();

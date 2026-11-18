@@ -32,6 +32,7 @@
   <div class="wrap">
     <a href="#videos">Videos</a>
     <a href="#sheets">Revision sheets</a>
+    <a href="#key-terms">Key terms</a>
     <a href="#ideas">Key ideas</a>
     <a href="#quick-check">Quick check</a>
     <a href="#exam">Exam questions</a>
@@ -48,19 +49,23 @@
     <div class="sec-head"><h2><span class="num">02</span>Revision sheets</h2><p>Print this and complete it alongside the video.</p></div>
     <div class="sheets" id="sheet-list"></div>
   </section>
+  <section id="key-terms">
+    <div class="sec-head"><h2><span class="num">03</span>Key terms</h2><p>Drag each key term onto its definition, then check your answers. On a phone, tap a term, then tap where it goes.</p></div>
+    <div class="key-terms" id="key-terms-box"></div>
+  </section>
   <section id="ideas">
-    <div class="sec-head"><h2><span class="num">03</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
+    <div class="sec-head"><h2><span class="num">04</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
     <div class="ideas" id="idea-list"></div>
   </section>
   <section id="quick-check">
     <div class="sec-head">
-      <h2><span class="num">04</span>Quick check</h2>
+      <h2><span class="num">05</span>Quick check</h2>
       <div class="toolbar"><span class="note" id="mcq-score"></span><button type="button" class="btn ghost" id="mcq-reset">Start again</button></div>
     </div>
     <div class="mcq-list" id="mcq-list"></div>
   </section>
   <section id="exam">
-    <div class="sec-head"><h2><span class="num">05</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
+    <div class="sec-head"><h2><span class="num">06</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
     <div class="exam-list" id="exam-list"></div>
   </section>
 </main>
@@ -80,6 +85,18 @@ const TOPIC = {
   title: "Water",
   theme: "Theme A: Unity and diversity",
   guiding: "What physical and chemical properties of water make it essential for life, and what challenges and opportunities does water offer as a habitat?",
+  terms: [
+    { term:"Polar molecule", def:"A molecule with an uneven distribution of charge, with a slightly positive end and a slightly negative end." },
+    { term:"Hydrogen bond", def:"A weak attraction between a slightly positive hydrogen atom of one molecule and a slightly negative oxygen atom of another." },
+    { term:"Cohesion", def:"The attraction of water molecules to each other, caused by hydrogen bonds." },
+    { term:"Adhesion", def:"The attraction of water molecules to other polar or charged surfaces, such as cellulose." },
+    { term:"Capillary action", def:"The movement of water along narrow spaces, such as soil or plant cell walls, caused by adhesion and cohesion." },
+    { term:"Hydrophilic", def:"Describes polar or charged substances that are attracted to water and dissolve in it." },
+    { term:"Hydrophobic", def:"Describes non-polar substances that are not attracted to water and do not dissolve in it." },
+    { term:"Solvent", def:"A liquid in which other substances dissolve, allowing them to be transported and to react." },
+    { term:"Specific heat capacity", def:"The energy needed to raise the temperature of 1 g of a substance by 1 °C." },
+    { term:"Thermal conductivity", def:"How quickly a substance transfers heat. Water's is much higher than air's." }
+  ],
 
   videos: [
     { level:"SL + HL", title:"Water", youtubeId:"GtDmQznlyVo", desc:"Watch this first, then try the quick check below." }
