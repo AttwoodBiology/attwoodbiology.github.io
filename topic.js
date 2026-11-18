@@ -419,7 +419,9 @@ renderMCQ();
     const needed = [terms, exam, check].filter(v => v !== null);
     const complete = needed.length > 0 && needed.every(v => v === 1);
     const prog = {terms, mcq, exam, check, complete, level: slOnly() ? "SL" : "HL", updated: Date.now()};
+    prog.title = TOPIC.title;
     set("ibbio-progress-" + TOPIC.code, prog);
+    if (window.ibbioReport) window.ibbioReport(TOPIC.code, prog);
 
     const chip = document.getElementById("score-chip");
     if (chip) chip.innerHTML = progressDots(prog) + (complete ? ' <b class="chip-done">Page complete ✓</b>' : "");

@@ -272,3 +272,16 @@ footer{padding:28px 0 48px;color:var(--muted);font-size:.88rem}
 .legend-gap{margin-left:10px}
 .score-chip{display:flex;align-items:center;gap:5px}
 .topic::before{border-radius:12px 0 0 12px}
+
+/* ---------- Student sign-in ---------- */
+#signin{position:fixed;inset:0;z-index:200;background:rgba(5,12,11,.55);display:grid;place-items:center;padding:16px}
+.signin-card{width:min(420px,100%);background:var(--card);color:var(--ink);border-radius:16px;padding:24px;display:grid;gap:8px;box-shadow:0 20px 50px -20px rgba(0,0,0,.6)}
+.signin-card h2{font-size:1.5rem}
+.signin-card p{color:var(--muted);font-size:.95rem;margin-bottom:6px}
+.signin-card label{font-weight:700;font-size:.9rem;margin-top:4px}
+.signin-card .signin-optional{font-weight:400;color:var(--muted)}
+.signin-card input{font:inherit;padding:10px 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink)}
+.signin-card input:focus{outline:3px solid var(--accent);outline-offset:1px}
+.signin-actions{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
+.student-status{margin-top:8px;font-size:.92rem}
+.linkish{background:none;border:0;padding:0;font:inherit;font-weight:700;color:var(--accent);text-decoration:underline;cursor:pointer}
