@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=2">
+<link rel="stylesheet" href="style.css?v=3">
 </head>
 <body data-strand="A">
 <header class="hero">
@@ -300,7 +300,7 @@ const TOPIC = {
   ],
 
   sheets: [
-    { level:"SL", title:"A1.1 Water revision sheet", desc:"Printable revision mat to complete after watching the video. 2 pages.", file:"revision-sheets/a1-1-water.pdf" }
+    { level:"SL + HL", title:"A1.1 Water revision sheet", desc:"Printable revision mat to complete after watching the video. 2 pages.", file:"revision-sheets/a1-1-water.pdf" }
   ]
 };
 
@@ -353,8 +353,35 @@ TOPIC.exam.push(
 /* Keep SL questions first, then AHL */
 TOPIC.mcq.sort((a, b) => (a.level === "AHL") - (b.level === "AHL"));
 TOPIC.exam.sort((a, b) => (a.level === "AHL") - (b.level === "AHL"));
+/* Key terms */
+TOPIC.termsHL = [
+ {
+  "term": "Extraplanetary origin",
+  "def": "The idea that Earth's water arrived from space rather than forming on Earth."
+ },
+ {
+  "term": "Asteroid",
+  "def": "A rocky body in space; water-rich asteroids may have delivered water to the early Earth."
+ },
+ {
+  "term": "Comet",
+  "def": "An icy body in space that may have brought some water to Earth."
+ },
+ {
+  "term": "Hydrogen isotope ratio",
+  "def": "The ratio of deuterium to hydrogen, used to trace where Earth's water came from."
+ },
+ {
+  "term": "Habitable zone",
+  "def": "The range of distances from a star where liquid water could exist on a planet's surface."
+ },
+ {
+  "term": "Extraterrestrial life",
+  "def": "Life that originated somewhere other than Earth."
+ }
+];
 </script>
-<script src="topic.js?v=2"></script>
+<script src="topic.js?v=3"></script>
 <script src="helix.js"></script>
 <script data-goatcounter="https://attwoodbiology.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>

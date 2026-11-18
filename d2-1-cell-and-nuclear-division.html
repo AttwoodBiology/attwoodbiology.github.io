@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=2">
+<link rel="stylesheet" href="style.css?v=3">
 </head>
 <body data-strand="D">
 <header class="hero">
@@ -32,6 +32,7 @@
   <div class="wrap">
     <a href="#videos">Videos</a>
     <a href="#sheets">Revision sheets</a>
+    <a href="#key-terms">Key terms</a>
     <a href="#ideas">Key ideas</a>
     <a href="#quick-check">Quick check</a>
     <a href="#exam">Exam questions</a>
@@ -48,19 +49,23 @@
     <div class="sec-head"><h2><span class="num">02</span>Revision sheets</h2><p>Print this and complete it alongside the video.</p></div>
     <div class="sheets" id="sheet-list"></div>
   </section>
+  <section id="key-terms">
+    <div class="sec-head"><h2><span class="num">03</span>Key terms</h2><p>Drag each key term onto its definition, then check your answers. On a phone, tap a term, then tap where it goes.</p></div>
+    <div class="key-terms" id="key-terms-box"></div>
+  </section>
   <section id="ideas">
-    <div class="sec-head"><h2><span class="num">03</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
+    <div class="sec-head"><h2><span class="num">04</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
     <div class="ideas" id="idea-list"></div>
   </section>
   <section id="quick-check">
     <div class="sec-head">
-      <h2><span class="num">04</span>Quick check</h2>
+      <h2><span class="num">05</span>Quick check</h2>
       <div class="toolbar"><span class="note" id="mcq-score"></span><button type="button" class="btn ghost" id="mcq-reset">Start again</button></div>
     </div>
     <div class="mcq-list" id="mcq-list"></div>
   </section>
   <section id="exam">
-    <div class="sec-head"><h2><span class="num">05</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
+    <div class="sec-head"><h2><span class="num">06</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
     <div class="exam-list" id="exam-list"></div>
   </section>
 </main>
@@ -80,6 +85,90 @@ const TOPIC = {
  "title": "Cell and nuclear division",
  "theme": "Theme D: Continuity and change",
  "guiding": "How do cells divide, and how is division controlled?",
+ "terms": [
+  {
+   "term": "Mitosis",
+   "def": "Nuclear division that produces two genetically identical nuclei."
+  },
+  {
+   "term": "Meiosis",
+   "def": "Nuclear division that halves the chromosome number to produce haploid nuclei."
+  },
+  {
+   "term": "Cytokinesis",
+   "def": "The division of the cytoplasm after nuclear division."
+  },
+  {
+   "term": "Cleavage furrow",
+   "def": "The inward pinching of an animal cell's membrane during cytokinesis."
+  },
+  {
+   "term": "Spindle",
+   "def": "Microtubules that attach to chromosomes and move them during division."
+  },
+  {
+   "term": "Sister chromatids",
+   "def": "The two identical copies of a chromosome joined at the centromere."
+  },
+  {
+   "term": "Centromere",
+   "def": "The region where sister chromatids are joined and spindle fibres attach."
+  },
+  {
+   "term": "Homologous chromosomes",
+   "def": "A pair of chromosomes with the same genes in the same positions."
+  },
+  {
+   "term": "Crossing over",
+   "def": "The exchange of DNA between non-sister chromatids in prophase I."
+  },
+  {
+   "term": "Non-disjunction",
+   "def": "The failure of chromosomes to separate properly during meiosis."
+  }
+ ],
+ "termsHL": [
+  {
+   "term": "Interphase",
+   "def": "The stage of the cell cycle between divisions, when the cell grows and copies its DNA."
+  },
+  {
+   "term": "S phase",
+   "def": "The stage of interphase when DNA is replicated."
+  },
+  {
+   "term": "Cyclin",
+   "def": "A protein that controls progression through the cell cycle."
+  },
+  {
+   "term": "Cyclin-dependent kinase",
+   "def": "An enzyme activated by cyclin that triggers the next stage of the cell cycle."
+  },
+  {
+   "term": "Proto-oncogene",
+   "def": "A gene that normally stimulates cell division."
+  },
+  {
+   "term": "Oncogene",
+   "def": "A mutated proto-oncogene that causes uncontrolled cell division."
+  },
+  {
+   "term": "Tumour suppressor gene",
+   "def": "A gene that normally slows cell division."
+  },
+  {
+   "term": "Malignant tumour",
+   "def": "A tumour that invades tissues and can spread."
+  },
+  {
+   "term": "Metastasis",
+   "def": "The spread of cancer cells to form secondary tumours elsewhere in the body."
+  },
+  {
+   "term": "Mitotic index",
+   "def": "The number of cells in mitosis divided by the total number of cells."
+  }
+ ],
  "videos": [
   {
    "level": "SL + HL",
@@ -542,7 +631,7 @@ const TOPIC = {
  ],
  "sheets": [
   {
-   "level": "SL",
+   "level": "SL + HL",
    "title": "D2.1 Cell and nuclear division revision sheet",
    "desc": "Printable revision mat to complete after watching the video.",
    "file": ""
@@ -550,7 +639,7 @@ const TOPIC = {
  ]
 };
 </script>
-<script src="topic.js?v=2"></script>
+<script src="topic.js?v=3"></script>
 <script src="helix.js"></script>
 <script data-goatcounter="https://attwoodbiology.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>

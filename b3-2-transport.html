@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=2">
+<link rel="stylesheet" href="style.css?v=3">
 </head>
 <body data-strand="B">
 <header class="hero">
@@ -32,6 +32,7 @@
   <div class="wrap">
     <a href="#videos">Videos</a>
     <a href="#sheets">Revision sheets</a>
+    <a href="#key-terms">Key terms</a>
     <a href="#ideas">Key ideas</a>
     <a href="#quick-check">Quick check</a>
     <a href="#exam">Exam questions</a>
@@ -48,19 +49,23 @@
     <div class="sec-head"><h2><span class="num">02</span>Revision sheets</h2><p>Print this and complete it alongside the video.</p></div>
     <div class="sheets" id="sheet-list"></div>
   </section>
+  <section id="key-terms">
+    <div class="sec-head"><h2><span class="num">03</span>Key terms</h2><p>Drag each key term onto its definition, then check your answers. On a phone, tap a term, then tap where it goes.</p></div>
+    <div class="key-terms" id="key-terms-box"></div>
+  </section>
   <section id="ideas">
-    <div class="sec-head"><h2><span class="num">03</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
+    <div class="sec-head"><h2><span class="num">04</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
     <div class="ideas" id="idea-list"></div>
   </section>
   <section id="quick-check">
     <div class="sec-head">
-      <h2><span class="num">04</span>Quick check</h2>
+      <h2><span class="num">05</span>Quick check</h2>
       <div class="toolbar"><span class="note" id="mcq-score"></span><button type="button" class="btn ghost" id="mcq-reset">Start again</button></div>
     </div>
     <div class="mcq-list" id="mcq-list"></div>
   </section>
   <section id="exam">
-    <div class="sec-head"><h2><span class="num">05</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
+    <div class="sec-head"><h2><span class="num">06</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
     <div class="exam-list" id="exam-list"></div>
   </section>
 </main>
@@ -80,6 +85,90 @@ const TOPIC = {
  "title": "Transport",
  "theme": "Theme B: Form and function",
  "guiding": "How are blood vessels, the heart and plant tissues adapted for transport?",
+ "terms": [
+  {
+   "term": "Capillary",
+   "def": "A tiny blood vessel with walls one cell thick, where exchange takes place."
+  },
+  {
+   "term": "Fenestration",
+   "def": "A pore in a capillary wall that increases permeability."
+  },
+  {
+   "term": "Artery",
+   "def": "A blood vessel with thick, elastic walls that carries blood away from the heart."
+  },
+  {
+   "term": "Vein",
+   "def": "A blood vessel with valves that carries blood back to the heart."
+  },
+  {
+   "term": "Pulse rate",
+   "def": "The number of heartbeats per minute, measured at an artery."
+  },
+  {
+   "term": "Coronary artery",
+   "def": "An artery that supplies the heart muscle with oxygenated blood."
+  },
+  {
+   "term": "Atherosclerosis",
+   "def": "The build-up of fatty plaques in artery walls."
+  },
+  {
+   "term": "Xylem",
+   "def": "Plant tissue of dead, hollow tubes that carries water and mineral ions."
+  },
+  {
+   "term": "Lignin",
+   "def": "A strong material in xylem walls that stops them collapsing."
+  },
+  {
+   "term": "Transpiration pull",
+   "def": "The tension created by water evaporating from leaves, which pulls water up the xylem."
+  }
+ ],
+ "termsHL": [
+  {
+   "term": "Tissue fluid",
+   "def": "Fluid forced out of capillaries that bathes the cells."
+  },
+  {
+   "term": "Lymph",
+   "def": "Excess tissue fluid that drains into lymph vessels."
+  },
+  {
+   "term": "Double circulation",
+   "def": "A circulation in which blood passes through the heart twice per complete circuit."
+  },
+  {
+   "term": "Sinoatrial node",
+   "def": "The pacemaker of the heart, which starts each heartbeat."
+  },
+  {
+   "term": "Atrioventricular valve",
+   "def": "A valve between an atrium and a ventricle that prevents backflow."
+  },
+  {
+   "term": "Semilunar valve",
+   "def": "A valve at the base of an artery leaving the heart that prevents backflow."
+  },
+  {
+   "term": "Systole",
+   "def": "The contraction phase of the cardiac cycle."
+  },
+  {
+   "term": "Root pressure",
+   "def": "Pressure in the xylem caused by active transport of mineral ions into the root."
+  },
+  {
+   "term": "Sieve tube",
+   "def": "A phloem cell with sieve plates through which sap flows."
+  },
+  {
+   "term": "Companion cell",
+   "def": "A cell beside a sieve tube that supplies ATP for loading sugars."
+  }
+ ],
  "videos": [
   {
    "level": "SL + HL",
@@ -551,7 +640,7 @@ const TOPIC = {
  ],
  "sheets": [
   {
-   "level": "SL",
+   "level": "SL + HL",
    "title": "B3.2 Transport revision sheet",
    "desc": "Printable revision mat to complete after watching the video.",
    "file": ""
@@ -559,7 +648,7 @@ const TOPIC = {
  ]
 };
 </script>
-<script src="topic.js?v=2"></script>
+<script src="topic.js?v=3"></script>
 <script src="helix.js"></script>
 <script data-goatcounter="https://attwoodbiology.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>

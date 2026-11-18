@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=2">
+<link rel="stylesheet" href="style.css?v=3">
 </head>
 <body data-strand="D">
 <header class="hero">
@@ -32,6 +32,7 @@
   <div class="wrap">
     <a href="#videos">Videos</a>
     <a href="#sheets">Revision sheets</a>
+    <a href="#key-terms">Key terms</a>
     <a href="#ideas">Key ideas</a>
     <a href="#quick-check">Quick check</a>
     <a href="#exam">Exam questions</a>
@@ -48,19 +49,23 @@
     <div class="sec-head"><h2><span class="num">02</span>Revision sheets</h2><p>Print this and complete it alongside the video.</p></div>
     <div class="sheets" id="sheet-list"></div>
   </section>
+  <section id="key-terms">
+    <div class="sec-head"><h2><span class="num">03</span>Key terms</h2><p>Drag each key term onto its definition, then check your answers. On a phone, tap a term, then tap where it goes.</p></div>
+    <div class="key-terms" id="key-terms-box"></div>
+  </section>
   <section id="ideas">
-    <div class="sec-head"><h2><span class="num">03</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
+    <div class="sec-head"><h2><span class="num">04</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
     <div class="ideas" id="idea-list"></div>
   </section>
   <section id="quick-check">
     <div class="sec-head">
-      <h2><span class="num">04</span>Quick check</h2>
+      <h2><span class="num">05</span>Quick check</h2>
       <div class="toolbar"><span class="note" id="mcq-score"></span><button type="button" class="btn ghost" id="mcq-reset">Start again</button></div>
     </div>
     <div class="mcq-list" id="mcq-list"></div>
   </section>
   <section id="exam">
-    <div class="sec-head"><h2><span class="num">05</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
+    <div class="sec-head"><h2><span class="num">06</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
     <div class="exam-list" id="exam-list"></div>
   </section>
 </main>
@@ -80,6 +85,82 @@ const TOPIC = {
  "title": "Stability and change",
  "theme": "Theme D: Continuity and change",
  "guiding": "What keeps ecosystems stable, and how do human activities change them?",
+ "terms": [
+  {
+   "term": "Ecosystem stability",
+   "def": "The ability of an ecosystem to persist over long periods without major change."
+  },
+  {
+   "term": "Tipping point",
+   "def": "A threshold beyond which an ecosystem changes to a new state that is hard to reverse."
+  },
+  {
+   "term": "Keystone species",
+   "def": "A species with a much larger effect on its ecosystem than its numbers suggest."
+  },
+  {
+   "term": "Mesocosm",
+   "def": "A small, controlled experimental ecosystem."
+  },
+  {
+   "term": "Sustainable harvesting",
+   "def": "Harvesting at a rate that allows the population to replace itself."
+  },
+  {
+   "term": "Leaching",
+   "def": "The loss of nutrients from soil as water drains through it."
+  },
+  {
+   "term": "Eutrophication",
+   "def": "Excess nutrients in water causing algal blooms and oxygen depletion."
+  },
+  {
+   "term": "Biomagnification",
+   "def": "The increase in concentration of a pollutant at higher trophic levels."
+  },
+  {
+   "term": "Microplastic",
+   "def": "A plastic particle smaller than 5 mm."
+  },
+  {
+   "term": "Rewilding",
+   "def": "Restoring natural processes and reintroducing species to an area."
+  }
+ ],
+ "termsHL": [
+  {
+   "term": "Succession",
+   "def": "A series of changes in a community over time."
+  },
+  {
+   "term": "Primary succession",
+   "def": "Succession that begins on bare ground with no soil."
+  },
+  {
+   "term": "Secondary succession",
+   "def": "Succession that begins where soil is already present."
+  },
+  {
+   "term": "Pioneer species",
+   "def": "The first organisms to colonise bare ground, such as lichens."
+  },
+  {
+   "term": "Seral stage",
+   "def": "One of the stages a community passes through during succession."
+  },
+  {
+   "term": "Climax community",
+   "def": "The final, stable community at the end of succession."
+  },
+  {
+   "term": "Arrested succession",
+   "def": "When a factor such as grazing stops a community reaching the climax."
+  },
+  {
+   "term": "Cyclical succession",
+   "def": "A repeating sequence of community changes, rather than a single path to a climax."
+  }
+ ],
  "videos": [
   {
    "level": "SL + HL",
@@ -568,7 +649,7 @@ const TOPIC = {
  ],
  "sheets": [
   {
-   "level": "SL",
+   "level": "SL + HL",
    "title": "D4.2 Stability and change revision sheet",
    "desc": "Printable revision mat to complete after watching the video.",
    "file": ""
@@ -576,7 +657,7 @@ const TOPIC = {
  ]
 };
 </script>
-<script src="topic.js?v=2"></script>
+<script src="topic.js?v=3"></script>
 <script src="helix.js"></script>
 <script data-goatcounter="https://attwoodbiology.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>

@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=2">
+<link rel="stylesheet" href="style.css?v=3">
 </head>
 <body data-strand="D">
 <header class="hero">
@@ -32,6 +32,7 @@
   <div class="wrap">
     <a href="#videos">Videos</a>
     <a href="#sheets">Revision sheets</a>
+    <a href="#key-terms">Key terms</a>
     <a href="#ideas">Key ideas</a>
     <a href="#quick-check">Quick check</a>
     <a href="#exam">Exam questions</a>
@@ -48,19 +49,23 @@
     <div class="sec-head"><h2><span class="num">02</span>Revision sheets</h2><p>Print this and complete it alongside the video.</p></div>
     <div class="sheets" id="sheet-list"></div>
   </section>
+  <section id="key-terms">
+    <div class="sec-head"><h2><span class="num">03</span>Key terms</h2><p>Drag each key term onto its definition, then check your answers. On a phone, tap a term, then tap where it goes.</p></div>
+    <div class="key-terms" id="key-terms-box"></div>
+  </section>
   <section id="ideas">
-    <div class="sec-head"><h2><span class="num">03</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
+    <div class="sec-head"><h2><span class="num">04</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
     <div class="ideas" id="idea-list"></div>
   </section>
   <section id="quick-check">
     <div class="sec-head">
-      <h2><span class="num">04</span>Quick check</h2>
+      <h2><span class="num">05</span>Quick check</h2>
       <div class="toolbar"><span class="note" id="mcq-score"></span><button type="button" class="btn ghost" id="mcq-reset">Start again</button></div>
     </div>
     <div class="mcq-list" id="mcq-list"></div>
   </section>
   <section id="exam">
-    <div class="sec-head"><h2><span class="num">05</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
+    <div class="sec-head"><h2><span class="num">06</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
     <div class="exam-list" id="exam-list"></div>
   </section>
 </main>
@@ -80,6 +85,90 @@ const TOPIC = {
  "title": "Mutations and gene editing",
  "theme": "Theme D: Continuity and change",
  "guiding": "How do mutations change genes, and how can genes be deliberately edited?",
+ "terms": [
+  {
+   "term": "Gene mutation",
+   "def": "A change in the base sequence of a gene."
+  },
+  {
+   "term": "Base substitution",
+   "def": "A mutation in which one base is replaced by another."
+  },
+  {
+   "term": "Silent mutation",
+   "def": "A mutation that does not change the amino acid sequence."
+  },
+  {
+   "term": "Missense mutation",
+   "def": "A substitution that changes one amino acid."
+  },
+  {
+   "term": "Nonsense mutation",
+   "def": "A mutation that creates a stop codon."
+  },
+  {
+   "term": "Insertion",
+   "def": "A mutation that adds one or more bases."
+  },
+  {
+   "term": "Frameshift",
+   "def": "A shift in the reading frame caused by inserting or deleting bases."
+  },
+  {
+   "term": "Mutagen",
+   "def": "An agent that increases the rate of mutation."
+  },
+  {
+   "term": "Germ cell",
+   "def": "A cell that produces gametes, whose mutations can be inherited."
+  },
+  {
+   "term": "Somatic cell",
+   "def": "A body cell, whose mutations are not inherited."
+  }
+ ],
+ "termsHL": [
+  {
+   "term": "Gene knockout",
+   "def": "Inactivating a gene to investigate its function."
+  },
+  {
+   "term": "Knockout mouse",
+   "def": "A mouse with a gene inactivated, used to find out what the gene does."
+  },
+  {
+   "term": "Gene editing",
+   "def": "Making precise changes to the DNA of an organism."
+  },
+  {
+   "term": "CRISPR sequence",
+   "def": "A repeated DNA sequence in bacteria, used as the basis of a gene-editing tool."
+  },
+  {
+   "term": "Cas9",
+   "def": "The enzyme that cuts both strands of DNA at a target site."
+  },
+  {
+   "term": "Guide RNA",
+   "def": "An RNA molecule that directs Cas9 to a matching DNA sequence."
+  },
+  {
+   "term": "Target sequence",
+   "def": "The DNA sequence complementary to the guide RNA, where Cas9 cuts."
+  },
+  {
+   "term": "Double-strand break",
+   "def": "A cut through both strands of DNA."
+  },
+  {
+   "term": "Conserved sequence",
+   "def": "A DNA sequence that is very similar across many species."
+  },
+  {
+   "term": "Purifying selection",
+   "def": "Selection against harmful mutations in important sequences, keeping them conserved."
+  }
+ ],
  "videos": [
   {
    "level": "SL + HL",
@@ -506,7 +595,7 @@ const TOPIC = {
  ],
  "sheets": [
   {
-   "level": "SL",
+   "level": "SL + HL",
    "title": "D1.3 Mutations and gene editing revision sheet",
    "desc": "Printable revision mat to complete after watching the video.",
    "file": ""
@@ -514,7 +603,7 @@ const TOPIC = {
  ]
 };
 </script>
-<script src="topic.js?v=2"></script>
+<script src="topic.js?v=3"></script>
 <script src="helix.js"></script>
 <script data-goatcounter="https://attwoodbiology.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>

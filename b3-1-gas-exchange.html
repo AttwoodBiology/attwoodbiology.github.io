@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=2">
+<link rel="stylesheet" href="style.css?v=3">
 </head>
 <body data-strand="B">
 <header class="hero">
@@ -32,6 +32,7 @@
   <div class="wrap">
     <a href="#videos">Videos</a>
     <a href="#sheets">Revision sheets</a>
+    <a href="#key-terms">Key terms</a>
     <a href="#ideas">Key ideas</a>
     <a href="#quick-check">Quick check</a>
     <a href="#exam">Exam questions</a>
@@ -48,19 +49,23 @@
     <div class="sec-head"><h2><span class="num">02</span>Revision sheets</h2><p>Print this and complete it alongside the video.</p></div>
     <div class="sheets" id="sheet-list"></div>
   </section>
+  <section id="key-terms">
+    <div class="sec-head"><h2><span class="num">03</span>Key terms</h2><p>Drag each key term onto its definition, then check your answers. On a phone, tap a term, then tap where it goes.</p></div>
+    <div class="key-terms" id="key-terms-box"></div>
+  </section>
   <section id="ideas">
-    <div class="sec-head"><h2><span class="num">03</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
+    <div class="sec-head"><h2><span class="num">04</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
     <div class="ideas" id="idea-list"></div>
   </section>
   <section id="quick-check">
     <div class="sec-head">
-      <h2><span class="num">04</span>Quick check</h2>
+      <h2><span class="num">05</span>Quick check</h2>
       <div class="toolbar"><span class="note" id="mcq-score"></span><button type="button" class="btn ghost" id="mcq-reset">Start again</button></div>
     </div>
     <div class="mcq-list" id="mcq-list"></div>
   </section>
   <section id="exam">
-    <div class="sec-head"><h2><span class="num">05</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
+    <div class="sec-head"><h2><span class="num">06</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
     <div class="exam-list" id="exam-list"></div>
   </section>
 </main>
@@ -80,6 +85,90 @@ const TOPIC = {
  "title": "Gas exchange",
  "theme": "Theme B: Form and function",
  "guiding": "How are gas exchange surfaces adapted in animals and plants, and how is oxygen transported in the blood?",
+ "terms": [
+  {
+   "term": "Gas exchange",
+   "def": "The diffusion of oxygen and carbon dioxide between an organism and its environment."
+  },
+  {
+   "term": "Alveolus",
+   "def": "A tiny air sac in the lungs where gas exchange happens."
+  },
+  {
+   "term": "Surfactant",
+   "def": "A substance that reduces surface tension and stops alveoli collapsing."
+  },
+  {
+   "term": "Ventilation",
+   "def": "Moving air into and out of the lungs."
+  },
+  {
+   "term": "Tidal volume",
+   "def": "The volume of air breathed in or out in a normal breath."
+  },
+  {
+   "term": "Vital capacity",
+   "def": "The maximum volume of air that can be breathed out after a maximum breath in."
+  },
+  {
+   "term": "Stoma",
+   "def": "A pore in a leaf that allows gas exchange."
+  },
+  {
+   "term": "Guard cells",
+   "def": "The pair of cells that open and close a stoma."
+  },
+  {
+   "term": "Spongy mesophyll",
+   "def": "Leaf tissue with air spaces that allow gases to diffuse."
+  },
+  {
+   "term": "Transpiration",
+   "def": "The loss of water vapour from the leaves of a plant."
+  }
+ ],
+ "termsHL": [
+  {
+   "term": "Haemoglobin",
+   "def": "The protein in red blood cells that carries oxygen."
+  },
+  {
+   "term": "Haem group",
+   "def": "The iron-containing part of haemoglobin that binds one oxygen molecule."
+  },
+  {
+   "term": "Cooperative binding",
+   "def": "When binding of one oxygen molecule to haemoglobin makes the next bind more easily."
+  },
+  {
+   "term": "Oxygen dissociation curve",
+   "def": "A graph of haemoglobin saturation against partial pressure of oxygen."
+  },
+  {
+   "term": "Partial pressure",
+   "def": "The pressure exerted by one gas in a mixture, such as oxygen in the blood."
+  },
+  {
+   "term": "Saturation",
+   "def": "The percentage of haemoglobin's binding sites occupied by oxygen."
+  },
+  {
+   "term": "Affinity",
+   "def": "How strongly haemoglobin binds oxygen."
+  },
+  {
+   "term": "Bohr shift",
+   "def": "The decrease in haemoglobin's oxygen affinity caused by higher CO₂."
+  },
+  {
+   "term": "Foetal haemoglobin",
+   "def": "Haemoglobin with a higher oxygen affinity than adult haemoglobin."
+  },
+  {
+   "term": "Allosteric site",
+   "def": "A site on haemoglobin where CO₂ binds, changing its shape."
+  }
+ ],
  "videos": [
   {
    "level": "SL + HL",
@@ -527,7 +616,7 @@ const TOPIC = {
  ],
  "sheets": [
   {
-   "level": "SL",
+   "level": "SL + HL",
    "title": "B3.1 Gas exchange revision sheet",
    "desc": "Printable revision mat to complete after watching the video.",
    "file": ""
@@ -535,7 +624,7 @@ const TOPIC = {
  ]
 };
 </script>
-<script src="topic.js?v=2"></script>
+<script src="topic.js?v=3"></script>
 <script src="helix.js"></script>
 <script data-goatcounter="https://attwoodbiology.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>

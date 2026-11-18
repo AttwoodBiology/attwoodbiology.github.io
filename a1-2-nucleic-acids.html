@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=2">
+<link rel="stylesheet" href="style.css?v=3">
 </head>
 <body data-strand="A">
 <header class="hero">
@@ -32,6 +32,7 @@
   <div class="wrap">
     <a href="#videos">Videos</a>
     <a href="#sheets">Revision sheets</a>
+    <a href="#key-terms">Key terms</a>
     <a href="#ideas">Key ideas</a>
     <a href="#quick-check">Quick check</a>
     <a href="#exam">Exam questions</a>
@@ -48,19 +49,23 @@
     <div class="sec-head"><h2><span class="num">02</span>Revision sheets</h2><p>Print this and complete it alongside the video.</p></div>
     <div class="sheets" id="sheet-list"></div>
   </section>
+  <section id="key-terms">
+    <div class="sec-head"><h2><span class="num">03</span>Key terms</h2><p>Drag each key term onto its definition, then check your answers. On a phone, tap a term, then tap where it goes.</p></div>
+    <div class="key-terms" id="key-terms-box"></div>
+  </section>
   <section id="ideas">
-    <div class="sec-head"><h2><span class="num">03</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
+    <div class="sec-head"><h2><span class="num">04</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
     <div class="ideas" id="idea-list"></div>
   </section>
   <section id="quick-check">
     <div class="sec-head">
-      <h2><span class="num">04</span>Quick check</h2>
+      <h2><span class="num">05</span>Quick check</h2>
       <div class="toolbar"><span class="note" id="mcq-score"></span><button type="button" class="btn ghost" id="mcq-reset">Start again</button></div>
     </div>
     <div class="mcq-list" id="mcq-list"></div>
   </section>
   <section id="exam">
-    <div class="sec-head"><h2><span class="num">05</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
+    <div class="sec-head"><h2><span class="num">06</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
     <div class="exam-list" id="exam-list"></div>
   </section>
 </main>
@@ -210,7 +215,7 @@ const TOPIC = {
   ],
 
   sheets: [
-    { level:"SL", title:"A1.2 Nucleic acids revision sheet", desc:"Printable revision mat to complete after watching the video. 2 pages.", file:"revision-sheets/a1-2-nucleic-acids.pdf" }
+    { level:"SL + HL", title:"A1.2 Nucleic acids revision sheet", desc:"Printable revision mat to complete after watching the video. 2 pages.", file:"revision-sheets/a1-2-nucleic-acids.pdf" }
   ]
 };
 
@@ -268,8 +273,93 @@ TOPIC.exam.push(
 /* Keep SL questions first, then AHL */
 TOPIC.mcq.sort((a, b) => (a.level === "AHL") - (b.level === "AHL"));
 TOPIC.exam.sort((a, b) => (a.level === "AHL") - (b.level === "AHL"));
+/* Key terms */
+TOPIC.terms = [
+ {
+  "term": "Nucleotide",
+  "def": "The monomer of nucleic acids, made of a phosphate group, a pentose sugar and a nitrogenous base."
+ },
+ {
+  "term": "Nitrogenous base",
+  "def": "The part of a nucleotide that carries information: A, C, G, T or U."
+ },
+ {
+  "term": "Deoxyribose",
+  "def": "The pentose sugar found in DNA."
+ },
+ {
+  "term": "Ribose",
+  "def": "The pentose sugar found in RNA."
+ },
+ {
+  "term": "Sugar–phosphate backbone",
+  "def": "The chain of alternating sugars and phosphates, joined by covalent bonds, that forms each strand."
+ },
+ {
+  "term": "Complementary base pairing",
+  "def": "The pairing of A with T (or U) and C with G by hydrogen bonds."
+ },
+ {
+  "term": "Double helix",
+  "def": "The shape of DNA: two strands twisted around each other."
+ },
+ {
+  "term": "Antiparallel",
+  "def": "Describes the two strands of DNA running in opposite directions."
+ },
+ {
+  "term": "Uracil",
+  "def": "The base found in RNA in place of thymine."
+ },
+ {
+  "term": "Universal genetic code",
+  "def": "The near-identical code used by almost all organisms, evidence of a common ancestor."
+ }
+];
+TOPIC.termsHL = [
+ {
+  "term": "Purine",
+  "def": "A base with a double-ring structure: adenine or guanine."
+ },
+ {
+  "term": "Pyrimidine",
+  "def": "A base with a single-ring structure: cytosine, thymine or uracil."
+ },
+ {
+  "term": "5′ end",
+  "def": "The end of a nucleic acid strand with a free phosphate group."
+ },
+ {
+  "term": "3′ end",
+  "def": "The end of a nucleic acid strand with a free –OH on the sugar, where new nucleotides are added."
+ },
+ {
+  "term": "Nucleosome",
+  "def": "DNA wrapped around a core of eight histone proteins."
+ },
+ {
+  "term": "Histone",
+  "def": "A protein around which DNA is wound in eukaryotes."
+ },
+ {
+  "term": "Hershey–Chase experiment",
+  "def": "An experiment using radioactively labelled viruses to show that DNA is the genetic material."
+ },
+ {
+  "term": "Bacteriophage",
+  "def": "A virus that infects bacteria, used by Hershey and Chase."
+ },
+ {
+  "term": "Chargaff's rule",
+  "def": "In DNA, the amount of A equals T and the amount of C equals G."
+ },
+ {
+  "term": "Tetranucleotide hypothesis",
+  "def": "The falsified idea that DNA is a simple repeating unit of all four bases in equal amounts."
+ }
+];
 </script>
-<script src="topic.js?v=2"></script>
+<script src="topic.js?v=3"></script>
 <script src="helix.js"></script>
 <script data-goatcounter="https://attwoodbiology.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>

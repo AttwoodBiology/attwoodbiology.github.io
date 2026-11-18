@@ -218,3 +218,5 @@ footer{padding:28px 0 48px;color:var(--muted);font-size:.88rem}
 .kt-placeholder{font-size:.85rem;color:var(--muted)}
 .kt-def{font-size:.96rem}
 @media (max-width:560px){.kt-row{grid-template-columns:1fr;gap:8px}.kt-bank{top:52px}}
+.kt-sub{display:flex;align-items:center;gap:10px;margin:6px 0 12px;font-size:1.15rem}
+.kt-hl{margin-top:34px;padding-top:26px;border-top:1px dashed var(--line)}

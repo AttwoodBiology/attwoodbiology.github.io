@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=2">
+<link rel="stylesheet" href="style.css?v=3">
 </head>
 <body data-strand="A">
 <header class="hero">
@@ -32,6 +32,7 @@
   <div class="wrap">
     <a href="#videos">Videos</a>
     <a href="#sheets">Revision sheets</a>
+    <a href="#key-terms">Key terms</a>
     <a href="#ideas">Key ideas</a>
     <a href="#quick-check">Quick check</a>
     <a href="#exam">Exam questions</a>
@@ -48,19 +49,23 @@
     <div class="sec-head"><h2><span class="num">02</span>Revision sheets</h2><p>Print this and complete it alongside the video.</p></div>
     <div class="sheets" id="sheet-list"></div>
   </section>
+  <section id="key-terms">
+    <div class="sec-head"><h2><span class="num">03</span>Key terms</h2><p>Drag each key term onto its definition, then check your answers. On a phone, tap a term, then tap where it goes.</p></div>
+    <div class="key-terms" id="key-terms-box"></div>
+  </section>
   <section id="ideas">
-    <div class="sec-head"><h2><span class="num">03</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
+    <div class="sec-head"><h2><span class="num">04</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
     <div class="ideas" id="idea-list"></div>
   </section>
   <section id="quick-check">
     <div class="sec-head">
-      <h2><span class="num">04</span>Quick check</h2>
+      <h2><span class="num">05</span>Quick check</h2>
       <div class="toolbar"><span class="note" id="mcq-score"></span><button type="button" class="btn ghost" id="mcq-reset">Start again</button></div>
     </div>
     <div class="mcq-list" id="mcq-list"></div>
   </section>
   <section id="exam">
-    <div class="sec-head"><h2><span class="num">05</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
+    <div class="sec-head"><h2><span class="num">06</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
     <div class="exam-list" id="exam-list"></div>
   </section>
 </main>
@@ -80,6 +85,90 @@ const TOPIC = {
  "title": "Cell structure",
  "theme": "Theme A: Unity and diversity",
  "guiding": "What are the features common to all cells, and how do prokaryotic and eukaryotic cells differ?",
+ "terms": [
+  {
+   "term": "Prokaryote",
+   "def": "A cell with no nucleus or membrane-bound organelles."
+  },
+  {
+   "term": "Eukaryote",
+   "def": "A cell with a nucleus and membrane-bound organelles."
+  },
+  {
+   "term": "Nucleoid",
+   "def": "The region of a prokaryotic cell containing its naked, circular DNA."
+  },
+  {
+   "term": "Plasmid",
+   "def": "A small circular loop of DNA found in many prokaryotes."
+  },
+  {
+   "term": "Magnification",
+   "def": "How many times larger an image is than the actual object."
+  },
+  {
+   "term": "Resolution",
+   "def": "The ability to distinguish two points close together as separate."
+  },
+  {
+   "term": "70S ribosome",
+   "def": "The type of ribosome found in prokaryotes."
+  },
+  {
+   "term": "Atypical cell",
+   "def": "A cell that does not fit the usual pattern, such as one with no nucleus or many nuclei."
+  },
+  {
+   "term": "Cytoskeleton",
+   "def": "A network of protein fibres in eukaryotic cells that gives shape and allows movement."
+  },
+  {
+   "term": "Immunofluorescence",
+   "def": "Using fluorescent antibodies to show where specific molecules are in a cell."
+  }
+ ],
+ "termsHL": [
+  {
+   "term": "Endosymbiotic theory",
+   "def": "The theory that mitochondria and chloroplasts came from engulfed prokaryotes."
+  },
+  {
+   "term": "Engulfment",
+   "def": "One cell taking in another by endocytosis, the first step of endosymbiosis."
+  },
+  {
+   "term": "Double membrane",
+   "def": "Two membranes around mitochondria and chloroplasts, evidence of engulfment."
+  },
+  {
+   "term": "Binary fission",
+   "def": "Division of a prokaryote, or a mitochondrion or chloroplast, into two."
+  },
+  {
+   "term": "Mitochondrial DNA",
+   "def": "The naked, circular DNA found inside mitochondria."
+  },
+  {
+   "term": "Differentiation",
+   "def": "The process by which cells become specialised by expressing particular genes."
+  },
+  {
+   "term": "Gene expression",
+   "def": "Switching genes on so that their proteins are made."
+  },
+  {
+   "term": "Multicellularity",
+   "def": "Having a body made of many cells, which allows larger size and specialisation."
+  },
+  {
+   "term": "Division of labour",
+   "def": "Different cells or tissues carrying out different functions."
+  },
+  {
+   "term": "Tissue",
+   "def": "A group of similar cells working together to perform a function."
+  }
+ ],
  "videos": [
   {
    "level": "SL + HL",
@@ -569,7 +658,7 @@ const TOPIC = {
  ],
  "sheets": [
   {
-   "level": "SL",
+   "level": "SL + HL",
    "title": "A2.2 Cell structure revision sheet",
    "desc": "Printable revision mat to complete after watching the video.",
    "file": ""
@@ -577,7 +666,7 @@ const TOPIC = {
  ]
 };
 </script>
-<script src="topic.js?v=2"></script>
+<script src="topic.js?v=3"></script>
 <script src="helix.js"></script>
 <script data-goatcounter="https://attwoodbiology.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>

@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=2">
+<link rel="stylesheet" href="style.css?v=3">
 </head>
 <body data-strand="C">
 <header class="hero">
@@ -32,6 +32,7 @@
   <div class="wrap">
     <a href="#videos">Videos</a>
     <a href="#sheets">Revision sheets</a>
+    <a href="#key-terms">Key terms</a>
     <a href="#ideas">Key ideas</a>
     <a href="#quick-check">Quick check</a>
     <a href="#exam">Exam questions</a>
@@ -48,19 +49,23 @@
     <div class="sec-head"><h2><span class="num">02</span>Revision sheets</h2><p>Print this and complete it alongside the video.</p></div>
     <div class="sheets" id="sheet-list"></div>
   </section>
+  <section id="key-terms">
+    <div class="sec-head"><h2><span class="num">03</span>Key terms</h2><p>Drag each key term onto its definition, then check your answers. On a phone, tap a term, then tap where it goes.</p></div>
+    <div class="key-terms" id="key-terms-box"></div>
+  </section>
   <section id="ideas">
-    <div class="sec-head"><h2><span class="num">03</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
+    <div class="sec-head"><h2><span class="num">04</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
     <div class="ideas" id="idea-list"></div>
   </section>
   <section id="quick-check">
     <div class="sec-head">
-      <h2><span class="num">04</span>Quick check</h2>
+      <h2><span class="num">05</span>Quick check</h2>
       <div class="toolbar"><span class="note" id="mcq-score"></span><button type="button" class="btn ghost" id="mcq-reset">Start again</button></div>
     </div>
     <div class="mcq-list" id="mcq-list"></div>
   </section>
   <section id="exam">
-    <div class="sec-head"><h2><span class="num">05</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
+    <div class="sec-head"><h2><span class="num">06</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
     <div class="exam-list" id="exam-list"></div>
   </section>
 </main>
@@ -237,7 +242,7 @@ const TOPIC = {
   ],
 
   sheets: [
-    { level:"SL", title:"C1.1 Enzymes and metabolism revision sheet", desc:"Printable revision mat to complete after watching the video. 2 pages.", file:"revision-sheets/c1-1-enzymes-and-metabolism.pdf" }
+    { level:"SL + HL", title:"C1.1 Enzymes and metabolism revision sheet", desc:"Printable revision mat to complete after watching the video. 2 pages.", file:"revision-sheets/c1-1-enzymes-and-metabolism.pdf" }
   ]
 };
 
@@ -300,8 +305,93 @@ TOPIC.exam.push(
 /* Keep SL questions first, then AHL */
 TOPIC.mcq.sort((a, b) => (a.level === "AHL") - (b.level === "AHL"));
 TOPIC.exam.sort((a, b) => (a.level === "AHL") - (b.level === "AHL"));
+/* Key terms */
+TOPIC.terms = [
+ {
+  "term": "Enzyme",
+  "def": "A globular protein that acts as a biological catalyst."
+ },
+ {
+  "term": "Metabolism",
+  "def": "All the enzyme-catalysed reactions in a cell or organism."
+ },
+ {
+  "term": "Active site",
+  "def": "The region of an enzyme where the substrate binds and the reaction is catalysed."
+ },
+ {
+  "term": "Substrate",
+  "def": "The molecule an enzyme acts on."
+ },
+ {
+  "term": "Specificity",
+  "def": "An enzyme catalysing only one reaction, because only one substrate fits its active site."
+ },
+ {
+  "term": "Induced fit",
+  "def": "The slight change in shape of the active site and substrate as they bind."
+ },
+ {
+  "term": "Activation energy",
+  "def": "The energy needed to start a reaction, which enzymes lower."
+ },
+ {
+  "term": "Denaturation",
+  "def": "A permanent change in the 3D shape of a protein, so it no longer works."
+ },
+ {
+  "term": "Anabolism",
+  "def": "Metabolic reactions that build larger molecules from smaller ones."
+ },
+ {
+  "term": "Catabolism",
+  "def": "Metabolic reactions that break larger molecules into smaller ones."
+ }
+];
+TOPIC.termsHL = [
+ {
+  "term": "Competitive inhibitor",
+  "def": "A molecule with a similar shape to the substrate that binds to the active site."
+ },
+ {
+  "term": "Non-competitive inhibitor",
+  "def": "A molecule that binds away from the active site and changes its shape."
+ },
+ {
+  "term": "Allosteric site",
+  "def": "A binding site on an enzyme other than the active site."
+ },
+ {
+  "term": "End-product inhibition",
+  "def": "When the final product of a pathway inhibits an enzyme early in the pathway."
+ },
+ {
+  "term": "Mechanism-based inhibition",
+  "def": "Irreversible binding of an inhibitor to an enzyme's active site, as with penicillin."
+ },
+ {
+  "term": "Statin",
+  "def": "A drug that competitively inhibits an enzyme in cholesterol synthesis."
+ },
+ {
+  "term": "Transpeptidase",
+  "def": "The bacterial enzyme that cross-links cell walls, inhibited by penicillin."
+ },
+ {
+  "term": "Linear pathway",
+  "def": "A metabolic pathway with a start substrate and a different end product, such as glycolysis."
+ },
+ {
+  "term": "Cyclical pathway",
+  "def": "A metabolic pathway in which the starting compound is regenerated, such as the Krebs cycle."
+ },
+ {
+  "term": "Extracellular enzyme",
+  "def": "An enzyme that works outside the cell that made it, such as a digestive enzyme."
+ }
+];
 </script>
-<script src="topic.js?v=2"></script>
+<script src="topic.js?v=3"></script>
 <script src="helix.js"></script>
 <script data-goatcounter="https://attwoodbiology.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>

@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=2">
+<link rel="stylesheet" href="style.css?v=3">
 </head>
 <body data-strand="D">
 <header class="hero">
@@ -32,6 +32,7 @@
   <div class="wrap">
     <a href="#videos">Videos</a>
     <a href="#sheets">Revision sheets</a>
+    <a href="#key-terms">Key terms</a>
     <a href="#ideas">Key ideas</a>
     <a href="#quick-check">Quick check</a>
     <a href="#exam">Exam questions</a>
@@ -48,19 +49,23 @@
     <div class="sec-head"><h2><span class="num">02</span>Revision sheets</h2><p>Print this and complete it alongside the video.</p></div>
     <div class="sheets" id="sheet-list"></div>
   </section>
+  <section id="key-terms">
+    <div class="sec-head"><h2><span class="num">03</span>Key terms</h2><p>Drag each key term onto its definition, then check your answers. On a phone, tap a term, then tap where it goes.</p></div>
+    <div class="key-terms" id="key-terms-box"></div>
+  </section>
   <section id="ideas">
-    <div class="sec-head"><h2><span class="num">03</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
+    <div class="sec-head"><h2><span class="num">04</span>Key ideas</h2><p>What you need to know from the guide.</p></div>
     <div class="ideas" id="idea-list"></div>
   </section>
   <section id="quick-check">
     <div class="sec-head">
-      <h2><span class="num">04</span>Quick check</h2>
+      <h2><span class="num">05</span>Quick check</h2>
       <div class="toolbar"><span class="note" id="mcq-score"></span><button type="button" class="btn ghost" id="mcq-reset">Start again</button></div>
     </div>
     <div class="mcq-list" id="mcq-list"></div>
   </section>
   <section id="exam">
-    <div class="sec-head"><h2><span class="num">05</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
+    <div class="sec-head"><h2><span class="num">06</span>Exam-style questions</h2><p>Write your answer, reveal the mark scheme, then tick the points you made.</p></div>
     <div class="exam-list" id="exam-list"></div>
   </section>
 </main>
@@ -80,6 +85,90 @@ const TOPIC = {
  "title": "Protein synthesis",
  "theme": "Theme D: Continuity and change",
  "guiding": "How is the information in a gene used to make a polypeptide?",
+ "terms": [
+  {
+   "term": "Transcription",
+   "def": "Making an RNA copy of a gene using a DNA template."
+  },
+  {
+   "term": "Translation",
+   "def": "Making a polypeptide using the code in mRNA."
+  },
+  {
+   "term": "RNA polymerase",
+   "def": "The enzyme that builds an RNA strand during transcription."
+  },
+  {
+   "term": "mRNA",
+   "def": "RNA that carries the genetic code from DNA to the ribosome."
+  },
+  {
+   "term": "tRNA",
+   "def": "RNA that carries a specific amino acid to the ribosome."
+  },
+  {
+   "term": "Ribosome",
+   "def": "The site of translation, where peptide bonds form between amino acids."
+  },
+  {
+   "term": "Codon",
+   "def": "A sequence of three bases on mRNA that codes for an amino acid."
+  },
+  {
+   "term": "Anticodon",
+   "def": "A sequence of three bases on tRNA that pairs with a codon."
+  },
+  {
+   "term": "Degenerate code",
+   "def": "Describes the genetic code, as more than one codon can code for the same amino acid."
+  },
+  {
+   "term": "Stop codon",
+   "def": "A codon that does not code for an amino acid and ends translation."
+  }
+ ],
+ "termsHL": [
+  {
+   "term": "Promoter",
+   "def": "The DNA sequence where RNA polymerase binds to start transcription."
+  },
+  {
+   "term": "Intron",
+   "def": "A non-coding sequence removed from pre-mRNA."
+  },
+  {
+   "term": "Exon",
+   "def": "A coding sequence that remains in the mature mRNA."
+  },
+  {
+   "term": "Splicing",
+   "def": "Removing introns and joining exons together."
+  },
+  {
+   "term": "Alternative splicing",
+   "def": "Joining exons in different combinations to make different polypeptides from one gene."
+  },
+  {
+   "term": "5′ cap",
+   "def": "A modified nucleotide added to the start of eukaryotic mRNA."
+  },
+  {
+   "term": "Poly-A tail",
+   "def": "A chain of adenine nucleotides added to the end of eukaryotic mRNA."
+  },
+  {
+   "term": "Start codon",
+   "def": "The codon AUG, where translation begins."
+  },
+  {
+   "term": "Proteasome",
+   "def": "A protein complex that breaks down unwanted proteins so amino acids can be recycled."
+  },
+  {
+   "term": "Non-coding DNA",
+   "def": "DNA that does not code for polypeptides, such as introns and telomeres."
+  }
+ ],
  "videos": [
   {
    "level": "SL + HL",
@@ -573,7 +662,7 @@ const TOPIC = {
  ],
  "sheets": [
   {
-   "level": "SL",
+   "level": "SL + HL",
    "title": "D1.2 Protein synthesis revision sheet",
    "desc": "Printable revision mat to complete after watching the video.",
    "file": ""
@@ -581,7 +670,7 @@ const TOPIC = {
  ]
 };
 </script>
-<script src="topic.js?v=2"></script>
+<script src="topic.js?v=3"></script>
 <script src="helix.js"></script>
 <script data-goatcounter="https://attwoodbiology.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
