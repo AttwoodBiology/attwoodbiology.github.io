@@ -166,10 +166,15 @@ renderMCQ();
   const chip = i => `<button type="button" class="kt-chip" data-i="${i}">${esc(terms[i].term)}</button>`;
 
   function render(){
-    const order = shuffle(terms.map((_, i) => i));
+    // Shuffle the definitions, then shuffle the terms so that no term
+    // sits in the same position as its own definition.
+    const rows = shuffle(terms.map((_, i) => i));
+    let order, tries = 0;
+    do { order = shuffle(terms.map((_, i) => i)); tries++; }
+    while (tries < 200 && order.some((t, k) => t === rows[k]));
     box.innerHTML = `
       <div class="kt-bank" aria-label="Key terms to place">${order.map(chip).join("")}</div>
-      <ol class="kt-list">${terms.map((t, i) => `
+      <ol class="kt-list">${rows.map(i => [terms[i], i]).map(([t, i]) => `
         <li class="kt-row">
           <div class="kt-slot" data-i="${i}" tabindex="0" role="button" aria-label="Place the selected term on definition ${i + 1}"><span class="kt-placeholder">Drop term here</span></div>
           <p class="kt-def">${esc(t.def)}</p>
