@@ -426,9 +426,11 @@ renderMCQ();
     summary();
   };
   function progressDots(p){
-    const dot = (v, letter, name) => v === null ? "" :
-      `<span class="pdot ${v >= 1 ? "full" : v > 0 ? "half" : ""}" title="${name}: ${v >= 1 ? "done" : v > 0 ? "started" : "not started"}">${letter}</span>`;
-    return dot(p.terms, "K", "Key terms") + dot(p.mcq, "M", "Multiple choice") + dot(p.exam, "E", "Exam questions") + dot(p.check, "C", "Checklist");
+    const st = v => v >= 1 ? "full" : v > 0 ? "half" : "";
+    const word = v => v >= 1 ? "complete" : v > 0 ? "started" : "not started";
+    const dot = (v, cls, name) => v === null ? "" : `<span class="pdot ${cls} ${st(v)}" title="${name}: ${word(v)}"></span>`;
+    return dot(p.terms, "k", "Key terms") + dot(p.mcq, "m", "Multiple choice") + dot(p.exam, "e", "Exam questions") + dot(p.check, "c", "Checklist");
   }
+
   window.ibbioSaveProgress();
 })();

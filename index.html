@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=4">
+<link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
 <header class="hero">
@@ -55,22 +55,22 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":
 /* Progress saved on this device by each topic page */
 function prog(code){ try { return JSON.parse(localStorage.getItem("ibbio-progress-" + code)); } catch(e){ return null; } }
 function dots(p){
-  const dot = (v, letter, name) => (v === null || v === undefined) ? "" :
-    `<span class="pdot ${v >= 1 ? "full" : v > 0 ? "half" : ""}" title="${name}: ${v >= 1 ? "done" : v > 0 ? "started" : "not started"}">${letter}</span>`;
-  return dot(p.terms, "K", "Key terms") + dot(p.mcq, "M", "Multiple choice") + dot(p.exam, "E", "Exam questions") + dot(p.check, "C", "Checklist");
+  const st = v => v >= 1 ? "full" : v > 0 ? "half" : "";
+  const word = v => v >= 1 ? "complete" : v > 0 ? "started" : "not started";
+  const dot = (v, cls, name) => `<span class="pdot ${cls} ${st(v || 0)}" title="${name}: ${word(v || 0)}"></span>`;
+  return dot(p.terms, "k", "Key terms") + dot(p.mcq, "m", "Multiple choice") + dot(p.exam, "e", "Exam questions") + dot(p.check, "c", "Checklist");
 }
 let done = 0, started = 0, total = 0;
 document.getElementById("themes").innerHTML = THEMES.map(t => {
   let tDone = 0;
   const tiles = t.topics.map(([code, name, file, ahl]) => {
     total++;
-    const p = prog(code);
-    const any = p && [p.terms, p.mcq, p.exam, p.check].some(v => v > 0);
-    if (p && p.complete) { done++; tDone++; } else if (any) started++;
-    const status = p && p.complete ? '<span class="tp-done">Done ✓</span>' : "";
-    const progressRow = p && any ? `<span class="tp-dots">${dots(p)}</span>` : "";
-    const inner = `<span class="code">${code}</span><span class="name">${esc(name)}${progressRow}</span>${ahl ? '<span class="tag ahl">AHL</span>' : ""}${status}`;
-    return file ? `<a class="topic${p && p.complete ? " complete" : ""}" href="${esc(file)}">${inner}</a>`
+    const p = prog(code) || {};
+    const any = [p.terms, p.mcq, p.exam, p.check].some(v => v > 0);
+    if (p.complete) { done++; tDone++; } else if (any) started++;
+    const tick = p.complete ? '<span class="tp-tick" title="Topic complete">✓</span>' : "";
+    const inner = `<span class="code">${code}</span><span class="name">${esc(name)}<span class="tp-dots">${dots(p)}${ahl ? '<span class="tag ahl">AHL</span>' : ""}</span></span>${tick}`;
+    return file ? `<a class="topic${p.complete ? " complete" : ""}" href="${esc(file)}">${inner}</a>`
                 : `<div class="topic soon" title="Coming soon">${inner}</div>`;
   }).join("");
   return `<section class="theme-band" data-strand="${t.letter}">
@@ -82,9 +82,18 @@ document.getElementById("themes").innerHTML = THEMES.map(t => {
 document.getElementById("progress-card").innerHTML = `
   <h2>Your progress</h2>
   <div class="overall-bar" aria-hidden="true"><i style="width:${100 * done / total}%"></i></div>
-  <p><b>${done} of ${total}</b> topics complete · ${started} started. A topic is complete when you have done the key terms, tried every exam question and rated every checklist statement.</p>
-  <p class="legend"><span class="pdot full">K</span> Key terms <span class="pdot full">M</span> Multiple choice <span class="pdot full">E</span> Exam questions <span class="pdot full">C</span> Checklist · <span class="pdot half"> </span> started <span class="pdot"> </span> not started</p>
-  <p class="note">Progress is saved in this browser on this device. It will not appear on a different device or browser.</p>`;
+  <p><b>${done} of ${total}</b> topics complete · ${started} started</p>
+  <div class="legend">
+    <span><span class="pdot k full"></span>Key terms</span>
+    <span><span class="pdot m full"></span>Multiple choice</span>
+    <span><span class="pdot e full"></span>Exam questions</span>
+    <span><span class="pdot c full"></span>Checklist</span>
+    <span class="legend-gap"><span class="pdot g"></span>Not started</span>
+    <span><span class="pdot g half"></span>Started</span>
+    <span><span class="pdot g full"></span>Complete</span>
+    <span><span class="tp-tick in-key">✓</span>Topic complete</span>
+  </div>
+  <p class="note">A topic is complete when you have done the key terms, tried every exam question and rated every checklist statement. Progress is saved in this browser on this device.</p>`;
 </script>
 <script src="helix.js"></script>
 <script data-goatcounter="https://attwoodbiology.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>

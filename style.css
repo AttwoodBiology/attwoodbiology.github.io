@@ -249,19 +249,26 @@ footer{padding:28px 0 48px;color:var(--muted);font-size:.88rem}
 .tp-pct{font:700 .72rem var(--body);color:var(--muted);font-variant-numeric:tabular-nums}
 .tp-done{font:700 .66rem/1 var(--body);text-transform:uppercase;letter-spacing:.06em;padding:4px 7px;border-radius:6px;background:#2f9e55;color:#fff;white-space:nowrap}
 
-/* ---------- Progress dots (topic menu bar and home page) ---------- */
-.pdot{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;margin-left:4px;font:700 .62rem var(--body);
-  border:1.5px solid var(--line);color:var(--muted);background:var(--card);vertical-align:middle}
-.pdot.half{border-color:#2f9e55;color:#2f9e55;background:linear-gradient(90deg,color-mix(in srgb,#2f9e55 30%,var(--card)) 50%,var(--card) 50%)}
-.pdot.full{border-color:#2f9e55;background:#2f9e55;color:#fff}
-.chip-done{color:#2f9e55;margin-left:6px}
-.score-chip{display:flex;align-items:center;gap:2px}
-.tp-dots{display:flex;gap:0;margin-top:5px;margin-left:-4px}
 .topic .name{display:flex;flex-direction:column}
 .topic.complete{border-color:#2f9e55}
 .topic.complete::before{background:#2f9e55}
 .legend{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;margin-top:8px}
-.legend .pdot{margin-left:0}
-.pdot{display:inline-flex;align-items:center;justify-content:center;flex:none;line-height:1;padding:0;box-sizing:border-box}
 .topic{flex-wrap:wrap}
 .topic .tp-done{margin-left:auto}
+
+/* ---------- Progress circles: red key terms, blue MCQ, green exam, yellow checklist ---------- */
+.pdot{--c:#9aa8a5;display:inline-block;flex:none;width:14px;height:14px;border-radius:50%;border:2px solid var(--c);background:transparent;box-sizing:border-box;vertical-align:middle}
+.pdot.k{--c:#d64545}.pdot.m{--c:#2f6fd6}.pdot.e{--c:#2f9e55}.pdot.c{--c:#e0a800}.pdot.g{--c:#8a9895}
+.pdot.half{background:linear-gradient(90deg,var(--c) 50%,transparent 50%)}
+.pdot.full{background:var(--c)}
+.tp-dots{display:flex;align-items:center;gap:5px;margin-top:6px;flex-wrap:wrap}
+.tp-dots .tag{margin-left:4px}
+.topic{overflow:visible}
+.tp-tick{position:absolute;top:-8px;right:-8px;width:22px;height:22px;border-radius:50%;background:#2f9e55;color:#fff;
+  display:grid;place-items:center;font:700 .8rem var(--body);box-shadow:0 2px 6px rgba(0,0,0,.25)}
+.tp-tick.in-key{position:static;display:inline-grid;width:18px;height:18px;font-size:.7rem;box-shadow:none}
+.legend{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;margin:12px 0 6px;font-size:.9rem}
+.legend > span{display:inline-flex;align-items:center;gap:6px}
+.legend-gap{margin-left:10px}
+.score-chip{display:flex;align-items:center;gap:5px}
+.topic::before{border-radius:12px 0 0 12px}
